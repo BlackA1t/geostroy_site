@@ -24,6 +24,22 @@
             document.body.style.overflow = '';
         }
 
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMobile);
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1180) {
+                closeMobile();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMobile();
+            }
+        });
+
         // Scroll reveal
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
