@@ -1239,8 +1239,12 @@
             }
 
             .hero-buttons .btn {
-                flex: 1 1 220px;
+                flex: 0 0 auto;
                 padding: 0.78rem 1rem;
+                width: auto;
+                min-width: min(100%, 220px);
+                min-height: 0;
+                height: auto;
             }
 
             .services-grid {
@@ -1390,6 +1394,8 @@
                 width: auto;
                 min-width: min(100%, 220px);
                 flex: 0 0 auto;
+                min-height: 0;
+                height: auto;
             }
 
             .hero-stats {
