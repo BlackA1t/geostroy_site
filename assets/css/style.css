@@ -1185,21 +1185,34 @@
 
         @media (max-width: 768px) {
             html {
-                scroll-padding-top: 76px;
+                scroll-padding-top: 64px;
             }
 
             .header {
-                padding: 0.75rem 0;
+                padding: 0.45rem 0;
+            }
+
+            .header.scrolled {
+                padding: 0.35rem 0;
             }
 
             .logo-img {
-                width: 44px;
-                height: 44px;
+                width: 36px;
+                height: 36px;
             }
 
             .logo-text {
-                font-size: 1.25rem;
+                font-size: 1.05rem;
                 letter-spacing: 1px;
+            }
+
+            .burger {
+                gap: 4px;
+                padding: 4px;
+            }
+
+            .burger span {
+                width: 24px;
             }
 
             .nav {
@@ -1211,16 +1224,23 @@
 
             .hero {
                 align-items: flex-start;
-                padding: 7rem 0 4rem;
+                min-height: auto;
+                padding: 5.4rem 0 3rem;
             }
 
             .hero h1 {
                 letter-spacing: 1px;
+                margin-bottom: 1rem;
+            }
+
+            .hero-desc {
+                margin-bottom: 1.5rem;
+                line-height: 1.55;
             }
 
             .hero-buttons .btn {
                 flex: 1 1 220px;
-                padding: 0.95rem 1.2rem;
+                padding: 0.78rem 1rem;
             }
 
             .services-grid {
@@ -1240,9 +1260,18 @@
             }
             .hero-stats {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 1.25rem;
-                margin-top: 2.5rem;
-                padding-top: 2rem;
+                gap: 1rem;
+                margin-top: 1.8rem;
+                padding-top: 1.4rem;
+            }
+
+            .hero-stat-num {
+                font-size: 1.45rem;
+            }
+
+            .hero-stat-label {
+                font-size: 0.78rem;
+                line-height: 1.35;
             }
             .form-row {
                 grid-template-columns: 1fr;
@@ -1303,34 +1332,57 @@
 
         @media (max-width: 560px) {
             .section {
-                padding-top: 3.5rem;
-                padding-bottom: 3.5rem;
+                padding-top: 2.8rem;
+                padding-bottom: 2.8rem;
+            }
+
+            .section-header {
+                margin-bottom: 2rem;
             }
 
             .section-label {
                 letter-spacing: 2px;
+                font-size: 0.72rem;
+                margin-bottom: 0.65rem;
             }
 
             .section-title {
                 letter-spacing: 0;
+                font-size: clamp(1.6rem, 8vw, 2rem);
+                margin-bottom: 0.7rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.92rem;
+                line-height: 1.55;
             }
 
             .hero {
-                padding-top: 6.5rem;
+                padding-top: 4.9rem;
+                padding-bottom: 2.6rem;
             }
 
             .hero-badge {
                 border-radius: 14px;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.76rem;
+                margin-bottom: 0.9rem;
                 white-space: normal;
             }
 
             .hero h1 {
-                font-size: clamp(2rem, 12vw, 2.75rem);
+                font-size: clamp(1.72rem, 9.5vw, 2.28rem);
+                line-height: 1.06;
                 letter-spacing: 0;
+            }
+
+            .hero-desc {
+                font-size: 0.92rem;
             }
 
             .hero-buttons {
                 flex-direction: column;
+                gap: 0.7rem;
             }
 
             .hero-buttons .btn {
@@ -1344,6 +1396,90 @@
             .machine-card,
             .client-logo-card {
                 border-radius: 16px;
+            }
+
+            .about-content h3 {
+                font-size: 1.35rem;
+                margin-bottom: 1rem;
+            }
+
+            .about-content p {
+                font-size: 0.92rem;
+                line-height: 1.65;
+                margin-bottom: 1rem;
+            }
+
+            .about-image img {
+                height: 220px;
+            }
+
+            .service-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 1.35rem;
+                margin-bottom: 1rem;
+            }
+
+            .service-card h3,
+            .machine-card h3 {
+                font-size: 1rem;
+                line-height: 1.25;
+            }
+
+            .service-card p,
+            .machine-card p,
+            .advantage-card p,
+            .process-step p {
+                font-size: 0.84rem;
+                line-height: 1.55;
+            }
+
+            .machine-card-content {
+                padding: 1.1rem;
+            }
+
+            .machine-card-image {
+                height: 190px;
+                padding: 0.9rem;
+            }
+
+            .advantage-card {
+                padding: 1.25rem 1rem;
+            }
+
+            .advantage-num {
+                font-size: 1.85rem;
+            }
+
+            .gallery-item {
+                height: 210px;
+            }
+
+            .process-step-num {
+                width: 60px;
+                height: 60px;
+                font-size: 1.15rem;
+                margin-bottom: 1rem;
+            }
+
+            .contact-info {
+                gap: 1.25rem;
+            }
+
+            .contact-item {
+                gap: 0.75rem;
+            }
+
+            .contact-item-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                font-size: 1rem;
+            }
+
+            .contact-form h4 {
+                font-size: 1.25rem;
             }
 
             .advantages-grid {
@@ -1362,23 +1498,39 @@
 
         @media (max-width: 380px) {
             .header-inner {
-                padding-left: 0.875rem;
-                padding-right: 0.875rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
             }
 
             .logo-img {
-                width: 40px;
-                height: 40px;
+                width: 32px;
+                height: 32px;
             }
 
             .logo-text {
-                font-size: 1.1rem;
+                font-size: 0.96rem;
+                letter-spacing: 0.5px;
+            }
+
+            .hero {
+                padding-top: 4.55rem;
+            }
+
+            .hero h1 {
+                font-size: 1.58rem;
             }
 
             .btn,
             .btn-submit {
-                font-size: 0.95rem;
-                padding-left: 0.9rem;
-                padding-right: 0.9rem;
+                font-size: 0.88rem;
+                padding: 0.72rem 0.85rem;
+            }
+
+            .hero-stat-num {
+                font-size: 1.32rem;
+            }
+
+            .hero-stat-label {
+                font-size: 0.74rem;
             }
         }
