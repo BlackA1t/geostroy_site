@@ -451,6 +451,110 @@
             font-weight: 500;
         }
 
+        /* Machine Park */
+        .machine-park {
+            background: var(--dark-2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .machine-park::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+
+        .machine-park-layout {
+            display: block;
+        }
+
+        .machine-park-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .machine-card {
+            background: var(--dark-3);
+            border: 1px solid var(--dark-4);
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: default;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .machine-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(73, 136, 200, 0.45);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .machine-card-image {
+            height: 300px;
+            background: #ffffff;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .machine-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .machine-card-content {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .machine-card-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .machine-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        .machine-card p {
+            color: var(--light-2);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Machine Park adaptive */
+        @media (max-width: 768px) {
+            .machine-park-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .machine-card-image {
+                height: 240px;
+            }
+
+            .machine-card h3 {
+                font-size: 1.15rem;
+            }
+        }
+
         /* Services */
         .services-grid {
             display: grid;
