@@ -663,38 +663,16 @@
         /* Clients */
         .clients {
             background: var(--dark);
+            border-bottom: 1px solid var(--dark-4);
         }
 
         .clients-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-            align-items: stretch;
-        }
-
-        .clients-categories {
-            background: var(--primary);
-            border-radius: 24px;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 2rem;
-            min-height: 420px;
-        }
-
-        .clients-category {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            display: block;
         }
 
         .clients-logos {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
         }
 
@@ -729,32 +707,12 @@
 
         /* Clients adaptive */
         @media (max-width: 992px) {
-            .clients-layout {
+            .clients-logos {
                 grid-template-columns: 1fr;
-            }
-
-            .clients-categories {
-                min-height: auto;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: flex-start;
             }
         }
 
         @media (max-width: 768px) {
-            .clients-logos {
-                grid-template-columns: 1fr;
-            }
-
-            .clients-categories {
-                padding: 2rem;
-                gap: 1rem;
-            }
-
-            .clients-category {
-                font-size: 1.1rem;
-            }
-
             .client-logo-card {
                 min-height: 150px;
             }
