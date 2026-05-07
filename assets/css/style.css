@@ -1383,10 +1383,13 @@
             .hero-buttons {
                 flex-direction: column;
                 gap: 0.7rem;
+                align-items: flex-start;
             }
 
             .hero-buttons .btn {
-                width: 100%;
+                width: auto;
+                min-width: min(100%, 220px);
+                flex: 0 0 auto;
             }
 
             .hero-stats {
