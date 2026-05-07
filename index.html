@@ -21,11 +21,10 @@
             </a>
             <nav class="nav">
                 <a href="#about">О компании</a>
-                <a href="#machines">Станочный парк</a>
-                <a href="#services">Услуги</a>
-                <a href="#gallery">Портфолио</a>
-                <a href="#process">Процесс</a>
-                <a href="#contact">Контакты</a>
+                <a href="./machines.html">Станочный парк</a>
+                <a href="./services.html">Услуги</a>
+                <a href="./portfolio.html">Портфолио</a>
+                <a href="./contacts.html">Контакты</a>
                 <a href="tel:+78001234567" class="nav-phone">8 (831) 304-70-23</a>
             </nav>
             <div class="burger" id="burger">
@@ -39,11 +38,10 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#about" onclick="closeMobile()">О компании</a>
-        <a href="#machines" onclick="closeMobile()">Станочный парк</a>
-        <a href="#services" onclick="closeMobile()">Услуги</a>
-        <a href="#gallery" onclick="closeMobile()">Портфолио</a>
-        <a href="#process" onclick="closeMobile()">Процесс</a>
-        <a href="#contact" onclick="closeMobile()">Контакты</a>
+        <a href="./machines.html" onclick="closeMobile()">Станочный парк</a>
+        <a href="./services.html" onclick="closeMobile()">Услуги</a>
+        <a href="./portfolio.html" onclick="closeMobile()">Портфолио</a>
+        <a href="./contacts.html" onclick="closeMobile()">Контакты</a>
         <a href="tel:+78001234567" style="color: var(--primary);">+7 (800) 123-45-67</a>
     </div>
 
@@ -60,8 +58,8 @@
                 ООО «Геострой» — обработка металлов на современных фрезерных и токарных станках с ЧПУ.
             </p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Оставить заявку</a>
-                <a href="#services" class="btn btn-outline">Наши услуги</a>
+                <a href="./contacts.html" class="btn btn-primary">Оставить заявку</a>
+                <a href="./services.html" class="btn btn-outline">Наши услуги</a>
             </div>
             <div class="hero-stats">
                 <div>
@@ -75,10 +73,6 @@
                 <div>
                     <div class="hero-stat-num">до 0.005</div>
                     <div class="hero-stat-label">Точность, мм</div>
-                </div>
-                <div>
-                    <div class="hero-stat-num">Поможем с логистикой</div>
-                    <div class="hero-stat-label">Упаковка и доставка</div>
                 </div>
             </div>
         </div>
@@ -127,111 +121,6 @@
         </div>
     </section>
 
-    <!-- Machine Park -->
-    <section class="section machine-park" id="machines">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Станочный парк</div>
-                <h2 class="section-title">Наши возможности</h2>
-                <p class="section-subtitle">
-                    Современное оборудование для фрезерной, токарной и токарно-фрезерной обработки деталей
-                </p>
-            </div>
-
-            <div class="machine-park-layout">
-
-                <div class="machine-park-grid">
-                    <div class="machine-card reveal">
-                        <div class="machine-card-image">
-                            <img src="./assets/img/machines/hision-v1800.png" alt="HISION V1800">
-                        </div>
-                        <div class="machine-card-content">
-                            <div class="machine-card-number">01</div>
-                            <h3>HISION V1800</h3>
-                            <p>Вертикально-фрезерный обрабатывающий центр</p>
-                        </div>
-                    </div>
-
-                    <div class="machine-card reveal">
-                        <div class="machine-card-image">
-                            <img src="./assets/img/machines/oturn-fmc-850l.png" alt="OTURN FMC-850L">
-                        </div>
-                        <div class="machine-card-content">
-                            <div class="machine-card-number">02</div>
-                            <h3>OTURN FMC-850L</h3>
-                            <p>Вертикально-фрезерный обрабатывающий центр</p>
-                        </div>
-                    </div>
-
-                    <div class="machine-card reveal">
-                        <div class="machine-card-image">
-                            <img src="./assets/img/machines/hision-htc1500.png" alt="HISION HTC1500">
-                        </div>
-                        <div class="machine-card-content">
-                            <div class="machine-card-number">03</div>
-                            <h3>HISION HTC1500</h3>
-                            <p>Токарный обрабатывающий центр</p>
-                        </div>
-                    </div>
-
-                    <div class="machine-card reveal">
-                        <div class="machine-card-image">
-                            <img src="./assets/img/machines/tenoly-e106m.png" alt="TENOLY E106M">
-                        </div>
-                        <div class="machine-card-content">
-                            <div class="machine-card-number">04</div>
-                            <h3>TENOLY E106M</h3>
-                            <p>Токарно-фрезерный обрабатывающий центр</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section class="section" id="services">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Наши услуги</div>
-                <h2 class="section-title">Виды обработки</h2>
-                <p class="section-subtitle">Полный спектр услуг по обработке металлических изделий любой сложности</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card reveal">
-                    <div class="service-icon">🔧</div>
-                    <h3>Фрезерная обработка с ЧПУ</h3>
-                    <p>Высокоточная обработка деталей на современных фрезерных станках с числовым программным управлением. Сложные геометрические формы и высокая повторяемость.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">⚙️</div>
-                    <h3>Изготовление деталей</h3>
-                    <p>Производство деталей по чертежам заказчика — от единичных экземпляров до крупных серий. Работаем со сталью, алюминием, латунью, титаном и другими сплавами.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">📐</div>
-                    <h3>3D-фрезеровка</h3>
-                    <p>Трёхмерная обработка сложных поверхностей и форм. Изготовление пресс-форм, штампов, матриц и других сложных изделий.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">🔩</div>
-                    <h3>Нарезка резьбы</h3>
-                    <p>Нарезание метрической, дюймовой и специальной резьбы. Высокая точность и качество поверхности.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">📏</div>
-                    <h3>Контроль качества</h3>
-                    <p>Многоуровневый контроль качества на всех этапах производства. Использование координатно-измерительных машин и высокоточного инструмента.</p>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-icon">🛠️</div>
-                    <h3>Серийное производство</h3>
-                    <p>Организация серийного выпуска деталей с оптимальными сроками и стоимостью. Гибкая система скидок при больших объёмах заказа.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Advantages -->
     <section class="section advantages">
         <div class="container">
@@ -264,43 +153,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Gallery -->
-<section class="section" id="gallery">
-    <div class="container">
-        <div class="section-header reveal">
-            <div class="section-label">Портфолио</div>
-            <h2 class="section-title">Наши работы</h2>
-            <p class="section-subtitle">Примеры выполненных заказов и готовых изделий</p>
-        </div>
-
-        <div class="gallery-grid">
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka1.png" alt="Фрезерованные детали">
-            </div>
-
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka4.png" alt="Процесс фрезеровки">
-            </div>
-
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka5.png" alt="Готовые изделия">
-            </div>
-
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka2.png" alt="Производство">
-            </div>
-
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka3.png" alt="Серийное производство">
-            </div>
-
-            <div class="gallery-item reveal">
-                <img src="./assets/img/shtuka6.png" alt="Контроль качества">
-            </div>
-        </div>
-    </div>
-</section>
 
     <!-- Process -->
     <section class="section process" id="process">
@@ -364,90 +216,15 @@
         </div>
     </section>
 
-    <!-- Contact -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Контакты</div>
-                <h2 class="section-title">Свяжитесь с нами</h2>
-                <p class="section-subtitle">Оставьте заявку и мы рассчитаем стоимость вашего заказа</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info reveal">
-                    <h3>ООО «Геострой»</h3>
-                    <p>Мы всегда готовы обсудить ваш проект и предложить оптимальное решение. Свяжитесь с нами любым удобным способом.</p>
-                    
-                    <div class="contact-item">
-                        <div class="contact-item-icon">📍</div>
-                        <div class="contact-item-content">
-                            <h5>Адрес</h5>
-                            <p>607188, Россия, Нижегородская обл., г. Саров, ул. Димитрова, д.10, стр.1</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-item-icon">📞</div>
-                        <div class="contact-item-content">
-                            <h5>Телефон/Факс</h5>
-                            <p><a href="tel:88313047023">8 (831) 304-70-23</a></p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-item-icon">✉️</div>
-                        <div class="contact-item-content">
-                            <h5>Email</h5>
-                            <p><a href="mailto:ooogeostroy@internet.ru">ooogeostroy@internet.ru
-</a></p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-item-icon">🕐</div>
-                        <div class="contact-item-content">
-                            <h5>Режим работы</h5>
-                            <p>Пн–Пт: 8:00–20:00, Сб: 9:00–16:00</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="contact-form reveal">
-                    <h4>Оставить заявку</h4>
-                    <form id="contactForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Ваше имя</label>
-                                <input type="text" placeholder="Иван Иванов" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Телефон</label>
-                                <input type="tel" placeholder="+7 (___) ___-__-__" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" placeholder="example@mail.ru">
-                        </div>
-                        <div class="form-group">
-                            <label>Описание заказа</label>
-                            <textarea placeholder="Опишите ваш заказ: тип детали, материал, количество, сроки..."></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit">Отправить заявку</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-copy">© 2026 ООО «Геострой». Все права защищены.</div>
             <div class="footer-links">
                 <a href="#about">О компании</a>
-                <a href="#services">Услуги</a>
-                <a href="#gallery">Портфолио</a>
-                <a href="#contact">Контакты</a>
+                <a href="./services.html">Услуги</a>
+                <a href="./portfolio.html">Портфолио</a>
+                <a href="./contacts.html">Контакты</a>
             </div>
         </div>
     </footer>

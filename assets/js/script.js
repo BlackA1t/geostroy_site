@@ -54,17 +54,19 @@
 
         // Form submit
         const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            document.getElementById('modal').classList.add('active');
-            contactForm.reset();
-        });
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                document.getElementById('modal')?.classList.add('active');
+                contactForm.reset();
+            });
         }
 
-        document.getElementById('modal').addEventListener('click', (e) => {
+        function closeModal() {
+            document.getElementById('modal')?.classList.remove('active');
+        }
+
+        document.getElementById('modal')?.addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeModal();
         });
 

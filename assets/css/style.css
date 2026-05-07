@@ -457,8 +457,13 @@
         }
 
         /* Machine Park */
+        .machine-page {
+            background: var(--dark);
+            padding-top: clamp(7rem, 10vw, 8rem);
+        }
+
         .machine-park {
-            background: var(--dark-2);
+            background: var(--dark);
             position: relative;
             overflow: hidden;
         }
@@ -474,6 +479,10 @@
             opacity: 0.5;
         }
 
+        .machine-page::before {
+            display: none;
+        }
+
         .machine-park-layout {
             display: block;
         }
@@ -485,9 +494,9 @@
         }
 
         .machine-card {
-            background: var(--dark-3);
-            border: 1px solid var(--dark-4);
-            border-radius: 24px;
+            background: var(--dark-2);
+            border: 1px solid var(--dark-3);
+            border-radius: 16px;
             overflow: hidden;
             cursor: default;
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -495,7 +504,7 @@
 
         .machine-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(73, 136, 200, 0.45);
+            border-color: var(--dark-4);
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
         }
 
@@ -562,6 +571,11 @@
         }
 
         /* Services */
+        .services-page,
+        .portfolio-page {
+            padding-top: clamp(7rem, 10vw, 8rem);
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -630,7 +644,7 @@
 
         /* Advantages */
         .advantages {
-            background: var(--dark-2);
+            background: var(--dark);
         }
 
         .advantages-grid {
@@ -642,7 +656,7 @@
         .advantage-card {
             text-align: center;
             padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem);
-            background: var(--dark);
+            background: var(--dark-2);
             border-radius: 16px;
             border: 1px solid var(--dark-3);
             transition: all 0.3s;
@@ -833,6 +847,10 @@
         }
 
         /* Contact */
+        .contact-page {
+            padding-top: clamp(7rem, 10vw, 8rem);
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -1361,6 +1379,11 @@
                 line-height: 1.55;
             }
 
+            .services-page,
+            .portfolio-page {
+                padding-top: 5.6rem;
+            }
+
             .hero {
                 padding-top: 4.9rem;
                 padding-bottom: 2.6rem;
@@ -1453,6 +1476,10 @@
                 padding: 0.9rem;
             }
 
+            .machine-page {
+                padding-top: 5.6rem;
+            }
+
             .advantage-card {
                 padding: 1.25rem 1rem;
             }
@@ -1489,6 +1516,10 @@
 
             .contact-form h4 {
                 font-size: 1.25rem;
+            }
+
+            .contact-page {
+                padding-top: 5.6rem;
             }
 
             .advantages-grid {

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ООО «Геострой» — металлообработка</title>
+    <link rel="icon" type="image/png" href="./assets/img/logo.png">
+    <link rel="apple-touch-icon" href="./assets/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="./index.html" class="logo">
+                <img src="./assets/img/logo.png" alt="Логотип ООО Геострой" class="logo-img">
+                <div class="logo-text">Гео<span>строй</span></div>
+            </a>
+            <nav class="nav">
+                <a href="./index.html#about">О компании</a>
+                <a href="./machines.html">Станочный парк</a>
+                <a href="./services.html">Услуги</a>
+                <a href="./portfolio.html">Портфолио</a>
+                <a href="./contacts.html">Контакты</a>
+                <a href="tel:+78001234567" class="nav-phone">8 (831) 304-70-23</a>
+            </nav>
+            <div class="burger" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="./index.html#about" onclick="closeMobile()">О компании</a>
+        <a href="./machines.html" onclick="closeMobile()">Станочный парк</a>
+        <a href="./services.html" onclick="closeMobile()">Услуги</a>
+        <a href="./portfolio.html" onclick="closeMobile()">Портфолио</a>
+        <a href="./contacts.html" onclick="closeMobile()">Контакты</a>
+        <a href="tel:+78001234567" style="color: var(--primary);">+7 (800) 123-45-67</a>
+    </div>
+
+    <!-- Services -->
+    <section class="section services-page" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Наши услуги</div>
+                <h2 class="section-title">Виды обработки</h2>
+                <p class="section-subtitle">Полный спектр услуг по обработке металлических изделий любой сложности</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">🔧</div>
+                    <h3>Фрезерная обработка с ЧПУ</h3>
+                    <p>Высокоточная обработка деталей на современных фрезерных станках с числовым программным управлением. Сложные геометрические формы и высокая повторяемость.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Изготовление деталей</h3>
+                    <p>Производство деталей по чертежам заказчика — от единичных экземпляров до крупных серий. Работаем со сталью, алюминием, латунью, титаном и другими сплавами.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">📐</div>
+                    <h3>3D-фрезеровка</h3>
+                    <p>Трёхмерная обработка сложных поверхностей и форм. Изготовление пресс-форм, штампов, матриц и других сложных изделий.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🔩</div>
+                    <h3>Нарезка резьбы</h3>
+                    <p>Нарезание метрической, дюймовой и специальной резьбы. Высокая точность и качество поверхности.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">📏</div>
+                    <h3>Контроль качества</h3>
+                    <p>Многоуровневый контроль качества на всех этапах производства. Использование координатно-измерительных машин и высокоточного инструмента.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🛠️</div>
+                    <h3>Серийное производство</h3>
+                    <p>Организация серийного выпуска деталей с оптимальными сроками и стоимостью. Гибкая система скидок при больших объёмах заказа.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-copy">© 2026 ООО «Геострой». Все права защищены.</div>
+            <div class="footer-links">
+                <a href="./index.html#about">О компании</a>
+                <a href="./services.html">Услуги</a>
+                <a href="./portfolio.html">Портфолио</a>
+                <a href="./contacts.html">Контакты</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h4>✅ Заявка отправлена!</h4>
+            <p>Спасибо за обращение. Наш специалист свяжется с вами в ближайшее время.</p>
+            <button class="btn btn-primary" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+    <button class="scroll-top" id="scrollTopBtn" type="button" aria-label="Наверх">
+        ↑
+    </button>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
+
