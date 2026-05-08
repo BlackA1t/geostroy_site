@@ -1,0 +1,79 @@
+"use client";
+
+import { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { ClientEffects } from "./ClientEffects";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { MobileMenu } from "./MobileMenu";
+import { ScrollTopButton } from "./ScrollTopButton";
+
+type SiteShellProps = {
+  children: ReactNode;
+};
+
+export function SiteShell({ children }: SiteShellProps) {
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
+
+  const closeMobileMenu = () => setIsMenuOpen(false);
+
+  useEffect(() => {
+    closeMobileMenu();
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      setIsScrollTopVisible(window.scrollY > 500);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1180) closeMobileMenu();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMobileMenu();
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  return (
+    <>
+      <Header
+        isMenuOpen={isMenuOpen}
+        isScrolled={isScrolled}
+        onToggleMenu={() => setIsMenuOpen((current) => !current)}
+      />
+      <MobileMenu isOpen={isMenuOpen} onClose={closeMobileMenu} />
+      {children}
+      <Footer />
+      <ScrollTopButton isVisible={isScrollTopVisible} />
+      <ClientEffects />
+    </>
+  );
+}

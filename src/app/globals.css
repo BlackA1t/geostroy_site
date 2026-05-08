@@ -192,7 +192,7 @@ textarea {
 .hero-bg {
     position: absolute;
     inset: 0;
-    background: url('../img/prod2.png') center/cover no-repeat;
+    background: url('/assets/img/prod2.png') center/cover no-repeat;
     filter: brightness(0.3);
 }
 
@@ -1664,3 +1664,4 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+
