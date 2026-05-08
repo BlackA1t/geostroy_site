@@ -19,6 +19,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       <a href={PHONE_HREF} className="mobile-phone" onClick={onClose}>
         {PHONE}
       </a>
+      <Link href="/login" onClick={onClose}>
+        Вход
+      </Link>
+      <Link href="/register" onClick={onClose}>
+        Регистрация
+      </Link>
     </div>
   );
 }

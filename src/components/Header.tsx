@@ -28,6 +28,8 @@ export function Header({ isMenuOpen, isScrolled, onToggleMenu }: HeaderProps) {
           <a href={PHONE_HREF} className="nav-phone">
             {PHONE}
           </a>
+          <Link href="/login">Вход</Link>
+          <Link href="/register">Регистрация</Link>
         </nav>
         <div
           className={`burger${isMenuOpen ? " active" : ""}`}
