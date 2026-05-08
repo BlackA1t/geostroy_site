@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: geostroy_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: geostroy_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - geostroy_pg_data:/var/lib/postgresql/data
+
+volumes:
+  geostroy_pg_data:
