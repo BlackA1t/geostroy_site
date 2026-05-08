@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
 import { createSession, setSessionCookie } from "@/lib/session";
+import { claimGuestRequestsForUser } from "@/lib/guest-request";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -33,6 +34,12 @@ export async function POST(request: Request) {
 
   const session = await createSession(userWithPassword.id);
   await setSessionCookie(session.token);
+
+  try {
+    await claimGuestRequestsForUser(userWithPassword.id);
+  } catch (error) {
+    console.error("Failed to claim guest request after login", error);
+  }
 
   const { passwordHash: _passwordHash, ...user } = userWithPassword;
 

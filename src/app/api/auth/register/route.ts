@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { createSession, setSessionCookie } from "@/lib/session";
+import { claimGuestRequestsForUser } from "@/lib/guest-request";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -62,6 +63,12 @@ export async function POST(request: Request) {
 
   const session = await createSession(user.id);
   await setSessionCookie(session.token);
+
+  try {
+    await claimGuestRequestsForUser(user.id);
+  } catch (error) {
+    console.error("Failed to claim guest request after registration", error);
+  }
 
   return NextResponse.json({ user }, { status: 201 });
 }

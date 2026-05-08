@@ -16,6 +16,7 @@ model User {
   role         Role      @default(USER)
   requests     Request[]
   sessions     Session[]
+  claimedGuestRequests GuestRequest[] @relation("GuestRequestClaimedBy")
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -42,8 +43,29 @@ model Request {
   description String
   status      RequestStatus @default(NEW)
   files       RequestFile[]
+  sourceGuestRequests GuestRequest[] @relation("GuestRequestConversion")
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+model GuestRequest {
+  id                 String        @id @default(cuid())
+  name               String
+  phone              String
+  email              String?
+  serviceType        String
+  material           String?
+  quantity           String?
+  description        String
+  status             RequestStatus @default(NEW)
+  claimTokenHash     String?       @unique
+  claimedById        String?
+  claimedBy          User?         @relation("GuestRequestClaimedBy", fields: [claimedById], references: [id], onDelete: SetNull)
+  convertedRequestId String?
+  convertedRequest   Request?      @relation("GuestRequestConversion", fields: [convertedRequestId], references: [id], onDelete: SetNull)
+  claimedAt          DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }
 
 model RequestFile {
