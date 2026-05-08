@@ -33,6 +33,7 @@ export function Header({ currentUserRole, isAuthenticated, isMenuOpen, isScrolle
           {isAuthenticated ? (
             <>
               <Link href="/dashboard">Личный кабинет</Link>
+              <Link href="/dashboard/notifications">Уведомления</Link>
               {currentUserRole === "ADMIN" ? <Link href="/admin">Админ-панель</Link> : null}
             </>
           ) : (

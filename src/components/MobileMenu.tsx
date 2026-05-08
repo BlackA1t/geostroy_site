@@ -26,6 +26,9 @@ export function MobileMenu({ currentUserRole, isAuthenticated, isOpen, onClose }
           <Link href="/dashboard" onClick={onClose}>
             Личный кабинет
           </Link>
+          <Link href="/dashboard/notifications" onClick={onClose}>
+            Уведомления
+          </Link>
           {currentUserRole === "ADMIN" ? (
             <Link href="/admin" onClick={onClose}>
               Админ-панель

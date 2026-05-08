@@ -1,9 +1,11 @@
 import { requireUser } from "@/lib/auth";
 import { LogoutButton } from "@/components/LogoutButton";
 import Link from "next/link";
+import { getUnreadNotificationsCount } from "@/lib/notifications";
 
 export default async function DashboardPage() {
   const user = await requireUser();
+  const unreadNotificationsCount = await getUnreadNotificationsCount(user.id);
 
   return (
     <main>
@@ -44,6 +46,20 @@ export default async function DashboardPage() {
             </Link>
             <Link className="btn btn-outline" href="/dashboard/requests/new">
               Создать заявку
+            </Link>
+          </div>
+
+          <div className="dashboard-notifications-card">
+            <div>
+              <span>Уведомления</span>
+              <strong>
+                {unreadNotificationsCount > 0
+                  ? `Непрочитанных уведомлений: ${unreadNotificationsCount}`
+                  : "Новых уведомлений нет"}
+              </strong>
+            </div>
+            <Link className="btn btn-outline" href="/dashboard/notifications">
+              Открыть уведомления
             </Link>
           </div>
 

@@ -1843,6 +1843,33 @@ textarea {
     margin-bottom: 1rem;
 }
 
+.dashboard-notifications-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 8px;
+}
+
+.dashboard-notifications-card span {
+    display: block;
+    color: var(--gray);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.dashboard-notifications-card strong {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--light);
+}
+
 .requests-empty {
     display: grid;
     gap: 1rem;
@@ -2081,6 +2108,77 @@ textarea {
 .request-detail-actions {
     margin-top: 1.2rem;
     margin-bottom: 0;
+}
+
+.notifications-list {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.2rem;
+}
+
+.notification-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+}
+
+.notification-card.unread {
+    border-color: rgba(73, 136, 200, 0.65);
+    box-shadow: 0 12px 35px rgba(73, 136, 200, 0.08);
+}
+
+.notification-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.notification-card h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.notification-card-top span,
+.notification-read-label {
+    color: var(--gray);
+    font-size: 0.82rem;
+}
+
+.notification-card p {
+    color: var(--light-2);
+    line-height: 1.7;
+}
+
+.notification-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--dark);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.notification-card-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.notification-action {
+    display: grid;
+    gap: 0.6rem;
 }
 
 /* Admin */
@@ -2370,8 +2468,15 @@ textarea {
     }
 
     .dashboard-actions,
-    .request-detail-grid {
+    .request-detail-grid,
+    .dashboard-notifications-card {
         grid-template-columns: 1fr;
+    }
+
+    .dashboard-notifications-card .btn,
+    .notification-card-actions .btn,
+    .notification-action {
+        width: 100%;
     }
 
     .request-file-item {

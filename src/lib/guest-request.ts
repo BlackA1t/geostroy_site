@@ -1,5 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 import { cookies } from "next/headers";
+import { getRequestStatusLabel } from "./request-status";
+import { createNotification } from "./notifications";
 import { prisma } from "./prisma";
 import { createRequestStatusHistory } from "./status-history";
 
@@ -120,6 +122,16 @@ export async function claimGuestRequestsForUser(userId: string) {
   });
 
   await clearGuestRequestCookie();
+
+  await createNotification({
+    userId,
+    requestId: createdRequest.id,
+    title: "Гостевая заявка привязана к аккаунту",
+    message: `Заявка, отправленная через форму контактов, теперь доступна в личном кабинете.${
+      createdRequest.status !== "NEW" ? ` Текущий статус заявки: «${getRequestStatusLabel(createdRequest.status)}».` : ""
+    }`,
+    type: "SYSTEM"
+  });
 
   return createdRequest;
 }
