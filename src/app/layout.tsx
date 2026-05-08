@@ -28,7 +28,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <SiteShell isAuthenticated={Boolean(currentUser)}>{children}</SiteShell>
+        <SiteShell currentUserRole={currentUser?.role ?? null} isAuthenticated={Boolean(currentUser)}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );

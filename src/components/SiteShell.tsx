@@ -10,10 +10,11 @@ import { ScrollTopButton } from "./ScrollTopButton";
 
 type SiteShellProps = {
   children: ReactNode;
+  currentUserRole: string | null;
   isAuthenticated: boolean;
 };
 
-export function SiteShell({ children, isAuthenticated }: SiteShellProps) {
+export function SiteShell({ children, currentUserRole, isAuthenticated }: SiteShellProps) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,12 +67,18 @@ export function SiteShell({ children, isAuthenticated }: SiteShellProps) {
   return (
     <>
       <Header
+        currentUserRole={currentUserRole}
         isAuthenticated={isAuthenticated}
         isMenuOpen={isMenuOpen}
         isScrolled={isScrolled}
         onToggleMenu={() => setIsMenuOpen((current) => !current)}
       />
-      <MobileMenu isAuthenticated={isAuthenticated} isOpen={isMenuOpen} onClose={closeMobileMenu} />
+      <MobileMenu
+        currentUserRole={currentUserRole}
+        isAuthenticated={isAuthenticated}
+        isOpen={isMenuOpen}
+        onClose={closeMobileMenu}
+      />
       {children}
       <Footer />
       <ScrollTopButton isVisible={isScrollTopVisible} />

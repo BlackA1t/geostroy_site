@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import type { Role } from "@prisma/client";
 import { prisma } from "./prisma";
 import { getSessionToken, hashSessionToken } from "./session";
 
@@ -7,7 +8,7 @@ export type SafeUser = {
   name: string;
   email: string;
   phone: string | null;
-  role: string;
+  role: Role;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -56,6 +57,20 @@ export async function requireUser() {
 
   if (!user) {
     redirect("/login");
+  }
+
+  return user;
+}
+
+export async function requireAdmin() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  if (user.role !== "ADMIN") {
+    notFound();
   }
 
   return user;

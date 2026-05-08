@@ -2082,6 +2082,185 @@ textarea {
     margin-bottom: 0;
 }
 
+/* Admin */
+.admin-page {
+    min-height: 100svh;
+    padding-top: clamp(7rem, 10vw, 8rem);
+}
+
+.admin-container {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+    padding: clamp(1.35rem, 4vw, 2.5rem);
+}
+
+.admin-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-heading h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.7rem;
+}
+
+.admin-heading p {
+    color: var(--gray);
+}
+
+.admin-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-metric-card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.2rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 12px;
+}
+
+.admin-metric-card span {
+    color: var(--gray);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.admin-metric-card strong {
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary);
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.admin-actions,
+.admin-detail-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.admin-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.admin-filter-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--dark-4);
+    border-radius: 999px;
+    color: var(--light-2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.admin-filter-link:hover,
+.admin-filter-link.active {
+    color: var(--dark);
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.admin-list {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.admin-list-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.2rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+}
+
+.admin-list-card h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+}
+
+.admin-list-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1rem;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+.admin-detail-nav {
+    margin-bottom: 1.5rem;
+}
+
+.admin-status-form {
+    display: grid;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 12px;
+}
+
+.admin-status-form label {
+    color: var(--gray);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.admin-status-form select {
+    width: min(100%, 360px);
+    padding: 0.85rem 1rem;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-4);
+    border-radius: 8px;
+    color: var(--light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+.admin-status-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.admin-status-form > span {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
 @media (max-width: 768px) {
     .dashboard-heading,
     .request-detail-header,
@@ -2117,6 +2296,23 @@ textarea {
     .request-file-item {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .admin-heading,
+    .admin-list-card {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+
+    .admin-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-actions .btn,
+    .admin-detail-nav .btn,
+    .admin-heading > .btn,
+    .admin-list-card .btn {
+        width: 100%;
     }
 }
 
