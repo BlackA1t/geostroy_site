@@ -6,3 +6,9 @@ node_modules/
 out/
 .env
 .env*.local
+
+# Firebase / static demo deploy
+out/
+.firebase/
+firebase.json
+.firebaserc
