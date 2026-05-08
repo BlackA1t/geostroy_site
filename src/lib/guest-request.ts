@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
+import { createRequestStatusHistory } from "./status-history";
 
 export const GUEST_REQUEST_COOKIE_NAME = "geostroy_guest_request";
 export const GUEST_REQUEST_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
@@ -51,7 +52,12 @@ export async function claimGuestRequestsForUser(userId: string) {
       claimedAt: null
     },
     include: {
-      files: true
+      files: true,
+      statusHistory: {
+        orderBy: {
+          createdAt: "asc"
+        }
+      }
     }
   });
 
@@ -94,6 +100,21 @@ export async function claimGuestRequestsForUser(userId: string) {
         claimedAt: new Date()
       }
     });
+
+    for (const historyItem of guestRequest.statusHistory) {
+      await createRequestStatusHistory(
+        {
+          requestId: request.id,
+          oldStatus: historyItem.oldStatus,
+          newStatus: historyItem.newStatus,
+          comment: historyItem.comment,
+          changedById: historyItem.changedById,
+          actorType: historyItem.actorType as "ADMIN" | "USER" | "SYSTEM",
+          createdAt: historyItem.createdAt
+        },
+        tx
+      );
+    }
 
     return request;
   });

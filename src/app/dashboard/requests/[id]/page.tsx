@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getRequestStatusLabel } from "@/lib/request-status";
@@ -30,6 +31,11 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
       files: {
         orderBy: {
           createdAt: "desc"
+        }
+      },
+      statusHistory: {
+        orderBy: {
+          createdAt: "asc"
         }
       }
     }
@@ -96,6 +102,8 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
             <span>Описание</span>
             <p>{request.description}</p>
           </div>
+
+          <StatusHistoryList title="История обработки" items={request.statusHistory} />
 
           <div className="request-files-panel">
             <h2>Прикреплённые файлы</h2>

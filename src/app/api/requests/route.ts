@@ -7,6 +7,7 @@ import {
   saveRequestFile,
   validateUploadedFiles
 } from "@/lib/request-files";
+import { createRequestStatusHistory } from "@/lib/status-history";
 
 export const runtime = "nodejs";
 
@@ -54,18 +55,34 @@ export async function POST(request: Request) {
     throw error;
   }
 
-  const createdRequest = await prisma.request.create({
-    data: {
-      userId: user.id,
-      name,
-      phone,
-      email,
-      serviceType,
-      material,
-      quantity,
-      description,
-      status: "NEW"
-    }
+  const createdRequest = await prisma.$transaction(async (tx) => {
+    const request = await tx.request.create({
+      data: {
+        userId: user.id,
+        name,
+        phone,
+        email,
+        serviceType,
+        material,
+        quantity,
+        description,
+        status: "NEW"
+      }
+    });
+
+    await createRequestStatusHistory(
+      {
+        requestId: request.id,
+        oldStatus: null,
+        newStatus: "NEW",
+        changedById: user.id,
+        actorType: "USER",
+        comment: "Заявка создана пользователем."
+      },
+      tx
+    );
+
+    return request;
   });
 
   if (files.length > 0) {

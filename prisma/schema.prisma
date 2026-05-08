@@ -17,6 +17,7 @@ model User {
   requests     Request[]
   sessions     Session[]
   claimedGuestRequests GuestRequest[] @relation("GuestRequestClaimedBy")
+  statusChanges RequestStatusHistory[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -43,6 +44,7 @@ model Request {
   description String
   status      RequestStatus @default(NEW)
   files       RequestFile[]
+  statusHistory RequestStatusHistory[]
   sourceGuestRequests GuestRequest[] @relation("GuestRequestConversion")
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -64,6 +66,7 @@ model GuestRequest {
   convertedRequestId String?
   convertedRequest   Request?      @relation("GuestRequestConversion", fields: [convertedRequestId], references: [id], onDelete: SetNull)
   files              GuestRequestFile[]
+  statusHistory      RequestStatusHistory[]
   claimedAt          DateTime?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
@@ -91,6 +94,21 @@ model GuestRequestFile {
   originalName   String?
   sizeBytes      Int?
   createdAt      DateTime     @default(now())
+}
+
+model RequestStatusHistory {
+  id             String         @id @default(cuid())
+  requestId      String?
+  request        Request?       @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  guestRequestId String?
+  guestRequest   GuestRequest?  @relation(fields: [guestRequestId], references: [id], onDelete: Cascade)
+  oldStatus      RequestStatus?
+  newStatus      RequestStatus
+  comment        String?
+  changedById    String?
+  changedBy      User?          @relation(fields: [changedById], references: [id], onDelete: SetNull)
+  actorType      String
+  createdAt      DateTime       @default(now())
 }
 
 enum Role {

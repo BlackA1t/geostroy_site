@@ -825,6 +825,7 @@ textarea {
 /* Contact */
 .contact-page {
     padding-top: clamp(7rem, 10vw, 8rem);
+    padding-bottom: 1.25rem;
 }
 
 .contact-grid {
@@ -981,7 +982,7 @@ textarea {
 
 /* Contact map card */
 .contact-map-section {
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
 }
 
 .contact-map-card {
@@ -2256,9 +2257,89 @@ textarea {
     border-color: var(--primary);
 }
 
+.admin-status-form textarea {
+    width: min(100%, 640px);
+    min-height: 110px;
+    padding: 0.85rem 1rem;
+    resize: vertical;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-4);
+    border-radius: 8px;
+    color: var(--light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+.admin-status-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.admin-status-form .btn {
+    width: fit-content;
+}
+
 .admin-status-form > span {
     color: var(--gray);
     font-size: 0.85rem;
+}
+
+.status-history-panel {
+    display: grid;
+    gap: 1rem;
+    margin: 1.2rem 0;
+    padding: 1rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 12px;
+}
+
+.status-history-panel h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-history-panel > p {
+    color: var(--gray);
+}
+
+.status-history-list {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.status-history-item {
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.9rem;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-3);
+    border-radius: 8px;
+}
+
+.status-history-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.status-history-top strong {
+    color: var(--light);
+}
+
+.status-history-top span,
+.status-history-actor {
+    color: var(--gray);
+    font-size: 0.82rem;
+}
+
+.status-history-item p {
+    color: var(--light-2);
+    white-space: pre-wrap;
 }
 
 @media (max-width: 768px) {
@@ -2311,7 +2392,8 @@ textarea {
     .admin-actions .btn,
     .admin-detail-nav .btn,
     .admin-heading > .btn,
-    .admin-list-card .btn {
+    .admin-list-card .btn,
+    .admin-status-form .btn {
         width: 100%;
     }
 }

@@ -8,6 +8,7 @@ import {
   saveRequestFile,
   validateUploadedFiles
 } from "@/lib/request-files";
+import { createGuestRequestStatusHistory, createRequestStatusHistory } from "@/lib/status-history";
 
 export const runtime = "nodejs";
 
@@ -52,18 +53,34 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (user) {
-    const createdRequest = await prisma.request.create({
-      data: {
-        userId: user.id,
-        name,
-        phone,
-        email: email ?? user.email,
-        serviceType,
-        material,
-        quantity,
-        description,
-        status: "NEW"
-      }
+    const createdRequest = await prisma.$transaction(async (tx) => {
+      const request = await tx.request.create({
+        data: {
+          userId: user.id,
+          name,
+          phone,
+          email: email ?? user.email,
+          serviceType,
+          material,
+          quantity,
+          description,
+          status: "NEW"
+        }
+      });
+
+      await createRequestStatusHistory(
+        {
+          requestId: request.id,
+          oldStatus: null,
+          newStatus: "NEW",
+          changedById: user.id,
+          actorType: "USER",
+          comment: "Заявка создана пользователем."
+        },
+        tx
+      );
+
+      return request;
     });
 
     if (files.length > 0) {
@@ -86,18 +103,34 @@ export async function POST(request: Request) {
 
   const claimToken = generateGuestRequestToken();
 
-  const guestRequest = await prisma.guestRequest.create({
-    data: {
-      name,
-      phone,
-      email,
-      serviceType,
-      material,
-      quantity,
-      description,
-      status: "NEW",
-      claimTokenHash: hashGuestRequestToken(claimToken)
-    }
+  const guestRequest = await prisma.$transaction(async (tx) => {
+    const createdGuestRequest = await tx.guestRequest.create({
+      data: {
+        name,
+        phone,
+        email,
+        serviceType,
+        material,
+        quantity,
+        description,
+        status: "NEW",
+        claimTokenHash: hashGuestRequestToken(claimToken)
+      }
+    });
+
+    await createGuestRequestStatusHistory(
+      {
+        guestRequestId: createdGuestRequest.id,
+        oldStatus: null,
+        newStatus: "NEW",
+        changedById: null,
+        actorType: "SYSTEM",
+        comment: "Гостевая заявка создана через форму контактов."
+      },
+      tx
+    );
+
+    return createdGuestRequest;
   });
 
   if (files.length > 0) {

@@ -7,6 +7,7 @@ import {
   saveRequestFile,
   validateUploadedFiles
 } from "@/lib/request-files";
+import { createRequestStatusHistory } from "@/lib/status-history";
 
 export const runtime = "nodejs";
 
@@ -73,20 +74,38 @@ export async function PATCH(request: Request, { params }: RequestRouteContext) {
     throw error;
   }
 
-  const updatedRequest = await prisma.request.update({
-    where: {
-      id: existingRequest.id
-    },
-    data: {
-      serviceType,
-      description,
-      name,
-      phone,
-      email,
-      material,
-      quantity,
-      status: "NEW"
+  const updatedRequest = await prisma.$transaction(async (tx) => {
+    const updated = await tx.request.update({
+      where: {
+        id: existingRequest.id
+      },
+      data: {
+        serviceType,
+        description,
+        name,
+        phone,
+        email,
+        material,
+        quantity,
+        status: "NEW"
+      }
+    });
+
+    if (existingRequest.status !== "NEW") {
+      await createRequestStatusHistory(
+        {
+          requestId: existingRequest.id,
+          oldStatus: existingRequest.status,
+          newStatus: "NEW",
+          changedById: user.id,
+          actorType: "SYSTEM",
+          comment: "Пользователь изменил данные заявки. Статус автоматически сброшен на «Новая»."
+        },
+        tx
+      );
     }
+
+    return updated;
   });
 
   if (files.length > 0) {

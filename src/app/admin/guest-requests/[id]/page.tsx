@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminStatusSelect } from "@/components/AdminStatusSelect";
+import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getRequestStatusLabel } from "@/lib/request-status";
@@ -43,6 +44,19 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
           email: true,
           phone: true
         }
+      },
+      statusHistory: {
+        orderBy: {
+          createdAt: "asc"
+        },
+        include: {
+          changedBy: {
+            select: {
+              name: true,
+              email: true
+            }
+          }
+        }
       }
     }
   });
@@ -80,6 +94,8 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
           </div>
 
           <AdminStatusSelect currentStatus={request.status} endpoint={`/api/admin/guest-requests/${request.id}`} />
+
+          <StatusHistoryList title="История статусов" items={request.statusHistory} showActorDetails />
 
           <div className="request-detail-grid admin-detail-grid">
             <div>
