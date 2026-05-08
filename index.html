@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ООО «Геострой» — металлообработка</title>
+
     <link rel="icon" type="image/png" href="./assets/img/logo.png">
     <link rel="apple-touch-icon" href="./assets/img/logo.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
@@ -15,10 +18,11 @@
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-inner">
-            <a href="#" class="logo">
+            <a href="./index.html" class="logo">
                 <img src="./assets/img/logo.png" alt="Логотип ООО Геострой" class="logo-img">
                 <div class="logo-text">Гео<span>строй</span></div>
             </a>
+
             <nav class="nav">
                 <a href="#about">О компании</a>
                 <a href="./machines.html">Станочный парк</a>
@@ -27,6 +31,7 @@
                 <a href="./contacts.html">Контакты</a>
                 <a href="tel:88313047023" class="nav-phone">8 (831) 304-70-23</a>
             </nav>
+
             <div class="burger" id="burger">
                 <span></span>
                 <span></span>
@@ -37,189 +42,213 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#about" onclick="closeMobile()">О компании</a>
-        <a href="./machines.html" onclick="closeMobile()">Станочный парк</a>
-        <a href="./services.html" onclick="closeMobile()">Услуги</a>
-        <a href="./portfolio.html" onclick="closeMobile()">Портфолио</a>
-        <a href="./contacts.html" onclick="closeMobile()">Контакты</a>
-        <a href="tel:88313047023" style="color: var(--primary);">8 (831) 304-70-23</a>
+        <a href="#about">О компании</a>
+        <a href="./machines.html">Станочный парк</a>
+        <a href="./services.html">Услуги</a>
+        <a href="./portfolio.html">Портфолио</a>
+        <a href="./contacts.html">Контакты</a>
+        <a href="tel:88313047023" class="mobile-phone">8 (831) 304-70-23</a>
     </div>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>
-                Высокоточная обработка
-                <span>металлических изделий</span>
-            </h1>
-            <p class="hero-desc">
-                ООО «Геострой» — обработка металлов на современных фрезерных и токарных станках с ЧПУ.
-            </p>
-            <div class="hero-buttons">
-                <a href="./contacts.html" class="btn btn-primary">Оставить заявку</a>
-                <a href="./services.html" class="btn btn-outline">Наши услуги</a>
-            </div>
-            <div class="hero-stats">
-                <div>
-                    <div class="hero-stat-num">5+</div>
-                    <div class="hero-stat-label">Лет опыта</div>
-                </div>
-                <div>
-                    <div class="hero-stat-num">1 - 800</div>
-                    <div class="hero-stat-label">Размеры изделия, мм</div>
-                </div>
-                <div>
-                    <div class="hero-stat-num">до 0.005</div>
-                    <div class="hero-stat-label">Точность, мм</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
 
-    <!-- About -->
-    <section class="section about" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image reveal">
-                    <img src="./assets/img/prod1.png" alt="Производство">
-                </div>
-                <div class="about-content reveal">
-                    <div class="section-label">О компании</div>
-                    <h3>Надёжный партнёр в области металлообработки</h3>
-                    <p>
-                        ООО «Геострой» — ведущее предприятие в области обработки металлических изделий. 
-                        С 2020 года мы предоставляем услуги высокоточной механической обработки для предприятий 
-                        различных отраслей промышленности.
-                    </p>
-                    <p>
-                        Наше производство оснащено современными фрезерными и токарными станками с числовым программным управлением, 
-                        что позволяет достигать исключительной точности и качества обработки. Мы работаем со всеми 
-                        основными видами металлов и сплавов.
-                    </p>
-                    <div class="about-features">
-                        <div class="about-feature">
-                            <div class="about-feature-icon">⚙️</div>
-                            <span>Станки с ЧПУ</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">📐</div>
-                            <span>Точность до 0.005 мм</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">🏭</div>
-                            <span>Собственное производство</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">✅</div>
-                            <span>Контроль качества</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="hero-content">
+                <h1>
+                    Высокоточная обработка
+                    <span>металлических изделий</span>
+                </h1>
 
-    <!-- Advantages -->
-    <section class="section advantages">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Преимущества</div>
-                <h2 class="section-title">Почему выбирают нас</h2>
-                <p class="section-subtitle">Мы гарантируем высокое качество, точные сроки и конкурентные цены</p>
-            </div>
-            <div class="advantages-grid">
-                <div class="advantage-card reveal">
-                    <div class="advantage-num">5+</div>
-                    <h4>Лет на рынке</h4>
-                    <p>Богатый опыт в области металлообработки</p>
-                </div>
-                <div class="advantage-card reveal">
-                    <div class="advantage-num">50+</div>
-                    <h4>Единиц оборудования</h4>
-                    <p>Современные станки с ЧПУ от ведущих мировых производителей</p>
-                </div>
-                <div class="advantage-card reveal">
-                    <div class="advantage-num">0.005</div>
-                    <h4>Точность, мм</h4>
-                    <p>Исключительная точность обработки на всех этапах производства</p>
-                </div>
-                <div class="advantage-card reveal">
-                    <div class="advantage-num">100%</div>
-                    <h4>Гарантия качества</h4>
-                    <p>Полный контроль качества и гарантия на все виды работ</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process -->
-    <section class="section process" id="process">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Как мы работаем</div>
-                <h2 class="section-title">Этапы сотрудничества</h2>
-                <p class="section-subtitle">Прозрачный и отлаженный процесс работы от заявки до готового изделия</p>
-            </div>
-            <div class="process-timeline">
-                <div class="process-step reveal">
-                    <div class="process-step-num">01</div>
-                    <h4>Заявка</h4>
-                    <p>Вы отправляете чертежи и техническое задание. Мы анализируем и рассчитываем стоимость.</p>
-                </div>
-                <div class="process-step reveal">
-                    <div class="process-step-num">02</div>
-                    <h4>Проектирование</h4>
-                    <p>Разрабатываем управляющие программы и подготавливаем технологический процесс.</p>
-                </div>
-                <div class="process-step reveal">
-                    <div class="process-step-num">03</div>
-                    <h4>Производство</h4>
-                    <p>Выполняем обработку на станках с ЧПУ с контролем на каждом этапе.</p>
-                </div>
-                <div class="process-step reveal">
-                    <div class="process-step-num">04</div>
-                    <h4>Доставка</h4>
-                    <p>Проводим финальный контроль качества и доставляем готовые изделия в срок.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Clients -->
-    <section class="section clients" id="clients">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">Наши заказчики</div>
-                <h2 class="section-title">Нам доверяют</h2>
-                <p class="section-subtitle">
-                    Сотрудничаем с промышленными предприятиями, организациями ОПК и частным бизнесом
+                <p class="hero-desc">
+                    ООО «Геострой» — обработка металлов на современных фрезерных и токарных станках с ЧПУ.
                 </p>
-            </div>
 
-            <div class="clients-layout">
-                <div class="clients-logos">
-                    <div class="client-logo-card reveal">
-                        <img src="./assets/img/clients/electromashina.png" alt="НПО Электромашина">
+                <div class="hero-buttons">
+                    <a href="./contacts.html" class="btn btn-primary">Оставить заявку</a>
+                    <a href="./services.html" class="btn btn-outline">Наши услуги</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <div class="hero-stat-num">5+</div>
+                        <div class="hero-stat-label">Лет опыта</div>
                     </div>
 
-                    <div class="client-logo-card reveal">
-                        <img src="./assets/img/clients/amt-solutions.png" alt="AMT Solutions">
+                    <div>
+                        <div class="hero-stat-num">1 - 800</div>
+                        <div class="hero-stat-label">Размеры изделия, мм</div>
                     </div>
 
-                    <div class="client-logo-card reveal">
-                        <img src="./assets/img/clients/interunis-it.png" alt="Интерюнис-ИТ">
+                    <div>
+                        <div class="hero-stat-num">до 0.005</div>
+                        <div class="hero-stat-label">Точность, мм</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- About -->
+        <section class="section about" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image reveal">
+                        <img src="./assets/img/prod1.png" alt="Производство">
+                    </div>
+
+                    <div class="about-content reveal">
+                        <div class="section-label">О компании</div>
+                        <h3>Надёжный партнёр в области металлообработки</h3>
+
+                        <p>
+                            ООО «Геострой» — ведущее предприятие в области обработки металлических изделий.
+                            С 2020 года мы предоставляем услуги высокоточной механической обработки для предприятий
+                            различных отраслей промышленности.
+                        </p>
+
+                        <p>
+                            Наше производство оснащено современными фрезерными и токарными станками с числовым программным управлением,
+                            что позволяет достигать исключительной точности и качества обработки. Мы работаем со всеми
+                            основными видами металлов и сплавов.
+                        </p>
+
+                        <div class="about-features">
+                            <div class="about-feature">
+                                <div class="about-feature-icon">⚙️</div>
+                                <span>Станки с ЧПУ</span>
+                            </div>
+
+                            <div class="about-feature">
+                                <div class="about-feature-icon">📐</div>
+                                <span>Точность до 0.005 мм</span>
+                            </div>
+
+                            <div class="about-feature">
+                                <div class="about-feature-icon">🏭</div>
+                                <span>Собственное производство</span>
+                            </div>
+
+                            <div class="about-feature">
+                                <div class="about-feature-icon">✅</div>
+                                <span>Контроль качества</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advantages -->
+        <section class="section advantages">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">Преимущества</div>
+                    <h2 class="section-title">Почему выбирают нас</h2>
+                    <p class="section-subtitle">Мы гарантируем высокое качество, точные сроки и конкурентные цены</p>
+                </div>
+
+                <div class="advantages-grid">
+                    <div class="advantage-card reveal">
+                        <div class="advantage-num">5+</div>
+                        <h4>Лет на рынке</h4>
+                        <p>Богатый опыт в области металлообработки</p>
+                    </div>
+
+                    <div class="advantage-card reveal">
+                        <div class="advantage-num">50+</div>
+                        <h4>Единиц оборудования</h4>
+                        <p>Современные станки с ЧПУ от ведущих мировых производителей</p>
+                    </div>
+
+                    <div class="advantage-card reveal">
+                        <div class="advantage-num">0.005</div>
+                        <h4>Точность, мм</h4>
+                        <p>Исключительная точность обработки на всех этапах производства</p>
+                    </div>
+
+                    <div class="advantage-card reveal">
+                        <div class="advantage-num">100%</div>
+                        <h4>Гарантия качества</h4>
+                        <p>Полный контроль качества и гарантия на все виды работ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section process" id="process">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">Как мы работаем</div>
+                    <h2 class="section-title">Этапы сотрудничества</h2>
+                    <p class="section-subtitle">Прозрачный и отлаженный процесс работы от заявки до готового изделия</p>
+                </div>
+
+                <div class="process-timeline">
+                    <div class="process-step reveal">
+                        <div class="process-step-num">01</div>
+                        <h4>Заявка</h4>
+                        <p>Вы отправляете чертежи и техническое задание. Мы анализируем и рассчитываем стоимость.</p>
+                    </div>
+
+                    <div class="process-step reveal">
+                        <div class="process-step-num">02</div>
+                        <h4>Проектирование</h4>
+                        <p>Разрабатываем управляющие программы и подготавливаем технологический процесс.</p>
+                    </div>
+
+                    <div class="process-step reveal">
+                        <div class="process-step-num">03</div>
+                        <h4>Производство</h4>
+                        <p>Выполняем обработку на станках с ЧПУ с контролем на каждом этапе.</p>
+                    </div>
+
+                    <div class="process-step reveal">
+                        <div class="process-step-num">04</div>
+                        <h4>Доставка</h4>
+                        <p>Проводим финальный контроль качества и доставляем готовые изделия в срок.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients -->
+        <section class="section clients" id="clients">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">Наши заказчики</div>
+                    <h2 class="section-title">Нам доверяют</h2>
+                    <p class="section-subtitle">
+                        Сотрудничаем с промышленными предприятиями, организациями ОПК и частным бизнесом
+                    </p>
+                </div>
+
+                <div class="clients-layout">
+                    <div class="clients-logos">
+                        <div class="client-logo-card reveal">
+                            <img src="./assets/img/clients/electromashina.png" alt="НПО Электромашина">
+                        </div>
+
+                        <div class="client-logo-card reveal">
+                            <img src="./assets/img/clients/amt-solutions.png" alt="AMT Solutions">
+                        </div>
+
+                        <div class="client-logo-card reveal">
+                            <img src="./assets/img/clients/interunis-it.png" alt="Интерюнис-ИТ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-copy">© 2026 ООО «Геострой». Все права защищены.</div>
+
             <div class="footer-links">
                 <a href="#about">О компании</a>
                 <a href="./services.html">Услуги</a>
@@ -229,18 +258,11 @@
         </div>
     </footer>
 
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal">
-            <h4>✅ Заявка отправлена!</h4>
-            <p>Спасибо за обращение. Наш специалист свяжется с вами в ближайшее время.</p>
-            <button class="btn btn-primary" onclick="closeModal()">Закрыть</button>
-        </div>
-    </div>
+    <!-- Scroll To Top -->
     <button class="scroll-top" id="scrollTopBtn" type="button" aria-label="Наверх">
         ↑
     </button>
+
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
-
