@@ -25,6 +25,13 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
     where: {
       id,
       userId: user.id
+    },
+    include: {
+      files: {
+        orderBy: {
+          createdAt: "desc"
+        }
+      }
     }
   });
 
@@ -37,7 +44,7 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
       <section className="section dashboard-page dashboard-section">
         <div className="dashboard-wide-card">
           <Link className="btn btn-primary dashboard-back-button" href="/dashboard/requests">
-            Назад к заявкам
+            Мои заявки
           </Link>
 
           <div className="request-detail-header">
@@ -88,6 +95,33 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
           <div className="request-description">
             <span>Описание</span>
             <p>{request.description}</p>
+          </div>
+
+          <div className="request-files-panel">
+            <h2>Прикреплённые файлы</h2>
+            {request.files.length === 0 ? (
+              <p>Файлы пока не прикреплены.</p>
+            ) : (
+              <div className="request-files-list">
+                {request.files.map((file) => (
+                  <div className="request-file-item" key={file.id}>
+                    <div>
+                      <strong>{file.originalName || file.fileName}</strong>
+                      <span>{[file.fileType, file.sizeBytes ? `${Math.ceil(file.sizeBytes / 1024)} KB` : ""].filter(Boolean).join(" · ") || "Файл"}</span>
+                    </div>
+                    <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                      Открыть
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="dashboard-actions request-detail-actions">
+            <Link className="btn btn-primary" href={`/dashboard/requests/${request.id}/edit`}>
+              Редактировать заявку
+            </Link>
           </div>
         </div>
       </section>

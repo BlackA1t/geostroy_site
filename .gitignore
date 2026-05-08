@@ -6,6 +6,7 @@ node_modules/
 out/
 .env
 .env*.local
+public/uploads/
 
 # Firebase / static demo deploy
 out/

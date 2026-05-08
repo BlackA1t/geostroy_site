@@ -49,6 +49,9 @@ export async function claimGuestRequestsForUser(userId: string) {
     where: {
       claimTokenHash,
       claimedAt: null
+    },
+    include: {
+      files: true
     }
   });
 
@@ -68,7 +71,16 @@ export async function claimGuestRequestsForUser(userId: string) {
         material: guestRequest.material,
         quantity: guestRequest.quantity,
         description: guestRequest.description,
-        status: guestRequest.status
+        status: guestRequest.status,
+        files: {
+          create: guestRequest.files.map((file) => ({
+            fileName: file.fileName,
+            fileUrl: file.fileUrl,
+            fileType: file.fileType,
+            originalName: file.originalName,
+            sizeBytes: file.sizeBytes
+          }))
+        }
       }
     });
 

@@ -15,6 +15,9 @@ type ContactRequestResult =
       guestRequestId: string;
     };
 
+const ACCEPTED_REQUEST_FILES =
+  ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
+
 export function ContactForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [result, setResult] = useState<ContactRequestResult | null>(null);
@@ -33,18 +36,7 @@ export function ContactForm() {
 
     const response = await fetch("/api/contact-request", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: formData.get("name"),
-        phone: formData.get("phone"),
-        email: formData.get("email"),
-        serviceType: formData.get("serviceType"),
-        material: formData.get("material"),
-        quantity: formData.get("quantity"),
-        description: formData.get("description")
-      })
+      body: formData
     });
 
     const payload = await response.json().catch(() => null);
@@ -114,6 +106,12 @@ export function ContactForm() {
               placeholder="Опишите ваш заказ: тип детали, требования, сроки..."
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label>Файлы</label>
+            <input name="files" type="file" accept={ACCEPTED_REQUEST_FILES} multiple />
+            <div className="form-hint">Можно прикрепить до 5 файлов, каждый не больше 10 MB.</div>
           </div>
 
           {error ? <div className="auth-error">{error}</div> : null}

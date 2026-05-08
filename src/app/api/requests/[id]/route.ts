@@ -10,16 +10,35 @@ import {
 
 export const runtime = "nodejs";
 
+type RequestRouteContext = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
 function normalizeOptionalString(value: unknown) {
   const normalized = String(value ?? "").trim();
   return normalized || null;
 }
 
-export async function POST(request: Request) {
+export async function PATCH(request: Request, { params }: RequestRouteContext) {
   const user = await getCurrentUser();
 
   if (!user) {
     return NextResponse.json({ error: "Необходима авторизация." }, { status: 401 });
+  }
+
+  const { id } = await params;
+
+  const existingRequest = await prisma.request.findFirst({
+    where: {
+      id,
+      userId: user.id
+    }
+  });
+
+  if (!existingRequest) {
+    return NextResponse.json({ error: "Заявка не найдена." }, { status: 404 });
   }
 
   const formData = await request.formData().catch(() => null);
@@ -54,26 +73,28 @@ export async function POST(request: Request) {
     throw error;
   }
 
-  const createdRequest = await prisma.request.create({
+  const updatedRequest = await prisma.request.update({
+    where: {
+      id: existingRequest.id
+    },
     data: {
-      userId: user.id,
+      serviceType,
+      description,
       name,
       phone,
       email,
-      serviceType,
       material,
       quantity,
-      description,
       status: "NEW"
     }
   });
 
   if (files.length > 0) {
-    const savedFiles = await Promise.all(files.map((file) => saveRequestFile(file, createdRequest.id)));
+    const savedFiles = await Promise.all(files.map((file) => saveRequestFile(file, updatedRequest.id)));
 
     await prisma.requestFile.createMany({
       data: savedFiles.map((file) => ({
-        requestId: createdRequest.id,
+        requestId: updatedRequest.id,
         ...file
       }))
     });
@@ -81,12 +102,12 @@ export async function POST(request: Request) {
 
   const requestWithFiles = await prisma.request.findUnique({
     where: {
-      id: createdRequest.id
+      id: updatedRequest.id
     },
     include: {
       files: true
     }
   });
 
-  return NextResponse.json({ request: requestWithFiles }, { status: 201 });
+  return NextResponse.json({ request: requestWithFiles });
 }

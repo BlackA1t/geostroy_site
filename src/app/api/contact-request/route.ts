@@ -2,6 +2,14 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { generateGuestRequestToken, hashGuestRequestToken, setGuestRequestCookie } from "@/lib/guest-request";
 import { prisma } from "@/lib/prisma";
+import {
+  getUploadedFiles,
+  RequestFileValidationError,
+  saveRequestFile,
+  validateUploadedFiles
+} from "@/lib/request-files";
+
+export const runtime = "nodejs";
 
 function normalizeOptionalString(value: unknown) {
   const normalized = String(value ?? "").trim();
@@ -9,25 +17,36 @@ function normalizeOptionalString(value: unknown) {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null);
+  const formData = await request.formData().catch(() => null);
 
-  if (!body) {
+  if (!formData) {
     return NextResponse.json({ error: "Некорректные данные формы." }, { status: 400 });
   }
 
-  const name = String(body.name ?? "").trim();
-  const phone = String(body.phone ?? "").trim();
-  const serviceType = String(body.serviceType ?? "").trim();
-  const description = String(body.description ?? "").trim();
-  const email = normalizeOptionalString(body.email);
-  const material = normalizeOptionalString(body.material);
-  const quantity = normalizeOptionalString(body.quantity);
+  const name = String(formData.get("name") ?? "").trim();
+  const phone = String(formData.get("phone") ?? "").trim();
+  const serviceType = String(formData.get("serviceType") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const email = normalizeOptionalString(formData.get("email"));
+  const material = normalizeOptionalString(formData.get("material"));
+  const quantity = normalizeOptionalString(formData.get("quantity"));
+  const files = getUploadedFiles(formData);
 
   if (!name || !phone || !serviceType || !description) {
     return NextResponse.json(
       { error: "Заполните имя, телефон, тип услуги и описание задачи." },
       { status: 400 }
     );
+  }
+
+  try {
+    validateUploadedFiles(files);
+  } catch (error) {
+    if (error instanceof RequestFileValidationError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    throw error;
   }
 
   const user = await getCurrentUser();
@@ -46,6 +65,17 @@ export async function POST(request: Request) {
         status: "NEW"
       }
     });
+
+    if (files.length > 0) {
+      const savedFiles = await Promise.all(files.map((file) => saveRequestFile(file, createdRequest.id)));
+
+      await prisma.requestFile.createMany({
+        data: savedFiles.map((file) => ({
+          requestId: createdRequest.id,
+          ...file
+        }))
+      });
+    }
 
     return NextResponse.json({
       type: "authenticated",
@@ -69,6 +99,17 @@ export async function POST(request: Request) {
       claimTokenHash: hashGuestRequestToken(claimToken)
     }
   });
+
+  if (files.length > 0) {
+    const savedFiles = await Promise.all(files.map((file) => saveRequestFile(file, `guest-${guestRequest.id}`)));
+
+    await prisma.guestRequestFile.createMany({
+      data: savedFiles.map((file) => ({
+        guestRequestId: guestRequest.id,
+        ...file
+      }))
+    });
+  }
 
   await setGuestRequestCookie(claimToken);
 

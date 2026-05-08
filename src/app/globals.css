@@ -980,9 +980,13 @@ textarea {
 
 
 /* Contact map card */
+.contact-map-section {
+    padding-top: 1.5rem;
+}
+
 .contact-map-card {
     width: min(100%, 1500px);
-    margin: clamp(2rem, 4vw, 3rem) auto 0;
+    margin: 0 auto;
     background: var(--dark-2);
     border: 1px solid var(--dark-3);
     border-radius: 16px;
@@ -1027,6 +1031,10 @@ textarea {
 }
 
 @media (max-width: 768px) {
+    .contact-map-section {
+        padding-top: 0.8rem;
+    }
+
     .contact-map-card {
         padding: 1.2rem;
         border-radius: 20px;
@@ -1819,6 +1827,14 @@ textarea {
     color: var(--gray);
 }
 
+.dashboard-heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
 .dashboard-actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1945,12 +1961,26 @@ textarea {
 }
 
 .dashboard-back-button {
+    width: fit-content;
     margin-bottom: 1.5rem;
+    margin-right: 0.8rem;
 }
 
 .request-form {
     display: grid;
     gap: 0.2rem;
+}
+
+.form-group input[type="file"] {
+    padding: 0.8rem;
+    cursor: pointer;
+}
+
+.form-hint {
+    margin-top: 0.45rem;
+    color: var(--gray);
+    font-size: 0.82rem;
+    line-height: 1.45;
 }
 
 .request-detail-grid {
@@ -1983,12 +2013,92 @@ textarea {
     white-space: pre-wrap;
 }
 
+.request-files-panel {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    padding: 1rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 8px;
+}
+
+.request-files-panel h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.request-files-panel p {
+    color: var(--gray);
+}
+
+.request-files-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.request-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-3);
+    border-radius: 8px;
+}
+
+.request-file-item div {
+    min-width: 0;
+}
+
+.request-file-item strong {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.request-file-item span {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--gray);
+    font-size: 0.82rem;
+}
+
+.request-file-item a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.request-file-item a:hover {
+    color: var(--light);
+}
+
+.request-detail-actions {
+    margin-top: 1.2rem;
+    margin-bottom: 0;
+}
+
 @media (max-width: 768px) {
     .dashboard-heading,
     .request-detail-header,
     .request-card {
         grid-template-columns: 1fr;
         flex-direction: column;
+    }
+
+    .dashboard-heading-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .dashboard-heading-actions .btn,
+    .dashboard-back-button {
+        width: 100%;
+        margin-right: 0;
     }
 
     .request-card {
@@ -2002,6 +2112,11 @@ textarea {
     .dashboard-actions,
     .request-detail-grid {
         grid-template-columns: 1fr;
+    }
+
+    .request-file-item {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }
 

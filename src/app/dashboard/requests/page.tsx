@@ -29,9 +29,14 @@ export default async function RequestsPage() {
               <h1>Мои заявки</h1>
               <p>История ваших обращений и текущие статусы обработки.</p>
             </div>
-            <Link className="btn btn-primary" href="/dashboard/requests/new">
-              Создать заявку
-            </Link>
+            <div className="dashboard-heading-actions">
+              <Link className="btn btn-outline" href="/dashboard">
+                Личный кабинет
+              </Link>
+              <Link className="btn btn-primary" href="/dashboard/requests/new">
+                Создать заявку
+              </Link>
+            </div>
           </div>
 
           {requests.length === 0 ? (

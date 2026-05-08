@@ -4,6 +4,9 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { SafeUser } from "@/lib/auth";
 
+const ACCEPTED_REQUEST_FILES =
+  ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
+
 type NewRequestFormProps = {
   user: SafeUser;
 };
@@ -22,18 +25,7 @@ export function NewRequestForm({ user }: NewRequestFormProps) {
 
     const response = await fetch("/api/requests", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        serviceType: formData.get("serviceType"),
-        material: formData.get("material"),
-        quantity: formData.get("quantity"),
-        description: formData.get("description"),
-        name: formData.get("name"),
-        phone: formData.get("phone"),
-        email: formData.get("email")
-      })
+      body: formData
     });
 
     const result = await response.json().catch(() => null);
@@ -91,6 +83,12 @@ export function NewRequestForm({ user }: NewRequestFormProps) {
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input id="email" name="email" type="email" defaultValue={user.email} />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="files">Файлы</label>
+        <input id="files" name="files" type="file" accept={ACCEPTED_REQUEST_FILES} multiple />
+        <div className="form-hint">До 5 файлов, каждый не больше 10 MB.</div>
       </div>
 
       {error ? <div className="auth-error">{error}</div> : null}
