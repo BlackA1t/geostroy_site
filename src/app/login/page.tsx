@@ -1,76 +1,13 @@
-"use client";
+import { redirect } from "next/navigation";
+import { LoginForm } from "@/components/LoginForm";
+import { getCurrentUser } from "@/lib/auth";
 
-import Link from "next/link";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+export default async function LoginPage() {
+  const user = await getCurrentUser();
 
-export default function LoginPage() {
-  const router = useRouter();
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-    setIsLoading(true);
-
-    const formData = new FormData(event.currentTarget);
-
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password")
-      })
-    });
-
-    const result = await response.json().catch(() => null);
-
-    setIsLoading(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось войти.");
-      return;
-    }
-
-    router.push("/dashboard");
-    router.refresh();
+  if (user) {
+    redirect("/dashboard");
   }
 
-  return (
-    <main>
-      <section className="section auth-page">
-        <div className="auth-card">
-          <div className="section-label">Вход</div>
-          <h1>Войти в аккаунт</h1>
-          <p>Введите email и пароль, чтобы открыть личный кабинет.</p>
-
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input id="email" name="email" type="email" autoComplete="email" required />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Пароль</label>
-              <input id="password" name="password" type="password" autoComplete="current-password" required />
-            </div>
-
-            {error ? <div className="auth-error">{error}</div> : null}
-
-            <button className="btn-submit" type="submit" disabled={isLoading}>
-              {isLoading ? "Вход..." : "Войти"}
-            </button>
-          </form>
-
-          <div className="auth-switch">
-            Нет аккаунта? <Link href="/register">Зарегистрироваться</Link>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  return <LoginForm />;
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteShell } from "@/components/SiteShell";
+import { getCurrentUser } from "@/lib/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const currentUser = await getCurrentUser();
+
   return (
     <html lang="ru">
       <head>
@@ -25,7 +28,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <SiteShell>{children}</SiteShell>
+        <SiteShell isAuthenticated={Boolean(currentUser)}>{children}</SiteShell>
       </body>
     </html>
   );

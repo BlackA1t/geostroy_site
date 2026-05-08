@@ -1,5 +1,6 @@
 import { requireUser } from "@/lib/auth";
 import { LogoutButton } from "@/components/LogoutButton";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const user = await requireUser();
@@ -35,6 +36,15 @@ export default async function DashboardPage() {
               <span>Дата регистрации</span>
               <strong>{user.createdAt.toLocaleDateString("ru-RU")}</strong>
             </div>
+          </div>
+
+          <div className="dashboard-actions">
+            <Link className="btn btn-primary" href="/dashboard/requests">
+              Мои заявки
+            </Link>
+            <Link className="btn btn-outline" href="/dashboard/requests/new">
+              Создать заявку
+            </Link>
           </div>
 
           <LogoutButton />
