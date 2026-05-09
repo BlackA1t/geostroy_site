@@ -730,9 +730,24 @@ textarea {
 }
 
 /* Machine Park */
+.machines-page,
 .machine-page {
     background: var(--dark);
     padding-top: clamp(7rem, 10vw, 8rem);
+}
+
+.machines-page .section {
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+
+.machines-hero {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.machines-page .services-cta {
+    padding-top: clamp(2.6rem, 5vw, 3.2rem);
+    padding-bottom: clamp(2.6rem, 5vw, 3.4rem);
 }
 
 .machine-park {
@@ -828,8 +843,58 @@ textarea {
     margin: 0;
 }
 
+.machine-capabilities-section {
+    background: var(--dark-2);
+    border-top: 1px solid var(--dark-4);
+}
+
+.machines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.machine-capability-card {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 1.8rem);
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+}
+
+.machine-capability-card h3 {
+    margin-bottom: 0.75rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.machine-capability-card p {
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
 /* Machine Park adaptive */
+@media (max-width: 1024px) {
+    .machines-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
 @media (max-width: 768px) {
+    .machines-page {
+        padding-top: 5.6rem;
+    }
+
+    .machines-page .section {
+        padding-top: 2.4rem;
+        padding-bottom: 2.4rem;
+    }
+
     .machine-park-grid {
         grid-template-columns: 1fr;
     }
@@ -840,6 +905,10 @@ textarea {
 
     .machine-card h3 {
         font-size: 1.15rem;
+    }
+
+    .machines-grid {
+        grid-template-columns: 1fr;
     }
 }
 
