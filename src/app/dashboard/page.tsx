@@ -27,10 +27,6 @@ export default async function DashboardPage() {
           </div>
         ) : null}
         <div>
-          <span>Роль</span>
-          <strong>{user.role}</strong>
-        </div>
-        <div>
           <span>Дата регистрации</span>
           <strong>{user.createdAt.toLocaleDateString("ru-RU")}</strong>
         </div>
@@ -39,12 +35,6 @@ export default async function DashboardPage() {
       <div className="dashboard-actions">
         <Link className="btn btn-primary" href="/dashboard/profile/edit">
           Редактировать данные
-        </Link>
-        <Link className="btn btn-primary" href="/dashboard/requests">
-          Перейти к заявкам
-        </Link>
-        <Link className="btn btn-outline" href="/dashboard/requests/new">
-          Создать заявку
         </Link>
       </div>
 
