@@ -2544,6 +2544,68 @@ textarea {
     padding-top: clamp(7rem, 10vw, 8rem);
 }
 
+.admin-layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 1.5rem);
+    width: min(100%, 1320px);
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 6.5rem;
+    display: grid;
+    gap: 1rem;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+    padding: 1rem;
+}
+
+.admin-sidebar-title {
+    font-family: 'Oswald', sans-serif;
+    color: var(--light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.admin-sidebar-nav {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.admin-sidebar-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--light-2);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.admin-sidebar-link:hover,
+.admin-sidebar-link-active {
+    background: var(--dark);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.admin-content {
+    min-width: 0;
+}
+
+.admin-content .admin-container {
+    width: 100%;
+}
+
 .admin-container {
     width: min(100%, 1180px);
     margin: 0 auto;
@@ -2863,6 +2925,24 @@ textarea {
     .admin-list-card {
         grid-template-columns: 1fr;
         flex-direction: column;
+    }
+
+    .admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        position: static;
+        gap: 0.8rem;
+    }
+
+    .admin-sidebar-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-sidebar-link {
+        justify-content: center;
+        text-align: center;
     }
 
     .admin-metrics {

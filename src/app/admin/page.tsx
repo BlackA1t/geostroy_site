@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -13,49 +12,33 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <main>
-      <section className="section admin-page">
-        <div className="admin-container">
-          <div className="admin-heading">
-            <div>
-              <div className="section-label">Админ-панель</div>
-              <h1>Обработка заявок</h1>
-              <p>Сводка по пользовательским и гостевым заявкам.</p>
-            </div>
-            <Link className="btn btn-outline" href="/">
-              На сайт
-            </Link>
-          </div>
-
-          <div className="admin-metrics">
-            <div className="admin-metric-card">
-              <span>Пользовательские заявки</span>
-              <strong>{requestCount}</strong>
-            </div>
-            <div className="admin-metric-card">
-              <span>Активные гостевые заявки</span>
-              <strong>{activeGuestRequestCount}</strong>
-            </div>
-            <div className="admin-metric-card">
-              <span>Новые пользовательские</span>
-              <strong>{newRequestCount}</strong>
-            </div>
-            <div className="admin-metric-card">
-              <span>Новые активные гостевые</span>
-              <strong>{newActiveGuestRequestCount}</strong>
-            </div>
-          </div>
-
-          <div className="admin-actions">
-            <Link className="btn btn-primary" href="/admin/requests">
-              Пользовательские заявки
-            </Link>
-            <Link className="btn btn-primary" href="/admin/guest-requests">
-              Гостевые заявки
-            </Link>
-          </div>
+    <div className="admin-container">
+      <div className="admin-heading">
+        <div>
+          <div className="section-label">Админ-панель</div>
+          <h1>Обработка заявок</h1>
+          <p>Сводка по пользовательским и гостевым заявкам.</p>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <div className="admin-metrics">
+        <div className="admin-metric-card">
+          <span>Пользовательские заявки</span>
+          <strong>{requestCount}</strong>
+        </div>
+        <div className="admin-metric-card">
+          <span>Активные гостевые заявки</span>
+          <strong>{activeGuestRequestCount}</strong>
+        </div>
+        <div className="admin-metric-card">
+          <span>Новые пользовательские</span>
+          <strong>{newRequestCount}</strong>
+        </div>
+        <div className="admin-metric-card">
+          <span>Новые активные гостевые</span>
+          <strong>{newActiveGuestRequestCount}</strong>
+        </div>
+      </div>
+    </div>
   );
 }

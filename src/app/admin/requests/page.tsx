@@ -38,66 +38,59 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
   });
 
   return (
-    <main>
-      <section className="section admin-page">
-        <div className="admin-container">
-          <div className="admin-heading">
-            <div>
-              <div className="section-label">Админ-панель</div>
-              <h1>Пользовательские заявки</h1>
-              <p>Все заявки, созданные или привязанные к пользователям.</p>
-            </div>
-            <Link className="btn btn-outline" href="/admin">
-              Админ-панель
-            </Link>
-          </div>
-
-          <div className="admin-filters">
-            <Link className={`admin-filter-link${!statusFilter ? " active" : ""}`} href="/admin/requests">
-              Все
-            </Link>
-            {REQUEST_STATUSES.map((item: RequestStatus) => (
-              <Link
-                className={`admin-filter-link${statusFilter === item ? " active" : ""}`}
-                href={`/admin/requests?status=${item}`}
-                key={item}
-              >
-                {getRequestStatusLabel(item)}
-              </Link>
-            ))}
-          </div>
-
-          <div className="admin-list">
-            {requests.map((request) => (
-              <article className="admin-list-card" key={request.id}>
-                <div className="admin-list-main">
-                  <div className="request-card-top">
-                    <span className="request-id">Заявка {request.id}</span>
-                    <span className={`status-badge status-${request.status.toLowerCase()}`}>
-                      {getRequestStatusLabel(request.status)}
-                    </span>
-                  </div>
-                  <h2>{request.serviceType}</h2>
-                  <div className="admin-list-meta">
-                    <span>{request.name}</span>
-                    <span>{request.phone}</span>
-                    <span>{request.email || "Email не указан"}</span>
-                    <span>Создана {formatDate(request.createdAt)}</span>
-                    <span>
-                      Пользователь: {request.user ? `${request.user.name} / ${request.user.email}` : "не привязан"}
-                    </span>
-                    <span>Файлов: {request._count.files}</span>
-                  </div>
-                </div>
-                <Link className="btn btn-outline request-details-link" href={`/admin/requests/${request.id}`}>
-                  Подробнее
-                </Link>
-              </article>
-            ))}
-            {requests.length === 0 ? <div className="requests-empty">Заявок с такими условиями нет.</div> : null}
-          </div>
+    <div className="admin-container">
+      <div className="admin-heading">
+        <div>
+          <div className="section-label">Админ-панель</div>
+          <h1>Пользовательские заявки</h1>
+          <p>Все заявки, созданные или привязанные к пользователям.</p>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <div className="admin-filters">
+        <Link className={`admin-filter-link${!statusFilter ? " active" : ""}`} href="/admin/requests">
+          Все
+        </Link>
+        {REQUEST_STATUSES.map((item: RequestStatus) => (
+          <Link
+            className={`admin-filter-link${statusFilter === item ? " active" : ""}`}
+            href={`/admin/requests?status=${item}`}
+            key={item}
+          >
+            {getRequestStatusLabel(item)}
+          </Link>
+        ))}
+      </div>
+
+      <div className="admin-list">
+        {requests.map((request) => (
+          <article className="admin-list-card" key={request.id}>
+            <div className="admin-list-main">
+              <div className="request-card-top">
+                <span className="request-id">Заявка {request.id}</span>
+                <span className={`status-badge status-${request.status.toLowerCase()}`}>
+                  {getRequestStatusLabel(request.status)}
+                </span>
+              </div>
+              <h2>{request.serviceType}</h2>
+              <div className="admin-list-meta">
+                <span>{request.name}</span>
+                <span>{request.phone}</span>
+                <span>{request.email || "Email не указан"}</span>
+                <span>Создана {formatDate(request.createdAt)}</span>
+                <span>
+                  Пользователь: {request.user ? `${request.user.name} / ${request.user.email}` : "не привязан"}
+                </span>
+                <span>Файлов: {request._count.files}</span>
+              </div>
+            </div>
+            <Link className="btn btn-outline request-details-link" href={`/admin/requests/${request.id}`}>
+              Подробнее
+            </Link>
+          </article>
+        ))}
+        {requests.length === 0 ? <div className="requests-empty">Заявок с такими условиями нет.</div> : null}
+      </div>
+    </div>
   );
 }

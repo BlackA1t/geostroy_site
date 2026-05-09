@@ -61,91 +61,84 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
   });
 
   return (
-    <main>
-      <section className="section admin-page">
-        <div className="admin-container">
-          <div className="admin-heading">
-            <div>
-              <div className="section-label">Админ-панель</div>
-              <h1>Гостевые заявки</h1>
-              <p>Заявки, отправленные без авторизации через страницу контактов.</p>
-            </div>
-            <Link className="btn btn-outline" href="/admin">
-              Админ-панель
-            </Link>
-          </div>
-
-          <div className="admin-filters">
-            <Link className={`admin-filter-link${claimedFilter === "all" ? " active" : ""}`} href={getClaimedHref("all", statusFilter)}>
-              Все
-            </Link>
-            <Link className={`admin-filter-link${claimedFilter === "claimed" ? " active" : ""}`} href={getClaimedHref("claimed", statusFilter)}>
-              Привязанные
-            </Link>
-            <Link className={`admin-filter-link${claimedFilter === "unclaimed" ? " active" : ""}`} href={getClaimedHref("unclaimed", statusFilter)}>
-              Непривязанные
-            </Link>
-          </div>
-
-          <div className="admin-filters">
-            <Link
-              className={`admin-filter-link${!statusFilter ? " active" : ""}`}
-              href={`/admin/guest-requests?claimed=${claimedFilter}`}
-            >
-              Все статусы
-            </Link>
-            {REQUEST_STATUSES.map((item: RequestStatus) => (
-              <Link
-                className={`admin-filter-link${statusFilter === item ? " active" : ""}`}
-                href={`/admin/guest-requests?claimed=${claimedFilter}&status=${item}`}
-                key={item}
-              >
-                {getRequestStatusLabel(item)}
-              </Link>
-            ))}
-          </div>
-
-          <div className="admin-list">
-            {guestRequests.map((request) => (
-              <article className="admin-list-card" key={request.id}>
-                <div className="admin-list-main">
-                  <div className="request-card-top">
-                    <span className="request-id">Гостевая заявка {request.id}</span>
-                    <span className={`status-badge status-${request.status.toLowerCase()}`}>
-                      {getRequestStatusLabel(request.status)}
-                    </span>
-                    {request.claimedAt ? <span className="status-badge status-completed">Привязана</span> : null}
-                  </div>
-                  <h2>{request.serviceType}</h2>
-                  <div className="admin-list-meta">
-                    <span>{request.name}</span>
-                    <span>{request.phone}</span>
-                    <span>{request.email || "Email не указан"}</span>
-                    <span>Создана {formatDate(request.createdAt)}</span>
-                    <span>{request.claimedAt ? `Привязана ${formatDate(request.claimedAt)}` : "Не привязана"}</span>
-                    <span>
-                      Пользователь: {request.claimedBy ? `${request.claimedBy.name} / ${request.claimedBy.email}` : "нет"}
-                    </span>
-                    <span>
-                      Request ID:{" "}
-                      {request.convertedRequestId ? (
-                        <Link href={`/admin/requests/${request.convertedRequestId}`}>{request.convertedRequestId}</Link>
-                      ) : (
-                        "нет"
-                      )}
-                    </span>
-                    <span>Файлов: {request._count.files}</span>
-                  </div>
-                </div>
-                <Link className="btn btn-outline request-details-link" href={`/admin/guest-requests/${request.id}`}>
-                  Подробнее
-                </Link>
-              </article>
-            ))}
-            {guestRequests.length === 0 ? <div className="requests-empty">Гостевых заявок с такими условиями нет.</div> : null}
-          </div>
+    <div className="admin-container">
+      <div className="admin-heading">
+        <div>
+          <div className="section-label">Админ-панель</div>
+          <h1>Гостевые заявки</h1>
+          <p>Заявки, отправленные без авторизации через страницу контактов.</p>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <div className="admin-filters">
+        <Link className={`admin-filter-link${claimedFilter === "all" ? " active" : ""}`} href={getClaimedHref("all", statusFilter)}>
+          Все
+        </Link>
+        <Link className={`admin-filter-link${claimedFilter === "claimed" ? " active" : ""}`} href={getClaimedHref("claimed", statusFilter)}>
+          Привязанные
+        </Link>
+        <Link className={`admin-filter-link${claimedFilter === "unclaimed" ? " active" : ""}`} href={getClaimedHref("unclaimed", statusFilter)}>
+          Непривязанные
+        </Link>
+      </div>
+
+      <div className="admin-filters">
+        <Link
+          className={`admin-filter-link${!statusFilter ? " active" : ""}`}
+          href={`/admin/guest-requests?claimed=${claimedFilter}`}
+        >
+          Все статусы
+        </Link>
+        {REQUEST_STATUSES.map((item: RequestStatus) => (
+          <Link
+            className={`admin-filter-link${statusFilter === item ? " active" : ""}`}
+            href={`/admin/guest-requests?claimed=${claimedFilter}&status=${item}`}
+            key={item}
+          >
+            {getRequestStatusLabel(item)}
+          </Link>
+        ))}
+      </div>
+
+      <div className="admin-list">
+        {guestRequests.map((request) => (
+          <article className="admin-list-card" key={request.id}>
+            <div className="admin-list-main">
+              <div className="request-card-top">
+                <span className="request-id">Гостевая заявка {request.id}</span>
+                <span className={`status-badge status-${request.status.toLowerCase()}`}>
+                  {getRequestStatusLabel(request.status)}
+                </span>
+                {request.claimedAt ? <span className="status-badge status-completed">Привязана</span> : null}
+              </div>
+              <h2>{request.serviceType}</h2>
+              <div className="admin-list-meta">
+                <span>{request.name}</span>
+                <span>{request.phone}</span>
+                <span>{request.email || "Email не указан"}</span>
+                <span>Создана {formatDate(request.createdAt)}</span>
+                <span>{request.claimedAt ? `Привязана ${formatDate(request.claimedAt)}` : "Не привязана"}</span>
+                <span>
+                  Пользователь: {request.claimedBy ? `${request.claimedBy.name} / ${request.claimedBy.email}` : "нет"}
+                </span>
+                <span>
+                  Request ID:{" "}
+                  {request.convertedRequestId ? (
+                    <Link href={`/admin/requests/${request.convertedRequestId}`}>{request.convertedRequestId}</Link>
+                  ) : (
+                    "нет"
+                  )}
+                </span>
+                <span>Файлов: {request._count.files}</span>
+              </div>
+            </div>
+            <Link className="btn btn-outline request-details-link" href={`/admin/guest-requests/${request.id}`}>
+              Подробнее
+            </Link>
+          </article>
+        ))}
+        {guestRequests.length === 0 ? <div className="requests-empty">Гостевых заявок с такими условиями нет.</div> : null}
+      </div>
+    </div>
   );
 }

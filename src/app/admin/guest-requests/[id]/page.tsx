@@ -66,15 +66,10 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
   }
 
   return (
-    <main>
-      <section className="section admin-page">
-        <div className="admin-container">
+    <div className="admin-container">
           <div className="admin-detail-nav">
             <Link className="btn btn-primary" href="/admin/guest-requests">
               Все гостевые заявки
-            </Link>
-            <Link className="btn btn-outline" href="/admin">
-              Админ-панель
             </Link>
             {request.convertedRequestId ? (
               <Link className="btn btn-outline" href={`/admin/requests/${request.convertedRequestId}`}>
@@ -171,8 +166,6 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
               </div>
             )}
           </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }

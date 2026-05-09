@@ -65,15 +65,10 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
   }
 
   return (
-    <main>
-      <section className="section admin-page">
-        <div className="admin-container">
+    <div className="admin-container">
           <div className="admin-detail-nav">
             <Link className="btn btn-primary" href="/admin/requests">
               Все пользовательские заявки
-            </Link>
-            <Link className="btn btn-outline" href="/admin">
-              Админ-панель
             </Link>
           </div>
 
@@ -157,8 +152,6 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
               </div>
             )}
           </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }
