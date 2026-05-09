@@ -1,9 +1,9 @@
-import Link from "next/link";
 import {
   MarkAllNotificationsReadButton,
-  NotificationReadButton
+  NotificationOpenRequestButton
 } from "@/components/NotificationActions";
 import { requireUser } from "@/lib/auth";
+import { sortNotificationsUnreadFirst } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 
 function formatDateTime(date: Date) {
@@ -16,14 +16,14 @@ function formatDateTime(date: Date) {
 export default async function DashboardNotificationsPage() {
   const user = await requireUser();
 
-  const notifications = await prisma.notification.findMany({
+  const notifications = sortNotificationsUnreadFirst(await prisma.notification.findMany({
     where: {
       userId: user.id
     },
     orderBy: {
       createdAt: "desc"
     }
-  });
+  }));
 
   const hasUnread = notifications.some((notification) => !notification.readAt);
 
@@ -59,11 +59,12 @@ export default async function DashboardNotificationsPage() {
             <p>{notification.message}</p>
             <div className="notification-card-actions">
               {notification.requestId ? (
-                <Link className="btn btn-primary" href={`/dashboard/requests/${notification.requestId}`}>
-                  Открыть заявку
-                </Link>
+                <NotificationOpenRequestButton
+                  isRead={Boolean(notification.readAt)}
+                  notificationId={notification.id}
+                  requestId={notification.requestId}
+                />
               ) : null}
-              {!notification.readAt ? <NotificationReadButton notificationId={notification.id} /> : null}
             </div>
           </article>
         ))}

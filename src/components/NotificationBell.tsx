@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { NotificationOpenRequestButton } from "./NotificationActions";
 
 export type HeaderNotification = {
   id: string;
@@ -116,9 +117,13 @@ export function NotificationBell({ notifications, unreadCount }: NotificationBel
                     {formatDateTime(notification.createdAt)}
                   </time>
                   {notification.requestId ? (
-                    <Link href={`/dashboard/requests/${notification.requestId}`} onClick={() => setIsOpen(false)}>
-                      Открыть заявку
-                    </Link>
+                    <NotificationOpenRequestButton
+                      className="notification-open-request-button"
+                      isRead={Boolean(notification.readAt)}
+                      notificationId={notification.id}
+                      requestId={notification.requestId}
+                      onNavigate={() => setIsOpen(false)}
+                    />
                   ) : null}
                 </article>
               ))}

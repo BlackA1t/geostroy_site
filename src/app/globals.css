@@ -297,16 +297,25 @@ textarea {
 }
 
 .notification-dropdown-item a,
+.notification-open-request-button,
 .notification-dropdown-footer a {
     color: var(--primary);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
     font-size: 0.86rem;
     font-weight: 800;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .notification-dropdown-item a:hover,
+.notification-open-request-button:hover,
+.notification-open-request-button:focus-visible,
 .notification-dropdown-footer a:hover {
     color: var(--light);
+    outline: none;
 }
 
 .notification-dropdown-badge {

@@ -1,5 +1,14 @@
 import { prisma } from "@/lib/prisma";
 
+export type RecentNotification = {
+  id: string;
+  title: string;
+  message: string;
+  readAt: Date | null;
+  createdAt: Date;
+  requestId: string | null;
+};
+
 type CreateNotificationInput = {
   userId: string;
   requestId?: string | null;
@@ -29,23 +38,59 @@ export async function getUnreadNotificationsCount(userId: string) {
   });
 }
 
-export async function getRecentNotifications(userId: string, limit = 5) {
-  return prisma.notification.findMany({
+export async function getRecentNotifications(userId: string, limit = 5): Promise<RecentNotification[]> {
+  const select = {
+    id: true,
+    title: true,
+    message: true,
+    readAt: true,
+    createdAt: true,
+    requestId: true
+  };
+
+  const unreadNotifications = await prisma.notification.findMany({
     where: {
-      userId
+      userId,
+      readAt: null
     },
-    select: {
-      id: true,
-      title: true,
-      message: true,
-      readAt: true,
-      createdAt: true,
-      requestId: true
-    },
+    select,
     orderBy: {
       createdAt: "desc"
     },
     take: limit
+  });
+
+  if (unreadNotifications.length >= limit) {
+    return unreadNotifications;
+  }
+
+  const readNotifications = await prisma.notification.findMany({
+    where: {
+      userId,
+      readAt: {
+        not: null
+      }
+    },
+    select,
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: limit - unreadNotifications.length
+  });
+
+  return [...unreadNotifications, ...readNotifications];
+}
+
+export function sortNotificationsUnreadFirst<
+  T extends {
+    createdAt: Date;
+    readAt: Date | null;
+  }
+>(notifications: T[]) {
+  return [...notifications].sort((first, second) => {
+    if (!first.readAt && second.readAt) return -1;
+    if (first.readAt && !second.readAt) return 1;
+    return second.createdAt.getTime() - first.createdAt.getTime();
   });
 }
 
