@@ -3,7 +3,8 @@ export const NAV_ITEMS = [
   { label: "Станочный парк", href: "/machines" },
   { label: "Услуги", href: "/services" },
   { label: "Портфолио", href: "/portfolio" },
-  { label: "Контакты", href: "/contacts" }
+  { label: "Контакты", href: "/contacts" },
+  { label: "FAQ", href: "/faq" }
 ];
 
 export const PHONE = "8 (831) 304-70-23";
