@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteShell } from "@/components/SiteShell";
 import { getCurrentUser } from "@/lib/auth";
+import { getRecentNotifications, getUnreadNotificationsCount } from "@/lib/notifications";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const currentUser = await getCurrentUser();
+  const [unreadNotificationsCount, recentNotifications] = currentUser
+    ? await Promise.all([getUnreadNotificationsCount(currentUser.id), getRecentNotifications(currentUser.id)])
+    : [0, []];
 
   return (
     <html lang="ru">
@@ -28,7 +32,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <SiteShell currentUserRole={currentUser?.role ?? null} isAuthenticated={Boolean(currentUser)}>
+        <SiteShell
+          currentUserRole={currentUser?.role ?? null}
+          isAuthenticated={Boolean(currentUser)}
+          recentNotifications={recentNotifications}
+          unreadNotificationsCount={unreadNotificationsCount}
+        >
           {children}
         </SiteShell>
       </body>

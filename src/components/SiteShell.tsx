@@ -6,15 +6,24 @@ import { ClientEffects } from "./ClientEffects";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { MobileMenu } from "./MobileMenu";
+import type { HeaderNotification } from "./NotificationBell";
 import { ScrollTopButton } from "./ScrollTopButton";
 
 type SiteShellProps = {
   children: ReactNode;
   currentUserRole: string | null;
   isAuthenticated: boolean;
+  recentNotifications: HeaderNotification[];
+  unreadNotificationsCount: number;
 };
 
-export function SiteShell({ children, currentUserRole, isAuthenticated }: SiteShellProps) {
+export function SiteShell({
+  children,
+  currentUserRole,
+  isAuthenticated,
+  recentNotifications,
+  unreadNotificationsCount
+}: SiteShellProps) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -71,6 +80,8 @@ export function SiteShell({ children, currentUserRole, isAuthenticated }: SiteSh
         isAuthenticated={isAuthenticated}
         isMenuOpen={isMenuOpen}
         isScrolled={isScrolled}
+        recentNotifications={recentNotifications}
+        unreadNotificationsCount={unreadNotificationsCount}
         onToggleMenu={() => setIsMenuOpen((current) => !current)}
       />
       <MobileMenu

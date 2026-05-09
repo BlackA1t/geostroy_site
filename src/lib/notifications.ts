@@ -29,6 +29,26 @@ export async function getUnreadNotificationsCount(userId: string) {
   });
 }
 
+export async function getRecentNotifications(userId: string, limit = 5) {
+  return prisma.notification.findMany({
+    where: {
+      userId
+    },
+    select: {
+      id: true,
+      title: true,
+      message: true,
+      readAt: true,
+      createdAt: true,
+      requestId: true
+    },
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: limit
+  });
+}
+
 export async function markNotificationAsRead(notificationId: string, userId: string) {
   return prisma.notification.updateMany({
     where: {

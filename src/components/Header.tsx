@@ -2,16 +2,27 @@
 
 import Link from "next/link";
 import { NAV_ITEMS, PHONE, PHONE_HREF } from "@/data/nav";
+import { HeaderNotification, NotificationBell } from "./NotificationBell";
 
 type HeaderProps = {
   currentUserRole: string | null;
   isAuthenticated: boolean;
   isMenuOpen: boolean;
   isScrolled: boolean;
+  recentNotifications: HeaderNotification[];
+  unreadNotificationsCount: number;
   onToggleMenu: () => void;
 };
 
-export function Header({ currentUserRole, isAuthenticated, isMenuOpen, isScrolled, onToggleMenu }: HeaderProps) {
+export function Header({
+  currentUserRole,
+  isAuthenticated,
+  isMenuOpen,
+  isScrolled,
+  recentNotifications,
+  unreadNotificationsCount,
+  onToggleMenu
+}: HeaderProps) {
   return (
     <header className={`header${isScrolled ? " scrolled" : ""}`} id="header">
       <div className="header-inner">
@@ -33,7 +44,9 @@ export function Header({ currentUserRole, isAuthenticated, isMenuOpen, isScrolle
           {isAuthenticated ? (
             <>
               <Link href="/dashboard">Личный кабинет</Link>
-              <Link href="/dashboard/notifications">Уведомления</Link>
+              <div className="desktop-notification-bell">
+                <NotificationBell notifications={recentNotifications} unreadCount={unreadNotificationsCount} />
+              </div>
               {currentUserRole === "ADMIN" ? <Link href="/admin">Админ-панель</Link> : null}
             </>
           ) : (
@@ -43,23 +56,28 @@ export function Header({ currentUserRole, isAuthenticated, isMenuOpen, isScrolle
             </>
           )}
         </nav>
-        <div
-          className={`burger${isMenuOpen ? " active" : ""}`}
-          id="burger"
-          aria-label="Открыть меню"
-          role="button"
-          tabIndex={0}
-          onClick={onToggleMenu}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              onToggleMenu();
-            }
-          }}
-        >
-          <span />
-          <span />
-          <span />
+        <div className="mobile-header-actions">
+          {isAuthenticated ? (
+            <NotificationBell notifications={recentNotifications} unreadCount={unreadNotificationsCount} />
+          ) : null}
+          <div
+            className={`burger${isMenuOpen ? " active" : ""}`}
+            id="burger"
+            aria-label="Открыть меню"
+            role="button"
+            tabIndex={0}
+            onClick={onToggleMenu}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onToggleMenu();
+              }
+            }}
+          >
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
       </div>
     </header>
