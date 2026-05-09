@@ -76,8 +76,8 @@ export default async function ServicesPage() {
       <section className="section services-hero" id="services">
         <div className="container">
           <div className="section-header reveal">
-            <div className="section-label">Наши услуги</div>
-            <h2 className="section-title">Услуги</h2>
+            <div className="section-label">Услуги</div>
+            <h2 className="section-title">Наши возможности</h2>
             <p className="section-subtitle">
               Выполняем работы по металлообработке, изготовлению деталей и обработке заготовок по чертежам и
               техническим требованиям заказчика.

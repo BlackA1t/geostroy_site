@@ -4,22 +4,24 @@ export const REQUEST_STATUS_LABELS: Record<RequestStatus, string> = {
   NEW: "Новая",
   IN_PROGRESS: "В работе",
   NEED_INFO: "Требуется уточнение",
-  CALCULATED: "Рассчитана",
   COMPLETED: "Выполнена",
   CANCELLED: "Отменена"
 };
 
 export const REQUEST_STATUSES: RequestStatus[] = [
   "NEW",
-  "IN_PROGRESS",
   "NEED_INFO",
-  "CALCULATED",
+  "IN_PROGRESS",
   "COMPLETED",
   "CANCELLED"
 ];
 
 export function getRequestStatusLabel(status: RequestStatus) {
   return REQUEST_STATUS_LABELS[status];
+}
+
+export function getRequestStatusClassName(status: RequestStatus) {
+  return `status-${status.toLowerCase()}`;
 }
 
 export function isRequestStatus(value: unknown): value is RequestStatus {

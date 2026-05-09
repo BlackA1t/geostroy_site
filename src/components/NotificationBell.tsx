@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { NotificationOpenRequestButton } from "./NotificationActions";
+import { NotificationMessage } from "./NotificationMessage";
 
 export type HeaderNotification = {
   id: string;
   title: string;
+  displayTitle?: string;
   message: string;
   readAt: Date | string | null;
   createdAt: Date | string;
@@ -109,10 +111,10 @@ export function NotificationBell({ notifications, unreadCount }: NotificationBel
               {notifications.map((notification) => (
                 <article className="notification-dropdown-item" key={notification.id}>
                   <div>
-                    <h3>{notification.title}</h3>
+                    <h3>{notification.displayTitle ?? notification.title}</h3>
                     {!notification.readAt ? <span className="notification-dropdown-badge">Новое</span> : null}
                   </div>
-                  <p>{notification.message}</p>
+                  <NotificationMessage message={notification.message} />
                   <time dateTime={new Date(notification.createdAt).toISOString()}>
                     {formatDateTime(notification.createdAt)}
                   </time>

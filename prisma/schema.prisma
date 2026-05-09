@@ -145,7 +145,6 @@ enum RequestStatus {
   NEW
   IN_PROGRESS
   NEED_INFO
-  CALCULATED
   COMPLETED
   CANCELLED
 }

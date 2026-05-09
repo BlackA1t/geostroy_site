@@ -2,7 +2,9 @@ import {
   MarkAllNotificationsReadButton,
   NotificationOpenRequestButton
 } from "@/components/NotificationActions";
+import { NotificationMessage } from "@/components/NotificationMessage";
 import { requireUser } from "@/lib/auth";
+import { formatRequestTitle } from "@/lib/request-number";
 import { sortNotificationsUnreadFirst } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 
@@ -19,6 +21,13 @@ export default async function DashboardNotificationsPage() {
   const notifications = sortNotificationsUnreadFirst(await prisma.notification.findMany({
     where: {
       userId: user.id
+    },
+    include: {
+      request: {
+        select: {
+          requestNumber: true
+        }
+      }
     },
     orderBy: {
       createdAt: "desc"
@@ -47,7 +56,9 @@ export default async function DashboardNotificationsPage() {
           >
             <div className="notification-card-top">
               <div>
-                <h2>{notification.title}</h2>
+                <h2>
+                  {notification.request ? formatRequestTitle(notification.request.requestNumber) : notification.title}
+                </h2>
                 <span>{formatDateTime(notification.createdAt)}</span>
               </div>
               {notification.readAt ? (
@@ -56,7 +67,7 @@ export default async function DashboardNotificationsPage() {
                 <span className="notification-badge">Новое</span>
               )}
             </div>
-            <p>{notification.message}</p>
+            <NotificationMessage message={notification.message} />
             <div className="notification-card-actions">
               {notification.requestId ? (
                 <NotificationOpenRequestButton

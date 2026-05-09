@@ -2907,12 +2907,6 @@ textarea {
     color: #ffd58a;
 }
 
-.status-calculated {
-    border-color: rgba(117, 214, 174, 0.55);
-    background: rgba(117, 214, 174, 0.1);
-    color: #a3f0d0;
-}
-
 .status-completed {
     border-color: rgba(116, 225, 116, 0.55);
     background: rgba(116, 225, 116, 0.1);
@@ -3090,6 +3084,20 @@ textarea {
 .notification-card p {
     color: var(--light-2);
     line-height: 1.7;
+}
+
+.notification-message {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.4rem;
+    align-items: center;
+}
+
+.notification-status-badge {
+    min-height: 26px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+    vertical-align: middle;
 }
 
 .notification-badge {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { createNotification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel, isRequestStatus } from "@/lib/request-status";
 import { createRequestStatusHistory } from "@/lib/status-history";
 
@@ -69,8 +70,8 @@ export async function PATCH(request: Request, { params }: AdminRequestRouteConte
     await createNotification({
       userId: existingRequest.userId,
       requestId: id,
-      title: "Статус заявки изменён",
-      message: `Статус вашей заявки изменён на «${statusLabel}».${comment ? ` Комментарий: ${comment}` : ""}`,
+      title: formatRequestTitle(existingRequest.requestNumber),
+      message: `Статус вашей заявки изменён на ${statusLabel}${comment ? ` Комментарий: ${comment}` : ""}`,
       type: "STATUS_CHANGED"
     });
   }

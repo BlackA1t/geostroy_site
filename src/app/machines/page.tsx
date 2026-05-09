@@ -76,7 +76,7 @@ export default async function MachinesPage() {
         <div className="container">
           <div className="section-header reveal">
             <div className="section-label">Станочный парк</div>
-            <h1 className="section-title">Станочный парк</h1>
+            <h1 className="section-title">Наше оборудование</h1>
             <p className="section-subtitle">
               Оборудование компании позволяет выполнять операции по металлообработке, изготовлению деталей и обработке
               заготовок по требованиям заказчика.

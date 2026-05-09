@@ -1,12 +1,17 @@
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 
 export type RecentNotification = {
   id: string;
   title: string;
+  displayTitle: string;
   message: string;
   readAt: Date | null;
   createdAt: Date;
   requestId: string | null;
+  request: {
+    requestNumber: number;
+  } | null;
 };
 
 type CreateNotificationInput = {
@@ -45,7 +50,12 @@ export async function getRecentNotifications(userId: string, limit = 5): Promise
     message: true,
     readAt: true,
     createdAt: true,
-    requestId: true
+    requestId: true,
+    request: {
+      select: {
+        requestNumber: true
+      }
+    }
   };
 
   const unreadNotifications = await prisma.notification.findMany({
@@ -60,8 +70,15 @@ export async function getRecentNotifications(userId: string, limit = 5): Promise
     take: limit
   });
 
+  const withDisplayTitle = (notification: Omit<RecentNotification, "displayTitle">): RecentNotification => ({
+    ...notification,
+    displayTitle: notification.request
+      ? formatRequestTitle(notification.request.requestNumber)
+      : notification.title
+  });
+
   if (unreadNotifications.length >= limit) {
-    return unreadNotifications;
+    return unreadNotifications.map(withDisplayTitle);
   }
 
   const readNotifications = await prisma.notification.findMany({
@@ -78,7 +95,7 @@ export async function getRecentNotifications(userId: string, limit = 5): Promise
     take: limit - unreadNotifications.length
   });
 
-  return [...unreadNotifications, ...readNotifications];
+  return [...unreadNotifications, ...readNotifications].map(withDisplayTitle);
 }
 
 export function sortNotificationsUnreadFirst<
