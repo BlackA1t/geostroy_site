@@ -33,9 +33,7 @@ export default async function EditRequestPage({ params }: EditRequestPageProps) 
   }
 
   return (
-    <main>
-      <section className="section dashboard-page dashboard-section">
-        <div className="dashboard-wide-card">
+    <div className="dashboard-wide-card">
           <Link className="btn btn-primary dashboard-back-button" href={`/dashboard/requests/${request.id}`}>
             Назад к заявке
           </Link>
@@ -48,8 +46,6 @@ export default async function EditRequestPage({ params }: EditRequestPageProps) 
           </div>
 
           <EditRequestForm request={request} />
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }

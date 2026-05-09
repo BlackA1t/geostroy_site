@@ -46,9 +46,7 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
   }
 
   return (
-    <main>
-      <section className="section dashboard-page dashboard-section">
-        <div className="dashboard-wide-card">
+    <div className="dashboard-wide-card">
           <Link className="btn btn-primary dashboard-back-button" href="/dashboard/requests">
             Мои заявки
           </Link>
@@ -131,8 +129,6 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
               Редактировать заявку
             </Link>
           </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }
