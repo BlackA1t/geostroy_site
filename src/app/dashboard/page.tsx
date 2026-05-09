@@ -37,6 +37,9 @@ export default async function DashboardPage() {
       </div>
 
       <div className="dashboard-actions">
+        <Link className="btn btn-primary" href="/dashboard/profile/edit">
+          Редактировать данные
+        </Link>
         <Link className="btn btn-primary" href="/dashboard/requests">
           Перейти к заявкам
         </Link>

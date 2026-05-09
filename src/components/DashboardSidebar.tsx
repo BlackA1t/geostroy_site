@@ -13,6 +13,11 @@ const DASHBOARD_LINKS = [
     href: "/dashboard/requests",
     label: "Мои заявки",
     exact: false
+  },
+  {
+    href: "/dashboard/notifications",
+    label: "Уведомления",
+    exact: true
   }
 ];
 
@@ -24,7 +29,12 @@ export function DashboardSidebar() {
       <div className="dashboard-sidebar-title">Кабинет</div>
       <nav className="dashboard-sidebar-nav">
         {DASHBOARD_LINKS.map((item) => {
-          const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
+          const isActive =
+            item.href === "/dashboard"
+              ? pathname === item.href || pathname.startsWith("/dashboard/profile")
+              : item.exact
+                ? pathname === item.href
+                : pathname.startsWith(item.href);
 
           return (
             <Link

@@ -1316,6 +1316,14 @@ textarea {
         height: 340px;
         border-radius: 14px;
     }
+
+    .callback-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .callback-form .btn {
+        width: 100%;
+    }
 }
 
 /* Footer */
@@ -1704,6 +1712,52 @@ textarea {
     .clients-logos {
         grid-template-columns: 1fr;
     }
+}
+
+.callback-section {
+    background: var(--dark);
+}
+
+.callback-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    padding: clamp(1.35rem, 4vw, 2.5rem);
+    background: var(--dark-2);
+    border: 1px solid var(--dark-3);
+    border-radius: 16px;
+}
+
+.callback-panel h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+}
+
+.callback-panel p {
+    color: var(--gray);
+    line-height: 1.7;
+}
+
+.callback-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.callback-form .btn {
+    justify-self: start;
+}
+
+.form-success {
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(117, 214, 174, 0.45);
+    border-radius: 8px;
+    background: rgba(117, 214, 174, 0.08);
+    color: #a3f0d0;
+    font-size: 0.92rem;
 }
 
 @media (max-width: 560px) {
@@ -2195,9 +2249,13 @@ textarea {
 
 .dashboard-actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 1rem;
+}
+
+.profile-edit-form {
+    max-width: 640px;
 }
 
 .dashboard-notifications-card {
@@ -2637,7 +2695,7 @@ textarea {
 
 .admin-metrics {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 }
@@ -2734,6 +2792,51 @@ textarea {
     gap: 0.55rem 1rem;
     color: var(--gray);
     font-size: 0.88rem;
+}
+
+.callback-admin-card {
+    align-items: stretch;
+}
+
+.callback-status-control {
+    display: grid;
+    align-content: center;
+    gap: 0.6rem;
+    min-width: 180px;
+}
+
+.callback-status-control select {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    background: var(--dark-2);
+    border: 1px solid var(--dark-4);
+    border-radius: 8px;
+    color: var(--light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.callback-status-control select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.callback-status-new {
+    border-color: rgba(73, 136, 200, 0.65);
+    background: rgba(73, 136, 200, 0.12);
+    color: #9dccff;
+}
+
+.callback-status-contacted {
+    border-color: rgba(116, 225, 116, 0.55);
+    background: rgba(116, 225, 116, 0.1);
+    color: #a8eea8;
+}
+
+.callback-status-cancelled {
+    border-color: rgba(255, 90, 90, 0.55);
+    background: rgba(255, 90, 90, 0.1);
+    color: #ffb4b4;
 }
 
 .admin-detail-nav {

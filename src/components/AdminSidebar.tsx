@@ -20,9 +20,9 @@ const ADMIN_LINKS = [
     exact: false
   },
   {
-    href: "/",
-    label: "На сайт",
-    exact: true
+    href: "/admin/callback-requests",
+    label: "Обратные звонки",
+    exact: false
   }
 ];
 

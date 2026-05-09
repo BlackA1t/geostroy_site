@@ -4,11 +4,18 @@ import { prisma } from "@/lib/prisma";
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [requestCount, activeGuestRequestCount, newRequestCount, newActiveGuestRequestCount] = await Promise.all([
+  const [
+    requestCount,
+    activeGuestRequestCount,
+    newRequestCount,
+    newActiveGuestRequestCount,
+    newCallbackRequestCount
+  ] = await Promise.all([
     prisma.request.count(),
     prisma.guestRequest.count({ where: { claimedAt: null } }),
     prisma.request.count({ where: { status: "NEW" } }),
-    prisma.guestRequest.count({ where: { status: "NEW", claimedAt: null } })
+    prisma.guestRequest.count({ where: { status: "NEW", claimedAt: null } }),
+    prisma.callbackRequest.count({ where: { status: "NEW" } })
   ]);
 
   return (
@@ -37,6 +44,10 @@ export default async function AdminPage() {
         <div className="admin-metric-card">
           <span>Новые активные гостевые</span>
           <strong>{newActiveGuestRequestCount}</strong>
+        </div>
+        <div className="admin-metric-card">
+          <span>Новые обратные звонки</span>
+          <strong>{newCallbackRequestCount}</strong>
         </div>
       </div>
     </div>

@@ -56,7 +56,6 @@ export function Header({
               <div className="desktop-profile-menu">
                 <ProfileMenu isAdmin={isAdmin} userEmail={userEmail} userName={userName} />
               </div>
-              {isAdmin ? <Link href="/admin">Админ-панель</Link> : null}
             </>
           ) : (
             <>

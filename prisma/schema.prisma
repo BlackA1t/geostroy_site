@@ -126,6 +126,15 @@ model Notification {
   createdAt DateTime  @default(now())
 }
 
+model CallbackRequest {
+  id        String         @id @default(cuid())
+  name      String?
+  phone     String
+  status    CallbackStatus @default(NEW)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
 enum Role {
   USER
   ADMIN
@@ -137,5 +146,11 @@ enum RequestStatus {
   NEED_INFO
   CALCULATED
   COMPLETED
+  CANCELLED
+}
+
+enum CallbackStatus {
+  NEW
+  CONTACTED
   CANCELLED
 }

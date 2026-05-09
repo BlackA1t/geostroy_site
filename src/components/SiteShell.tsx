@@ -91,7 +91,6 @@ export function SiteShell({
         onToggleMenu={() => setIsMenuOpen((current) => !current)}
       />
       <MobileMenu
-        currentUserRole={currentUserRole}
         isAuthenticated={isAuthenticated}
         isOpen={isMenuOpen}
         onClose={closeMobileMenu}

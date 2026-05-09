@@ -4,13 +4,12 @@ import Link from "next/link";
 import { NAV_ITEMS, PHONE, PHONE_HREF } from "@/data/nav";
 
 type MobileMenuProps = {
-  currentUserRole: string | null;
   isAuthenticated: boolean;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export function MobileMenu({ currentUserRole, isAuthenticated, isOpen, onClose }: MobileMenuProps) {
+export function MobileMenu({ isAuthenticated, isOpen, onClose }: MobileMenuProps) {
   return (
     <div className={`mobile-menu${isOpen ? " active" : ""}`} id="mobileMenu">
       {NAV_ITEMS.map((item) => (
@@ -21,15 +20,7 @@ export function MobileMenu({ currentUserRole, isAuthenticated, isOpen, onClose }
       <a href={PHONE_HREF} className="mobile-phone" onClick={onClose}>
         {PHONE}
       </a>
-      {isAuthenticated ? (
-        <>
-          {currentUserRole === "ADMIN" ? (
-            <Link href="/admin" onClick={onClose}>
-              Админ-панель
-            </Link>
-          ) : null}
-        </>
-      ) : (
+      {!isAuthenticated ? (
         <>
           <Link href="/login" onClick={onClose}>
             Вход
@@ -38,7 +29,7 @@ export function MobileMenu({ currentUserRole, isAuthenticated, isOpen, onClose }
             Регистрация
           </Link>
         </>
-      )}
+      ) : null}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CallbackForm } from "@/components/CallbackForm";
 
 export const metadata: Metadata = {
   title: "ООО «Геострой» — ЧПУ металлообработка в Сарове",
@@ -188,6 +189,19 @@ export default function HomePage() {
                 <img src="/assets/img/clients/interunis-it.png" alt="Интерюнис-ИТ" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section callback-section">
+        <div className="container">
+          <div className="callback-panel reveal">
+            <div>
+              <div className="section-label">Обратный звонок</div>
+              <h2>Оставьте номер телефона</h2>
+              <p>Мы свяжемся с вами и уточним детали заказа.</p>
+            </div>
+            <CallbackForm />
           </div>
         </div>
       </section>
