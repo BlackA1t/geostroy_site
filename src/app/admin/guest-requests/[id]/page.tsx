@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
@@ -69,6 +69,14 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
 
   if (!request) {
     notFound();
+  }
+
+  if (request.claimedAt) {
+    if (request.convertedRequestId) {
+      redirect(`/admin/requests/${request.convertedRequestId}`);
+    }
+
+    redirect("/admin/guest-requests");
   }
 
   return (
