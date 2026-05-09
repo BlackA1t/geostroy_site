@@ -1201,13 +1201,13 @@ textarea {
     line-height: 1.6;
 }
 
-/* Gallery */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1rem, 2vw, 1.5rem);
 }
 
+/* Gallery */
 .gallery-item {
     position: relative;
     overflow: hidden;
