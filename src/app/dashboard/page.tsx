@@ -58,9 +58,6 @@ export default async function DashboardPage() {
                   : "Новых уведомлений нет"}
               </strong>
             </div>
-            <Link className="btn btn-outline" href="/dashboard/notifications">
-              Открыть уведомления
-            </Link>
           </div>
 
           <LogoutButton />

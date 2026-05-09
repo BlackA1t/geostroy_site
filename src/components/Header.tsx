@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { NAV_ITEMS, PHONE, PHONE_HREF } from "@/data/nav";
 import { HeaderNotification, NotificationBell } from "./NotificationBell";
+import { ProfileMenu } from "./ProfileMenu";
 
 type HeaderProps = {
   currentUserRole: string | null;
@@ -11,6 +12,8 @@ type HeaderProps = {
   isScrolled: boolean;
   recentNotifications: HeaderNotification[];
   unreadNotificationsCount: number;
+  userEmail: string | null;
+  userName: string | null;
   onToggleMenu: () => void;
 };
 
@@ -21,8 +24,12 @@ export function Header({
   isScrolled,
   recentNotifications,
   unreadNotificationsCount,
+  userEmail,
+  userName,
   onToggleMenu
 }: HeaderProps) {
+  const isAdmin = currentUserRole === "ADMIN";
+
   return (
     <header className={`header${isScrolled ? " scrolled" : ""}`} id="header">
       <div className="header-inner">
@@ -43,11 +50,13 @@ export function Header({
           </a>
           {isAuthenticated ? (
             <>
-              <Link href="/dashboard">Личный кабинет</Link>
               <div className="desktop-notification-bell">
                 <NotificationBell notifications={recentNotifications} unreadCount={unreadNotificationsCount} />
               </div>
-              {currentUserRole === "ADMIN" ? <Link href="/admin">Админ-панель</Link> : null}
+              <div className="desktop-profile-menu">
+                <ProfileMenu isAdmin={isAdmin} userEmail={userEmail} userName={userName} />
+              </div>
+              {isAdmin ? <Link href="/admin">Админ-панель</Link> : null}
             </>
           ) : (
             <>
@@ -58,7 +67,10 @@ export function Header({
         </nav>
         <div className="mobile-header-actions">
           {isAuthenticated ? (
-            <NotificationBell notifications={recentNotifications} unreadCount={unreadNotificationsCount} />
+            <>
+              <NotificationBell notifications={recentNotifications} unreadCount={unreadNotificationsCount} />
+              <ProfileMenu isAdmin={isAdmin} userEmail={userEmail} userName={userName} />
+            </>
           ) : null}
           <div
             className={`burger${isMenuOpen ? " active" : ""}`}

@@ -15,6 +15,8 @@ type SiteShellProps = {
   isAuthenticated: boolean;
   recentNotifications: HeaderNotification[];
   unreadNotificationsCount: number;
+  userEmail: string | null;
+  userName: string | null;
 };
 
 export function SiteShell({
@@ -22,7 +24,9 @@ export function SiteShell({
   currentUserRole,
   isAuthenticated,
   recentNotifications,
-  unreadNotificationsCount
+  unreadNotificationsCount,
+  userEmail,
+  userName
 }: SiteShellProps) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,6 +86,8 @@ export function SiteShell({
         isScrolled={isScrolled}
         recentNotifications={recentNotifications}
         unreadNotificationsCount={unreadNotificationsCount}
+        userEmail={userEmail}
+        userName={userName}
         onToggleMenu={() => setIsMenuOpen((current) => !current)}
       />
       <MobileMenu

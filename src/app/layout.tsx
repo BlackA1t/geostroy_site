@@ -37,6 +37,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           isAuthenticated={Boolean(currentUser)}
           recentNotifications={recentNotifications}
           unreadNotificationsCount={unreadNotificationsCount}
+          userEmail={currentUser?.email ?? null}
+          userName={currentUser?.name ?? null}
         >
           {children}
         </SiteShell>
