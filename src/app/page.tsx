@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CallbackForm } from "@/components/CallbackForm";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "ООО «Геострой» — ЧПУ металлообработка в Сарове",
@@ -8,7 +9,18 @@ export const metadata: Metadata = {
     "Фрезерная, токарная и токарно-фрезерная обработка металлических изделий на станках с ЧПУ. Изготовление деталей по чертежам в Сарове."
 };
 
-export default function HomePage() {
+function getRequestHref(isAuthenticated: boolean) {
+  const params = new URLSearchParams({
+    serviceType: "Расчёт стоимости"
+  });
+
+  return isAuthenticated ? `/dashboard/requests/new?${params}` : `/contacts?${params}`;
+}
+
+export default async function HomePage() {
+  const currentUser = await getCurrentUser();
+  const requestHref = getRequestHref(Boolean(currentUser));
+
   return (
     <main>
       <section className="hero">
@@ -199,7 +211,13 @@ export default function HomePage() {
             <div>
               <div className="section-label">Обратный звонок</div>
               <h2>Оставьте номер телефона</h2>
-              <p>Мы свяжемся с вами и уточним детали заказа. Или можете оставить полноценную заявку.</p>
+              <p>
+                Мы свяжемся с вами и уточним детали заказа. Или можете оставить полноценную{" "}
+                <Link className="callback-inline-link" href={requestHref}>
+                  заявку
+                </Link>
+                .
+              </p>
             </div>
             <CallbackForm />
           </div>
