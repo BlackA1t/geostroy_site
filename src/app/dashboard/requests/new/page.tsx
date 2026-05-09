@@ -2,8 +2,16 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { NewRequestForm } from "@/components/NewRequestForm";
 
-export default async function NewRequestPage() {
+type NewRequestPageProps = {
+  searchParams?: Promise<{
+    serviceType?: string;
+  }>;
+};
+
+export default async function NewRequestPage({ searchParams }: NewRequestPageProps) {
   const user = await requireUser();
+  const resolvedSearchParams = await searchParams;
+  const initialServiceType = resolvedSearchParams?.serviceType ?? "";
 
   return (
     <div className="dashboard-wide-card">
@@ -18,7 +26,7 @@ export default async function NewRequestPage() {
         </div>
       </div>
 
-      <NewRequestForm user={user} />
+      <NewRequestForm initialServiceType={initialServiceType} user={user} />
     </div>
   );
 }

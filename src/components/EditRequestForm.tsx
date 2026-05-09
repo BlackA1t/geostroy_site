@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Request, RequestFile } from "@prisma/client";
+import { QuantityInput } from "./QuantityInput";
 
 const ACCEPTED_REQUEST_FILES =
   ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
@@ -61,10 +62,13 @@ export function EditRequestForm({ request }: EditRequestFormProps) {
           <label htmlFor="material">Материал</label>
           <input id="material" name="material" type="text" defaultValue={request.material ?? ""} />
         </div>
-        <div className="form-group">
-          <label htmlFor="quantity">Количество</label>
-          <input id="quantity" name="quantity" type="text" defaultValue={request.quantity ?? ""} />
-        </div>
+        <QuantityInput
+          id="quantity"
+          name="quantity"
+          label="Количество"
+          defaultValue={request.quantity}
+          placeholder="Например, 10"
+        />
       </div>
 
       <div className="form-group">

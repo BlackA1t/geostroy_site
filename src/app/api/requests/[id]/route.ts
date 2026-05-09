@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { normalizeQuantity } from "@/lib/quantity";
 import {
   getUploadedFiles,
   RequestFileValidationError,
@@ -52,14 +53,23 @@ export async function PATCH(request: Request, { params }: RequestRouteContext) {
   const description = String(formData.get("description") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
-  const email = normalizeOptionalString(formData.get("email")) ?? user.email;
+  const email = normalizeOptionalString(formData.get("email"))?.toLowerCase() ?? user.email;
   const material = normalizeOptionalString(formData.get("material"));
-  const quantity = normalizeOptionalString(formData.get("quantity"));
   const files = getUploadedFiles(formData);
+  let quantity: string | null = null;
 
   if (!serviceType || !description || !name || !phone) {
     return NextResponse.json(
       { error: "Заполните тип услуги, описание задачи, имя и телефон." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    quantity = normalizeQuantity(formData.get("quantity"));
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Некорректное количество." },
       { status: 400 }
     );
   }

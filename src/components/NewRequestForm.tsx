@@ -3,15 +3,17 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { SafeUser } from "@/lib/auth";
+import { QuantityInput } from "./QuantityInput";
 
 const ACCEPTED_REQUEST_FILES =
   ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
 
 type NewRequestFormProps = {
+  initialServiceType?: string;
   user: SafeUser;
 };
 
-export function NewRequestForm({ user }: NewRequestFormProps) {
+export function NewRequestForm({ initialServiceType = "", user }: NewRequestFormProps) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +47,14 @@ export function NewRequestForm({ user }: NewRequestFormProps) {
     <form className="request-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="serviceType">Тип услуги</label>
-        <input id="serviceType" name="serviceType" type="text" placeholder="Фрезерная обработка с ЧПУ" required />
+        <input
+          id="serviceType"
+          name="serviceType"
+          type="text"
+          defaultValue={initialServiceType}
+          placeholder="Фрезерная обработка с ЧПУ"
+          required
+        />
       </div>
 
       <div className="form-row">
@@ -53,10 +62,7 @@ export function NewRequestForm({ user }: NewRequestFormProps) {
           <label htmlFor="material">Материал</label>
           <input id="material" name="material" type="text" placeholder="Сталь, алюминий, латунь..." />
         </div>
-        <div className="form-group">
-          <label htmlFor="quantity">Количество</label>
-          <input id="quantity" name="quantity" type="text" placeholder="Например, 10 шт." />
-        </div>
+        <QuantityInput id="quantity" name="quantity" label="Количество" placeholder="Например, 10" />
       </div>
 
       <div className="form-group">

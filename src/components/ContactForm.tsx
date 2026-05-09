@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import { QuantityInput } from "./QuantityInput";
 
 type ContactRequestResult =
   | {
@@ -18,7 +19,11 @@ type ContactRequestResult =
 const ACCEPTED_REQUEST_FILES =
   ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
 
-export function ContactForm() {
+type ContactFormProps = {
+  initialServiceType?: string;
+};
+
+export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [result, setResult] = useState<ContactRequestResult | null>(null);
   const [error, setError] = useState("");
@@ -85,7 +90,13 @@ export function ContactForm() {
 
           <div className="form-group">
             <label>Тип услуги</label>
-            <input name="serviceType" type="text" placeholder="Фрезерная обработка с ЧПУ" required />
+            <input
+              name="serviceType"
+              type="text"
+              defaultValue={initialServiceType}
+              placeholder="Фрезерная обработка с ЧПУ"
+              required
+            />
           </div>
 
           <div className="form-row">
@@ -93,10 +104,7 @@ export function ContactForm() {
               <label>Материал</label>
               <input name="material" type="text" placeholder="Сталь, алюминий, латунь..." />
             </div>
-            <div className="form-group">
-              <label>Количество</label>
-              <input name="quantity" type="text" placeholder="Например, 10 шт." />
-            </div>
+            <QuantityInput id="contact-quantity" name="quantity" label="Количество" placeholder="Например, 10" />
           </div>
 
           <div className="form-group">

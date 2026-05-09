@@ -7,7 +7,16 @@ export const metadata: Metadata = {
     "Контакты ООО «Геострой»: адрес, телефон, email и форма заявки на изготовление металлических изделий по чертежам."
 };
 
-export default function ContactsPage() {
+type ContactsPageProps = {
+  searchParams?: Promise<{
+    serviceType?: string;
+  }>;
+};
+
+export default async function ContactsPage({ searchParams }: ContactsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const initialServiceType = resolvedSearchParams?.serviceType ?? "";
+
   return (
     <main>
       <section className="section contact-page" id="contact">
@@ -63,7 +72,7 @@ export default function ContactsPage() {
               </div>
             </div>
 
-            <ContactForm />
+            <ContactForm initialServiceType={initialServiceType} />
           </div>
         </div>
       </section>

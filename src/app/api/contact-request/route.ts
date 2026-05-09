@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { generateGuestRequestToken, hashGuestRequestToken, setGuestRequestCookie } from "@/lib/guest-request";
 import { prisma } from "@/lib/prisma";
+import { normalizeQuantity } from "@/lib/quantity";
 import {
   getUploadedFiles,
   RequestFileValidationError,
@@ -28,14 +29,23 @@ export async function POST(request: Request) {
   const phone = String(formData.get("phone") ?? "").trim();
   const serviceType = String(formData.get("serviceType") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
-  const email = normalizeOptionalString(formData.get("email"));
+  const email = normalizeOptionalString(formData.get("email"))?.toLowerCase() ?? null;
   const material = normalizeOptionalString(formData.get("material"));
-  const quantity = normalizeOptionalString(formData.get("quantity"));
   const files = getUploadedFiles(formData);
+  let quantity: string | null = null;
 
   if (!name || !phone || !serviceType || !description) {
     return NextResponse.json(
       { error: "Заполните имя, телефон, тип услуги и описание задачи." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    quantity = normalizeQuantity(formData.get("quantity"));
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Некорректное количество." },
       { status: 400 }
     );
   }
