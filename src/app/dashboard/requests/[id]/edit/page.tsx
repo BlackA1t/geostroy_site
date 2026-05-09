@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { EditRequestForm } from "@/components/EditRequestForm";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 
 type EditRequestPageProps = {
   params: Promise<{
@@ -40,7 +41,7 @@ export default async function EditRequestPage({ params }: EditRequestPageProps) 
           <div className="dashboard-heading">
             <div>
               <div className="section-label">Редактирование</div>
-              <h1>Изменить заявку</h1>
+              <h1>Изменить {formatRequestTitle(request.requestNumber)}</h1>
               <p>После сохранения статус заявки будет снова установлен как «Новая».</p>
             </div>
           </div>

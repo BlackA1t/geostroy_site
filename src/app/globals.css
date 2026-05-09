@@ -2730,6 +2730,76 @@ textarea {
     justify-self: center;
 }
 
+.request-search label {
+    color: var(--gray);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.request-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+}
+
+.request-search {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.request-search > div {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.request-search input {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.72rem 0.9rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-4);
+    border-radius: 8px;
+    color: var(--light);
+    font-family: 'Inter', sans-serif;
+}
+
+.request-search input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.request-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.2rem;
+}
+
+.request-filter-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--dark-4);
+    border-radius: 999px;
+    color: var(--light-2);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.request-filter-link:hover,
+.request-filter-link.active {
+    background: rgba(73, 136, 200, 0.12);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 .requests-list {
     display: grid;
     gap: 1rem;
@@ -2756,6 +2826,8 @@ textarea {
 
 .request-id,
 .request-date,
+.request-card-number,
+.request-card-meta,
 .request-detail-grid span,
 .request-description span {
     color: var(--gray);
@@ -2765,11 +2837,24 @@ textarea {
     text-transform: uppercase;
 }
 
+.request-card-number {
+    color: var(--primary);
+    font-weight: 900;
+}
+
 .request-card h2 {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
 }
 
+.request-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.request-card-description,
 .request-card p {
     color: var(--light-2);
     display: -webkit-box;
@@ -3396,6 +3481,18 @@ textarea {
     .request-card {
         grid-template-columns: 1fr;
         flex-direction: column;
+    }
+
+    .request-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .request-search > div {
+        flex-direction: column;
+    }
+
+    .request-search .btn {
+        width: 100%;
     }
 
     .dashboard-layout {

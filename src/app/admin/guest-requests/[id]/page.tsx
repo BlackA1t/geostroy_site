@@ -4,6 +4,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
 type AdminGuestRequestDetailsPageProps = {
@@ -45,6 +46,11 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
           phone: true
         }
       },
+      convertedRequest: {
+        select: {
+          requestNumber: true
+        }
+      },
       statusHistory: {
         orderBy: {
           createdAt: "asc"
@@ -73,7 +79,7 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
             </Link>
             {request.convertedRequestId ? (
               <Link className="btn btn-outline" href={`/admin/requests/${request.convertedRequestId}`}>
-                Открыть Request
+                Открыть {formatRequestTitle(request.convertedRequest?.requestNumber)}
               </Link>
             ) : null}
           </div>
@@ -134,8 +140,10 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
               <strong>{request.claimedBy ? `${request.claimedBy.name} / ${request.claimedBy.email}` : "Нет"}</strong>
             </div>
             <div>
-              <span>Converted Request ID</span>
-              <strong>{request.convertedRequestId || "Нет"}</strong>
+              <span>Обычная заявка</span>
+              <strong>
+                {request.convertedRequestId ? formatRequestTitle(request.convertedRequest?.requestNumber) : "Нет"}
+              </strong>
             </div>
           </div>
 

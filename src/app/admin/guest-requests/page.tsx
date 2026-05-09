@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { RequestStatus } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel, isRequestStatus, REQUEST_STATUSES } from "@/lib/request-status";
 
 type AdminGuestRequestsPageProps = {
@@ -50,6 +51,11 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
         select: {
           name: true,
           email: true
+        }
+      },
+      convertedRequest: {
+        select: {
+          requestNumber: true
         }
       },
       _count: {
@@ -122,9 +128,11 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
                   Пользователь: {request.claimedBy ? `${request.claimedBy.name} / ${request.claimedBy.email}` : "нет"}
                 </span>
                 <span>
-                  Request ID:{" "}
+                  Обычная заявка:{" "}
                   {request.convertedRequestId ? (
-                    <Link href={`/admin/requests/${request.convertedRequestId}`}>{request.convertedRequestId}</Link>
+                    <Link href={`/admin/requests/${request.convertedRequestId}`}>
+                      {formatRequestTitle(request.convertedRequest?.requestNumber)}
+                    </Link>
                   ) : (
                     "нет"
                   )}

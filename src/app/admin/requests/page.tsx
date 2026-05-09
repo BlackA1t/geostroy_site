@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { RequestStatus } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel, isRequestStatus, REQUEST_STATUSES } from "@/lib/request-status";
 
 type AdminRequestsPageProps = {
@@ -67,7 +68,7 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
           <article className="admin-list-card" key={request.id}>
             <div className="admin-list-main">
               <div className="request-card-top">
-                <span className="request-id">Заявка {request.id}</span>
+                <span className="request-id">{formatRequestTitle(request.requestNumber)}</span>
                 <span className={`status-badge status-${request.status.toLowerCase()}`}>
                   {getRequestStatusLabel(request.status)}
                 </span>

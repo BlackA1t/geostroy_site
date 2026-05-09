@@ -4,6 +4,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
 type AdminRequestDetailsPageProps = {
@@ -75,7 +76,7 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
           <div className="request-detail-header">
             <div>
               <div className="section-label">Пользовательская заявка</div>
-              <h1>{request.id}</h1>
+              <h1>{formatRequestTitle(request.requestNumber)}</h1>
             </div>
             <span className={`status-badge status-${request.status.toLowerCase()}`}>
               {getRequestStatusLabel(request.status)}
@@ -118,6 +119,10 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
             <div>
               <span>Дата обновления</span>
               <strong>{formatDateTime(request.updatedAt)}</strong>
+            </div>
+            <div>
+              <span>Внутренний ID</span>
+              <strong>{request.id}</strong>
             </div>
             <div>
               <span>Пользователь</span>

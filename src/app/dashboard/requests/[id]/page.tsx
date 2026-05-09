@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
 type RequestDetailsPageProps = {
@@ -54,7 +55,7 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
           <div className="request-detail-header">
             <div>
               <div className="section-label">Заявка</div>
-              <h1>{request.id}</h1>
+              <h1>{formatRequestTitle(request.requestNumber)}</h1>
             </div>
             <span className={`status-badge status-${request.status.toLowerCase()}`}>
               {getRequestStatusLabel(request.status)}
