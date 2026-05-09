@@ -205,7 +205,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section callback-section">
+      <section className="section callback-section" id="callback">
         <div className="container">
           <div className="callback-panel reveal">
             <div>

@@ -1,4 +1,12 @@
-const FAQ_ITEMS = [
+import Link from "next/link";
+import type { ReactNode } from "react";
+
+type FaqItem = {
+  question: string;
+  answer: ReactNode;
+};
+
+const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Можно ли отправить заявку без регистрации?",
     answer:
@@ -31,8 +39,15 @@ const FAQ_ITEMS = [
   },
   {
     question: "Что делать, если я хочу просто оставить номер телефона?",
-    answer:
-      "На главной странице есть форма обратного звонка. Достаточно оставить номер телефона, и специалист свяжется с вами для уточнения вопроса."
+    answer: (
+      <>
+        На главной странице есть{" "}
+        <Link className="faq-answer-link" href="/#callback">
+          форма обратного звонка
+        </Link>
+        . Достаточно оставить номер телефона, и специалист свяжется с вами для уточнения вопроса.
+      </>
+    )
   }
 ];
 
