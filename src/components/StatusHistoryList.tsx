@@ -26,6 +26,12 @@ function getHistoryKind(item: StatusHistoryItem): ProcessingHistoryItem["kind"] 
   if (item.actorType === "ADMIN" && item.comment?.startsWith("Администратор изменил данные заявки")) {
     return "admin_edit";
   }
+  if (
+    item.comment?.startsWith("Пользователь удалил файл") ||
+    item.comment?.startsWith("Администратор удалил файл")
+  ) {
+    return "file_delete";
+  }
   if (item.oldStatus === item.newStatus && item.comment) return "comment";
   if (item.actorType === "USER") return "user_edit";
   if (item.actorType === "SYSTEM" && item.comment?.includes("Пользователь изменил")) return "user_edit";

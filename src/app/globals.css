@@ -3021,6 +3021,14 @@ textarea {
     min-width: 0;
 }
 
+.request-file-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
 .request-file-item strong {
     display: block;
     overflow-wrap: anywhere;
@@ -3042,6 +3050,44 @@ textarea {
 
 .request-file-item a:hover {
     color: var(--light);
+}
+
+.request-file-delete {
+    display: inline-grid;
+    gap: 0.35rem;
+    justify-items: end;
+}
+
+.file-delete-button {
+    border: 1px solid rgba(255, 90, 90, 0.55);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    background: transparent;
+    color: #ffb4b4;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.file-delete-button:hover,
+.file-delete-button:focus-visible {
+    background: rgba(255, 90, 90, 0.1);
+    border-color: rgba(255, 90, 90, 0.85);
+    color: #ffd1d1;
+    outline: none;
+}
+
+.file-delete-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.request-file-delete-error {
+    color: #ffb4b4;
+    font-size: 0.78rem;
+    text-align: right;
 }
 
 .request-detail-actions {
@@ -3753,6 +3799,14 @@ textarea {
     .request-file-item {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .request-file-actions {
+        justify-content: flex-start;
+    }
+
+    .request-file-delete {
+        justify-items: start;
     }
 
     .admin-heading,

@@ -110,10 +110,24 @@ export async function saveRequestFile(file: File, requestId: string) {
 }
 
 export async function deleteRequestFileFromDisk(fileUrl: string) {
-  if (!fileUrl.startsWith("/uploads/requests/")) return;
+  await deleteUploadedRequestFile(fileUrl);
+}
 
-  const relativePath = fileUrl.replace(/^\/+/, "");
-  const filePath = path.join(process.cwd(), "public", relativePath);
+export async function deleteUploadedRequestFile(filePath: string): Promise<void> {
+  if (!filePath.startsWith("/uploads/requests/")) {
+    throw new RequestFileValidationError("Недопустимый путь к файлу.");
+  }
 
-  await unlink(filePath).catch(() => undefined);
+  const uploadRoot = path.resolve(process.cwd(), "public", "uploads", "requests");
+  const relativePath = filePath.replace(/^\/+/, "");
+  const absoluteFilePath = path.resolve(process.cwd(), "public", relativePath);
+
+  if (absoluteFilePath !== uploadRoot && !absoluteFilePath.startsWith(`${uploadRoot}${path.sep}`)) {
+    throw new RequestFileValidationError("Недопустимый путь к файлу.");
+  }
+
+  await unlink(absoluteFilePath).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === "ENOENT") return;
+    throw error;
+  });
 }

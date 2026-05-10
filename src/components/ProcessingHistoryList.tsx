@@ -1,4 +1,10 @@
-export type ProcessingHistoryKind = "initial" | "status_change" | "comment" | "user_edit" | "admin_edit";
+export type ProcessingHistoryKind =
+  | "initial"
+  | "status_change"
+  | "comment"
+  | "user_edit"
+  | "admin_edit"
+  | "file_delete";
 
 export type ProcessingHistoryItem = {
   id: string;
@@ -46,6 +52,9 @@ function getActionLabel(item: ProcessingHistoryItem) {
   if (item.kind === "comment") return "Комментарий администратора";
   if (item.kind === "user_edit") return "Пользователь изменил заявку";
   if (item.kind === "admin_edit") return "Администратор изменил заявку";
+  if (item.kind === "file_delete") {
+    return item.actorType === "USER" ? "Пользователь удалил файл" : "Администратор удалил файл";
+  }
   return "Статус изменён";
 }
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -116,9 +117,18 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
                       <strong>{file.originalName || file.fileName}</strong>
                       <span>{[file.fileType, file.sizeBytes ? `${Math.ceil(file.sizeBytes / 1024)} KB` : ""].filter(Boolean).join(" · ") || "Файл"}</span>
                     </div>
-                    <a href={file.fileUrl} target="_blank" rel="noreferrer">
-                      Открыть
-                    </a>
+                    <div className="request-file-actions">
+                      <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                        Открыть
+                      </a>
+                      <DeleteRequestFileButton
+                        entityId={request.id}
+                        entityType="request"
+                        fileId={file.id}
+                        fileName={file.originalName || file.fileName}
+                        mode="user"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

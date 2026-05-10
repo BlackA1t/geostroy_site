@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminRequestEditForm } from "@/components/AdminRequestEditForm";
 import { AdminStatusSelect } from "@/components/AdminStatusSelect";
+import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -164,9 +165,18 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
                         {[file.fileType, formatFileSize(file.sizeBytes)].filter(Boolean).join(" · ") || "Файл"}
                       </span>
                     </div>
-                    <a href={file.fileUrl} target="_blank" rel="noreferrer">
-                      Открыть
-                    </a>
+                    <div className="request-file-actions">
+                      <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                        Открыть
+                      </a>
+                      <DeleteRequestFileButton
+                        entityId={request.id}
+                        entityType="request"
+                        fileId={file.id}
+                        fileName={file.originalName || file.fileName}
+                        mode="admin"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
