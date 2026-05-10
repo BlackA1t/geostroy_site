@@ -2694,6 +2694,14 @@ textarea {
     max-width: 640px;
 }
 
+.change-password-form {
+    max-width: 560px;
+}
+
+.change-password-form .form-success {
+    margin-bottom: 1rem;
+}
+
 .dashboard-notifications-card {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

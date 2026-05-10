@@ -36,6 +36,9 @@ export default async function DashboardPage() {
         <Link className="btn btn-primary" href="/dashboard/profile/edit">
           Редактировать данные
         </Link>
+        <Link className="btn btn-outline" href="/dashboard/profile/security">
+          Сменить пароль
+        </Link>
       </div>
 
       <LogoutButton />
