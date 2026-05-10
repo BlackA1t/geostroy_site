@@ -104,7 +104,7 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
 
           <AdminStatusSelect currentStatus={request.status} endpoint={`/api/admin/guest-requests/${request.id}`} />
 
-          <StatusHistoryList title="История статусов" items={request.statusHistory} showActorDetails />
+          <StatusHistoryList title="История обработки" items={request.statusHistory} showActorDetails />
 
           <div className="request-detail-grid admin-detail-grid">
             <div>

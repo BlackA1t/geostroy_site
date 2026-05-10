@@ -1,5 +1,6 @@
 import type { RequestStatus } from "@prisma/client";
-import { getStatusHistoryLabel } from "@/lib/status-history";
+import { getRequestStatusClassName, getRequestStatusLabel } from "@/lib/request-status";
+import { ProcessingHistoryList, type ProcessingHistoryItem } from "./ProcessingHistoryList";
 
 type StatusHistoryItem = {
   id: string;
@@ -20,37 +21,31 @@ type StatusHistoryListProps = {
   showActorDetails?: boolean;
 };
 
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("ru-RU", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  }).format(date);
+function getHistoryKind(item: StatusHistoryItem): ProcessingHistoryItem["kind"] {
+  if (!item.oldStatus) return "initial";
+  if (item.oldStatus === item.newStatus && item.comment) return "comment";
+  if (item.actorType === "USER") return "user_edit";
+  if (item.actorType === "SYSTEM" && item.comment?.includes("Пользователь изменил")) return "user_edit";
+  if (item.actorType === "ADMIN") return "status_change";
+  return "status_change";
+}
+
+function mapStatusHistoryItem(item: StatusHistoryItem, showActorDetails: boolean): ProcessingHistoryItem {
+  return {
+    id: item.id,
+    createdAt: item.createdAt,
+    actorName: showActorDetails ? item.changedBy?.name : null,
+    actorEmail: showActorDetails ? item.changedBy?.email : null,
+    actorType: item.actorType,
+    oldStatusLabel: item.oldStatus ? getRequestStatusLabel(item.oldStatus) : null,
+    oldStatusClassName: item.oldStatus ? getRequestStatusClassName(item.oldStatus) : null,
+    newStatusLabel: getRequestStatusLabel(item.newStatus),
+    newStatusClassName: getRequestStatusClassName(item.newStatus),
+    comment: item.comment,
+    kind: getHistoryKind(item)
+  };
 }
 
 export function StatusHistoryList({ title, items, showActorDetails = false }: StatusHistoryListProps) {
-  return (
-    <section className="status-history-panel">
-      <h2>{title}</h2>
-      {items.length === 0 ? (
-        <p>История пока пуста.</p>
-      ) : (
-        <div className="status-history-list">
-          {items.map((item) => (
-            <article className="status-history-item" key={item.id}>
-              <div className="status-history-top">
-                <strong>{getStatusHistoryLabel(item.oldStatus, item.newStatus)}</strong>
-                <span>{formatDateTime(item.createdAt)}</span>
-              </div>
-              {showActorDetails ? (
-                <div className="status-history-actor">
-                  {item.changedBy ? `${item.changedBy.name} / ${item.changedBy.email}` : item.actorType} · {item.actorType}
-                </div>
-              ) : null}
-              {item.comment ? <p>{item.comment}</p> : null}
-            </article>
-          ))}
-        </div>
-      )}
-    </section>
-  );
+  return <ProcessingHistoryList title={title} items={items.map((item) => mapStatusHistoryItem(item, showActorDetails))} />;
 }

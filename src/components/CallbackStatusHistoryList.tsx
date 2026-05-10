@@ -1,5 +1,6 @@
 import type { CallbackStatus } from "@prisma/client";
 import { getCallbackStatusClassName, getCallbackStatusLabel } from "@/lib/callback-status";
+import { ProcessingHistoryList, type ProcessingHistoryItem } from "./ProcessingHistoryList";
 
 type CallbackStatusHistoryItem = {
   id: string;
@@ -17,63 +18,28 @@ type CallbackStatusHistoryListProps = {
   items: CallbackStatusHistoryItem[];
 };
 
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("ru-RU", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  }).format(date);
+function getHistoryKind(item: CallbackStatusHistoryItem): ProcessingHistoryItem["kind"] {
+  if (!item.oldStatus) return "initial";
+  if (item.oldStatus === item.newStatus && item.comment) return "comment";
+  return "status_change";
 }
 
-function StatusBadge({ status }: { status: CallbackStatus }) {
-  return (
-    <span className={`status-badge ${getCallbackStatusClassName(status)}`}>
-      {getCallbackStatusLabel(status)}
-    </span>
-  );
+function mapCallbackHistoryItem(item: CallbackStatusHistoryItem): ProcessingHistoryItem {
+  return {
+    id: item.id,
+    createdAt: item.createdAt,
+    actorName: item.changedBy?.name,
+    actorEmail: item.changedBy?.email,
+    actorType: item.changedBy ? "ADMIN" : "SYSTEM",
+    oldStatusLabel: item.oldStatus ? getCallbackStatusLabel(item.oldStatus) : null,
+    oldStatusClassName: item.oldStatus ? getCallbackStatusClassName(item.oldStatus) : null,
+    newStatusLabel: getCallbackStatusLabel(item.newStatus),
+    newStatusClassName: getCallbackStatusClassName(item.newStatus),
+    comment: item.comment,
+    kind: getHistoryKind(item)
+  };
 }
 
 export function CallbackStatusHistoryList({ items }: CallbackStatusHistoryListProps) {
-  return (
-    <div className="status-history-panel">
-      <h2>История обработки</h2>
-      {items.length === 0 ? (
-        <p>История обработки пока отсутствует.</p>
-      ) : (
-        <div className="status-history-list">
-          {items.map((item) => {
-            const actor = item.changedBy ? `${item.changedBy.name} / ${item.changedBy.email}` : "Система";
-            const isCommentOnly = item.oldStatus === item.newStatus && Boolean(item.comment);
-
-            return (
-              <article className="status-history-item" key={item.id}>
-                <div className="status-history-top">
-                  <strong>
-                    {!item.oldStatus
-                      ? "Начальный статус"
-                      : isCommentOnly
-                        ? "Комментарий администратора"
-                        : "Статус изменён"}
-                  </strong>
-                  <span>{formatDateTime(item.createdAt)}</span>
-                </div>
-
-                <div className="status-history-statuses">
-                  {item.oldStatus && !isCommentOnly ? (
-                    <>
-                      <StatusBadge status={item.oldStatus} />
-                      <span>→</span>
-                    </>
-                  ) : null}
-                  <StatusBadge status={item.newStatus} />
-                </div>
-
-                <div className="status-history-actor">Кто изменил: {actor}</div>
-                {item.comment ? <p>{item.comment}</p> : null}
-              </article>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
+  return <ProcessingHistoryList title="История обработки" items={items.map(mapCallbackHistoryItem)} />;
 }
