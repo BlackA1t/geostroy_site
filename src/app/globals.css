@@ -3515,6 +3515,13 @@ textarea {
     white-space: pre-wrap;
 }
 
+.status-history-statuses {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
 @media (max-width: 768px) {
     .dashboard-heading,
     .request-detail-header,

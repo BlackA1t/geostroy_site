@@ -23,7 +23,13 @@ export async function POST(request: Request) {
     data: {
       name,
       phone,
-      status: "NEW"
+      status: "NEW",
+      statusHistory: {
+        create: {
+          oldStatus: null,
+          newStatus: "NEW"
+        }
+      }
     }
   });
 

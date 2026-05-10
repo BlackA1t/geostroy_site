@@ -1,12 +1,17 @@
 import Link from "next/link";
-import type { CallbackStatus } from "@prisma/client";
-import { AdminCallbackStatusSelect } from "@/components/AdminCallbackStatusSelect";
+import type { CallbackStatus, Prisma } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
-import { CALLBACK_STATUSES, getCallbackStatusLabel, isCallbackStatus } from "@/lib/callback-status";
+import {
+  CALLBACK_STATUS_OPTIONS,
+  getCallbackStatusClassName,
+  getCallbackStatusLabel,
+  isCallbackStatus
+} from "@/lib/callback-status";
 import { prisma } from "@/lib/prisma";
 
 type AdminCallbackRequestsPageProps = {
   searchParams: Promise<{
+    q?: string;
     status?: string;
   }>;
 };
@@ -18,15 +23,50 @@ function formatDateTime(date: Date) {
   }).format(date);
 }
 
+function getStatusHref(status: CallbackStatus | undefined, q: string) {
+  const params = new URLSearchParams();
+  if (status) params.set("status", status);
+  if (q) params.set("q", q);
+  const query = params.toString();
+  return query ? `/admin/callback-requests?${query}` : "/admin/callback-requests";
+}
+
 export default async function AdminCallbackRequestsPage({ searchParams }: AdminCallbackRequestsPageProps) {
   await requireAdmin();
-  const { status } = await searchParams;
+  const { q: rawQ, status } = await searchParams;
   const statusFilter = isCallbackStatus(status) ? status : null;
+  const q = String(rawQ ?? "").trim();
+
+  const where: Prisma.CallbackRequestWhereInput = {
+    ...(statusFilter ? { status: statusFilter } : {}),
+    ...(q
+      ? {
+          OR: [
+            { id: { contains: q, mode: "insensitive" } },
+            { name: { contains: q, mode: "insensitive" } },
+            { phone: { contains: q, mode: "insensitive" } }
+          ]
+        }
+      : {})
+  };
 
   const callbackRequests = await prisma.callbackRequest.findMany({
-    where: statusFilter ? { status: statusFilter } : undefined,
+    where,
     orderBy: {
       createdAt: "desc"
+    },
+    include: {
+      statusHistory: {
+        where: {
+          comment: {
+            not: null
+          }
+        },
+        orderBy: {
+          createdAt: "desc"
+        },
+        take: 1
+      }
     }
   });
 
@@ -40,17 +80,36 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
         </div>
       </div>
 
+      <div className="request-toolbar">
+        <form className="request-search" action="/admin/callback-requests">
+          {statusFilter ? <input name="status" type="hidden" value={statusFilter} /> : null}
+          <label htmlFor="admin-callback-search">Поиск</label>
+          <div>
+            <input
+              id="admin-callback-search"
+              name="q"
+              type="search"
+              defaultValue={q}
+              placeholder="Телефон, имя или внутренний ID"
+            />
+            <button className="btn btn-primary" type="submit">
+              Найти
+            </button>
+          </div>
+        </form>
+      </div>
+
       <div className="admin-filters">
-        <Link className={`admin-filter-link${!statusFilter ? " active" : ""}`} href="/admin/callback-requests">
+        <Link className={`admin-filter-link${!statusFilter ? " active" : ""}`} href={getStatusHref(undefined, q)}>
           Все
         </Link>
-        {CALLBACK_STATUSES.map((item: CallbackStatus) => (
+        {CALLBACK_STATUS_OPTIONS.map((item) => (
           <Link
-            className={`admin-filter-link${statusFilter === item ? " active" : ""}`}
-            href={`/admin/callback-requests?status=${item}`}
-            key={item}
+            className={`admin-filter-link${statusFilter === item.value ? " active" : ""}`}
+            href={getStatusHref(item.value, q)}
+            key={item.value}
           >
-            {getCallbackStatusLabel(item)}
+            {item.label}
           </Link>
         ))}
       </div>
@@ -60,8 +119,8 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
           <article className="admin-list-card callback-admin-card" key={item.id}>
             <div className="admin-list-main">
               <div className="request-card-top">
-                <span className="request-id">Обратный звонок {item.id}</span>
-                <span className={`status-badge callback-status-${item.status.toLowerCase()}`}>
+                <span className="request-id">Обратный звонок</span>
+                <span className={`status-badge ${getCallbackStatusClassName(item.status)}`}>
                   {getCallbackStatusLabel(item.status)}
                 </span>
               </div>
@@ -69,13 +128,26 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
               <div className="admin-list-meta">
                 <span>Имя: {item.name || "не указано"}</span>
                 <span>Создана {formatDateTime(item.createdAt)}</span>
+                <span>Обновлена {formatDateTime(item.updatedAt)}</span>
+                {item.statusHistory[0]?.comment ? (
+                  <span>Последний комментарий: {item.statusHistory[0].comment}</span>
+                ) : null}
               </div>
             </div>
-            <AdminCallbackStatusSelect callbackRequestId={item.id} currentStatus={item.status} />
+            <Link className="btn btn-outline request-details-link" href={`/admin/callback-requests/${item.id}`}>
+              Открыть
+            </Link>
           </article>
         ))}
         {callbackRequests.length === 0 ? (
-          <div className="requests-empty">Обратных звонков с такими условиями нет.</div>
+          <div className="requests-empty">
+            <h2>Обратные звонки не найдены</h2>
+            <p>
+              {q || statusFilter
+                ? "Попробуйте изменить параметры поиска или фильтра."
+                : "Заявок на обратный звонок пока нет."}
+            </p>
+          </div>
         ) : null}
       </div>
     </div>

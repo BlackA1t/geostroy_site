@@ -59,7 +59,7 @@ export function AdminStatusSelect({ currentStatus, endpoint }: AdminStatusSelect
           </option>
         ))}
       </select>
-      <label htmlFor="admin-status-comment">Комментарий администратора</label>
+      <label htmlFor="admin-status-comment">Комментарий администратора (виден пользователю)</label>
       <textarea
         id="admin-status-comment"
         value={comment}
