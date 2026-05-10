@@ -45,7 +45,7 @@ function getActionLabel(item: ProcessingHistoryItem) {
   if (item.kind === "initial") return "Начальный статус";
   if (item.kind === "comment") return "Комментарий администратора";
   if (item.kind === "user_edit") return "Пользователь изменил заявку";
-  if (item.kind === "admin_edit") return "Администратор изменил обращение";
+  if (item.kind === "admin_edit") return "Администратор изменил заявку";
   return "Статус изменён";
 }
 
@@ -71,7 +71,9 @@ export function ProcessingHistoryList({ title, items }: ProcessingHistoryListPro
                 <span className="processing-history-actor">Кто изменил: {getActorLabel(item)}</span>
               </div>
               <div className="processing-history-statuses">
-                {item.oldStatusLabel && item.oldStatusClassName && item.kind !== "comment" ? (
+                {item.oldStatusLabel &&
+                item.oldStatusClassName &&
+                (item.kind === "status_change" || item.kind === "user_edit") ? (
                   <>
                     <StatusBadge className={item.oldStatusClassName} label={item.oldStatusLabel} />
                     <span>→</span>

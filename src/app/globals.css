@@ -3457,6 +3457,28 @@ textarea {
     font-size: 0.85rem;
 }
 
+.admin-edit-panel {
+    display: grid;
+    gap: 1rem;
+    margin: 1.2rem 0;
+    padding: 1rem;
+    background: var(--dark);
+    border: 1px solid var(--dark-3);
+    border-radius: 12px;
+}
+
+.admin-edit-panel h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-request-edit-form {
+    display: grid;
+    gap: 1rem;
+}
+
 .status-history-panel {
     display: grid;
     gap: 1rem;

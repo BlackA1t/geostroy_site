@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdminRequestEditForm } from "@/components/AdminRequestEditForm";
 import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
@@ -86,6 +87,20 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
           <AdminStatusSelect currentStatus={request.status} endpoint={`/api/admin/requests/${request.id}`} />
 
           <StatusHistoryList title="История обработки" items={request.statusHistory} showActorDetails />
+
+          <AdminRequestEditForm
+            type="request"
+            id={request.id}
+            initialValues={{
+              serviceType: request.serviceType,
+              material: request.material,
+              quantity: request.quantity,
+              description: request.description,
+              name: request.name,
+              phone: request.phone,
+              email: request.email
+            }}
+          />
 
           <div className="request-detail-grid admin-detail-grid">
             <div>

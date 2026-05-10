@@ -23,6 +23,9 @@ type StatusHistoryListProps = {
 
 function getHistoryKind(item: StatusHistoryItem): ProcessingHistoryItem["kind"] {
   if (!item.oldStatus) return "initial";
+  if (item.actorType === "ADMIN" && item.comment?.startsWith("Администратор изменил данные заявки")) {
+    return "admin_edit";
+  }
   if (item.oldStatus === item.newStatus && item.comment) return "comment";
   if (item.actorType === "USER") return "user_edit";
   if (item.actorType === "SYSTEM" && item.comment?.includes("Пользователь изменил")) return "user_edit";
