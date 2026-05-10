@@ -3225,18 +3225,34 @@ textarea {
 
 .admin-metrics {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 }
 
 .admin-metric-card {
     display: grid;
-    gap: 0.5rem;
+    grid-template-rows: minmax(2.6rem, auto) auto 1fr;
+    gap: 0.8rem;
     padding: 1.2rem;
     background: var(--dark);
     border: 1px solid var(--dark-3);
     border-radius: 12px;
+}
+
+.admin-overview-card {
+    min-height: 190px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+}
+
+.admin-overview-card:hover,
+.admin-overview-card:focus-visible {
+    background: rgba(73, 136, 200, 0.08);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    outline: none;
 }
 
 .admin-metric-card span {
@@ -3244,6 +3260,7 @@ textarea {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 1px;
+    line-height: 1.35;
     text-transform: uppercase;
 }
 
@@ -3252,6 +3269,12 @@ textarea {
     color: var(--primary);
     font-size: 2.2rem;
     line-height: 1;
+}
+
+.admin-metric-card p {
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
 }
 
 .admin-actions,

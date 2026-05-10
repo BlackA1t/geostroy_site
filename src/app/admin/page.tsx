@@ -1,22 +1,36 @@
+import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [
-    requestCount,
-    activeGuestRequestCount,
-    newRequestCount,
-    newActiveGuestRequestCount,
-    newCallbackRequestCount
-  ] = await Promise.all([
-    prisma.request.count(),
-    prisma.guestRequest.count({ where: { claimedAt: null } }),
+  const [newRequestCount, newActiveGuestRequestCount, newCallbackRequestCount] = await Promise.all([
     prisma.request.count({ where: { status: "NEW" } }),
     prisma.guestRequest.count({ where: { status: "NEW", claimedAt: null } }),
     prisma.callbackRequest.count({ where: { status: "NEW" } })
   ]);
+
+  const overviewCards = [
+    {
+      title: "Новые пользовательские заявки",
+      count: newRequestCount,
+      description: "Заявки зарегистрированных пользователей",
+      href: "/admin/requests?status=NEW"
+    },
+    {
+      title: "Новые гостевые заявки",
+      count: newActiveGuestRequestCount,
+      description: "Заявки, отправленные без регистрации",
+      href: "/admin/guest-requests?status=NEW"
+    },
+    {
+      title: "Новые обратные звонки",
+      count: newCallbackRequestCount,
+      description: "Клиенты, которые оставили номер телефона",
+      href: "/admin/callback-requests?status=NEW"
+    }
+  ];
 
   return (
     <div className="admin-container">
@@ -24,31 +38,18 @@ export default async function AdminPage() {
         <div>
           <div className="section-label">Админ-панель</div>
           <h1>Обработка заявок</h1>
-          <p>Сводка по пользовательским и гостевым заявкам.</p>
+          <p>Быстрый обзор новых обращений, которые требуют обработки.</p>
         </div>
       </div>
 
       <div className="admin-metrics">
-        <div className="admin-metric-card">
-          <span>Пользовательские заявки</span>
-          <strong>{requestCount}</strong>
-        </div>
-        <div className="admin-metric-card">
-          <span>Активные гостевые заявки</span>
-          <strong>{activeGuestRequestCount}</strong>
-        </div>
-        <div className="admin-metric-card">
-          <span>Новые пользовательские</span>
-          <strong>{newRequestCount}</strong>
-        </div>
-        <div className="admin-metric-card">
-          <span>Новые активные гостевые</span>
-          <strong>{newActiveGuestRequestCount}</strong>
-        </div>
-        <div className="admin-metric-card">
-          <span>Новые обратные звонки</span>
-          <strong>{newCallbackRequestCount}</strong>
-        </div>
+        {overviewCards.map((card) => (
+          <Link className="admin-metric-card admin-overview-card" href={card.href} key={card.title}>
+            <span>{card.title}</span>
+            <strong>{card.count}</strong>
+            <p>{card.description}</p>
+          </Link>
+        ))}
       </div>
     </div>
   );

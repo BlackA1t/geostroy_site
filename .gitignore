@@ -7,6 +7,7 @@ out/
 .env
 .env*.local
 public/uploads/
+geostroy_context.md
 
 # Firebase / static demo deploy
 out/
