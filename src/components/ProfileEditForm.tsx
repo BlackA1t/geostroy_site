@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import type { SafeUser } from "@/lib/auth";
+import { validateOptionalPhone } from "@/lib/contact-validation";
 
 type ProfileEditFormProps = {
   user: SafeUser;
@@ -20,6 +21,13 @@ export function ProfileEditForm({ user }: ProfileEditFormProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    const phoneError = validateOptionalPhone(phone);
+    if (phoneError) {
+      setError(phoneError);
+      return;
+    }
+
     setIsSaving(true);
 
     const response = await fetch("/api/user/profile", {

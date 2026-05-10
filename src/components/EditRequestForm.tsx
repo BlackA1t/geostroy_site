@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Request, RequestFile } from "@prisma/client";
+import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
 
 const ACCEPTED_REQUEST_FILES =
@@ -28,9 +29,16 @@ export function EditRequestForm({ request }: EditRequestFormProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
+    const phoneError = validatePhone(String(formData.get("phone") ?? ""));
+
+    if (phoneError) {
+      setError(phoneError);
+      return;
+    }
+
+    setIsLoading(true);
 
     const response = await fetch(`/api/requests/${request.id}`, {
       method: "PATCH",

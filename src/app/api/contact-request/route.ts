@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { validatePhone } from "@/lib/contact-validation";
 import { generateGuestRequestToken, hashGuestRequestToken, setGuestRequestCookie } from "@/lib/guest-request";
 import { prisma } from "@/lib/prisma";
 import { normalizeQuantity } from "@/lib/quantity";
@@ -39,6 +40,11 @@ export async function POST(request: Request) {
       { error: "Заполните имя, телефон, тип услуги и описание задачи." },
       { status: 400 }
     );
+  }
+
+  const phoneError = validatePhone(phone);
+  if (phoneError) {
+    return NextResponse.json({ error: phoneError }, { status: 400 });
   }
 
   try {

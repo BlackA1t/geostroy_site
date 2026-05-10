@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { validatePhone } from "@/lib/contact-validation";
 
 export function CallbackForm() {
   const [name, setName] = useState("");
@@ -14,6 +15,13 @@ export function CallbackForm() {
     event.preventDefault();
     setError("");
     setSuccess("");
+
+    const phoneError = validatePhone(phone);
+    if (phoneError) {
+      setError(phoneError);
+      return;
+    }
+
     setIsSubmitting(true);
 
     const response = await fetch("/api/callback-request", {

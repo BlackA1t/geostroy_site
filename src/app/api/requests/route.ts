@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { validatePhone } from "@/lib/contact-validation";
 import { prisma } from "@/lib/prisma";
 import { normalizeQuantity } from "@/lib/quantity";
 import {
@@ -44,6 +45,11 @@ export async function POST(request: Request) {
       { error: "Заполните тип услуги, описание задачи, имя и телефон." },
       { status: 400 }
     );
+  }
+
+  const phoneError = validatePhone(phone);
+  if (phoneError) {
+    return NextResponse.json({ error: phoneError }, { status: 400 });
   }
 
   try {

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { validateOptionalPhone } from "@/lib/contact-validation";
 import { prisma } from "@/lib/prisma";
 
 function normalizeOptionalString(value: unknown) {
@@ -29,6 +30,11 @@ export async function PATCH(request: Request) {
 
   if (!isEmail(email)) {
     return NextResponse.json({ error: "Укажите корректный email." }, { status: 400 });
+  }
+
+  const phoneError = validateOptionalPhone(phone);
+  if (phoneError) {
+    return NextResponse.json({ error: phoneError }, { status: 400 });
   }
 
   if (email !== user.email) {

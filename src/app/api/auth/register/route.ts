@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { createSession, setSessionCookie } from "@/lib/session";
 import { claimGuestRequestsForUser } from "@/lib/guest-request";
+import { validateOptionalPhone } from "@/lib/contact-validation";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,6 +27,11 @@ export async function POST(request: Request) {
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Введите корректный email." }, { status: 400 });
+  }
+
+  const phoneError = validateOptionalPhone(phone);
+  if (phoneError) {
+    return NextResponse.json({ error: phoneError }, { status: 400 });
   }
 
   if (password.length < 8) {

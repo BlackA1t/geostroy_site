@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
 
 type ContactRequestResult =
@@ -34,10 +35,17 @@ export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
-    setIsSubmitting(true);
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const phoneError = validatePhone(String(formData.get("phone") ?? ""));
+
+    if (phoneError) {
+      setError(phoneError);
+      return;
+    }
+
+    setIsSubmitting(true);
 
     const response = await fetch("/api/contact-request", {
       method: "POST",

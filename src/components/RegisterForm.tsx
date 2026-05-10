@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { validateOptionalPhone } from "@/lib/contact-validation";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -12,9 +13,16 @@ export function RegisterForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
+    const phoneError = validateOptionalPhone(String(formData.get("phone") ?? ""));
+
+    if (phoneError) {
+      setError(phoneError);
+      return;
+    }
+
+    setIsLoading(true);
 
     const response = await fetch("/api/auth/register", {
       method: "POST",
