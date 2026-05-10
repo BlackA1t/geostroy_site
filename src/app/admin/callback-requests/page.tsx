@@ -8,6 +8,7 @@ import {
   isCallbackStatus
 } from "@/lib/callback-status";
 import { prisma } from "@/lib/prisma";
+import { formatCallbackRequestTitle, parseRequestNumberSearch } from "@/lib/request-number";
 
 type AdminCallbackRequestsPageProps = {
   searchParams: Promise<{
@@ -36,6 +37,7 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
   const { q: rawQ, status } = await searchParams;
   const statusFilter = isCallbackStatus(status) ? status : null;
   const q = String(rawQ ?? "").trim();
+  const callbackRequestNumberSearch = parseRequestNumberSearch(q);
 
   const where: Prisma.CallbackRequestWhereInput = {
     ...(statusFilter ? { status: statusFilter } : {}),
@@ -44,7 +46,8 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
           OR: [
             { id: { contains: q, mode: "insensitive" } },
             { name: { contains: q, mode: "insensitive" } },
-            { phone: { contains: q, mode: "insensitive" } }
+            { phone: { contains: q, mode: "insensitive" } },
+            ...(callbackRequestNumberSearch ? [{ callbackRequestNumber: callbackRequestNumberSearch }] : [])
           ]
         }
       : {})
@@ -90,7 +93,7 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
               name="q"
               type="search"
               defaultValue={q}
-              placeholder="Телефон, имя или внутренний ID"
+              placeholder="№ звонка, телефон, имя или внутренний ID"
             />
             <button className="btn btn-primary" type="submit">
               Найти
@@ -119,7 +122,7 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
           <article className="admin-list-card callback-admin-card" key={item.id}>
             <div className="admin-list-main">
               <div className="request-card-top">
-                <span className="request-id">Обратный звонок</span>
+                <span className="request-id">{formatCallbackRequestTitle(item.callbackRequestNumber)}</span>
                 <span className={`status-badge ${getCallbackStatusClassName(item.status)}`}>
                   {getCallbackStatusLabel(item.status)}
                 </span>

@@ -4,7 +4,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { formatRequestTitle } from "@/lib/request-number";
+import { formatGuestRequestTitle, formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
 type AdminGuestRequestDetailsPageProps = {
@@ -95,7 +95,7 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
           <div className="request-detail-header">
             <div>
               <div className="section-label">Гостевая заявка</div>
-              <h1>{request.id}</h1>
+              <h1>{formatGuestRequestTitle(request.guestRequestNumber)}</h1>
             </div>
             <span className={`status-badge status-${request.status.toLowerCase()}`}>
               {getRequestStatusLabel(request.status)}

@@ -56,6 +56,7 @@ model Request {
 
 model GuestRequest {
   id                 String        @id @default(cuid())
+  guestRequestNumber Int           @unique @default(autoincrement())
   name               String
   phone              String
   email              String?
@@ -129,13 +130,14 @@ model Notification {
 }
 
 model CallbackRequest {
-  id        String         @id @default(cuid())
-  name      String?
-  phone     String
-  status    CallbackStatus @default(NEW)
-  statusHistory CallbackRequestStatusHistory[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  id                    String         @id @default(cuid())
+  callbackRequestNumber Int            @unique @default(autoincrement())
+  name                  String?
+  phone                 String
+  status                CallbackStatus @default(NEW)
+  statusHistory         CallbackRequestStatusHistory[]
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 }
 
 model CallbackRequestStatusHistory {

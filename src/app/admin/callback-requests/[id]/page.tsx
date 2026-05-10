@@ -5,6 +5,7 @@ import { CallbackStatusHistoryList } from "@/components/CallbackStatusHistoryLis
 import { requireAdmin } from "@/lib/auth";
 import { getCallbackStatusClassName, getCallbackStatusLabel } from "@/lib/callback-status";
 import { prisma } from "@/lib/prisma";
+import { formatCallbackRequestTitle } from "@/lib/request-number";
 
 type AdminCallbackRequestDetailsPageProps = {
   params: Promise<{
@@ -57,7 +58,7 @@ export default async function AdminCallbackRequestDetailsPage({ params }: AdminC
       <div className="request-detail-header">
         <div>
           <div className="section-label">Обратный звонок</div>
-          <h1>{callbackRequest.phone}</h1>
+          <h1>{formatCallbackRequestTitle(callbackRequest.callbackRequestNumber)}</h1>
         </div>
         <span className={`status-badge ${getCallbackStatusClassName(callbackRequest.status)}`}>
           {getCallbackStatusLabel(callbackRequest.status)}

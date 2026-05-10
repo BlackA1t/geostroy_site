@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Prisma, RequestStatus } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatGuestRequestTitle, parseRequestNumberSearch } from "@/lib/request-number";
 import { getRequestStatusClassName, getRequestStatusLabel, isRequestStatus } from "@/lib/request-status";
 
 type AdminGuestRequestsPageProps = {
@@ -37,6 +38,7 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
   const { q: rawQ, status } = await searchParams;
   const statusFilter = isRequestStatus(status) ? status : null;
   const q = String(rawQ ?? "").trim();
+  const guestRequestNumberSearch = parseRequestNumberSearch(q);
 
   const where: Prisma.GuestRequestWhereInput = {
     claimedAt: null,
@@ -49,7 +51,8 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
             { email: { contains: q, mode: "insensitive" } },
             { serviceType: { contains: q, mode: "insensitive" } },
             { material: { contains: q, mode: "insensitive" } },
-            { description: { contains: q, mode: "insensitive" } }
+            { description: { contains: q, mode: "insensitive" } },
+            ...(guestRequestNumberSearch ? [{ guestRequestNumber: guestRequestNumberSearch }] : [])
           ]
         }
       : {})
@@ -87,7 +90,7 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
               name="q"
               type="search"
               defaultValue={q}
-              placeholder="Клиент, телефон, email, услуга"
+              placeholder="№ заявки, клиент, телефон, email, услуга"
             />
             <button className="btn btn-primary" type="submit">
               Найти
@@ -113,7 +116,7 @@ export default async function AdminGuestRequestsPage({ searchParams }: AdminGues
           <article className="admin-list-card" key={request.id}>
             <div className="admin-list-main">
               <div className="request-card-top">
-                <span className="request-id">Гостевая заявка</span>
+                <span className="request-id">{formatGuestRequestTitle(request.guestRequestNumber)}</span>
                 <span className={`status-badge ${getRequestStatusClassName(request.status)}`}>
                   {getRequestStatusLabel(request.status)}
                 </span>
