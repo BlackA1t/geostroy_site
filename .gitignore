@@ -4,10 +4,20 @@ Thumbs.db
 node_modules/
 .next/
 out/
+dist/
 .env
+.env.local
 .env*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
 public/uploads/
+**/public/uploads/
 geostroy_context.md
+codex_context.md
 
 # Firebase / static demo deploy
 out/

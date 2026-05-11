@@ -1,45 +1,174 @@
 # Геострой
 
-Next.js + TypeScript приложение для сайта ООО «Геострой».
+Проект находится в переходной архитектуре и разделён на два workspace-приложения:
 
-## Локальный запуск
+```text
+geostroy/
+├── frontend/  # Next.js-приложение
+└── backend/   # NestJS API
+```
 
-1. Установить зависимости:
+## Env
 
-```bash
+Файлы `.env.example` коммитятся только как безопасные шаблоны. Они не содержат реальных паролей, секретов и строк подключения.
+
+Реальные локальные файлы не коммитятся:
+
+- `.env`
+- `.env.local`
+- `.env.*.local`
+- `frontend/.env`
+- `frontend/.env.local`
+- `frontend/.env.*.local`
+- `backend/.env`
+- `backend/.env.local`
+- `backend/.env.*.local`
+
+После клонирования создайте локальные env-файлы:
+
+```powershell
+Copy-Item backend\.env.example backend\.env
+Copy-Item frontend\.env.example frontend\.env.local
+```
+
+Затем замените шаблон:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
+```
+
+на реальную локальную строку. Для текущего `docker-compose.yml` пример такой:
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/geostroy_db?schema=public
+```
+
+Frontend временно тоже требует `DATABASE_URL`, потому что часть старой бизнес-логики ещё работает через frontend Prisma: заявки, уведомления и старые Next.js API routes. После полного переноса API в backend во frontend должен остаться только `NEXT_PUBLIC_API_URL`.
+
+## Backend Env
+
+`backend/.env.example`:
+
+```env
+NODE_ENV=development
+BACKEND_PORT=4000
+FRONTEND_URL=http://localhost:3000
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
+JWT_ACCESS_SECRET=replace_with_access_secret
+JWT_REFRESH_SECRET=replace_with_refresh_secret
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=30d
+COOKIE_DOMAIN=
+COOKIE_SECURE=false
+```
+
+## Frontend Env
+
+`frontend/.env.example`:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+```
+
+## Локальный Запуск
+
+1. Установите зависимости из корня:
+
+```powershell
 npm install
 ```
 
-2. Запустить локальную PostgreSQL-базу:
+2. Запустите PostgreSQL:
 
-```bash
+```powershell
 docker compose up -d
 ```
 
-3. Создать `.env` на основе `.env.example` и указать `DATABASE_URL`:
+3. Создайте локальные env-файлы и подставьте реальный `DATABASE_URL`:
 
-```bash
-cp .env.example .env
+```powershell
+Copy-Item backend\.env.example backend\.env
+Copy-Item frontend\.env.example frontend\.env.local
 ```
 
-4. Применить первую миграцию Prisma:
+4. Примените существующие миграции:
 
-```bash
-npx prisma migrate dev --name init
+```powershell
+npm run prisma:migrate:deploy -w backend
 ```
 
-5. Запустить dev-сервер:
+5. Запустите backend:
 
-```bash
-npm run dev
+```powershell
+npm run dev:backend
 ```
+
+6. Запустите frontend:
+
+```powershell
+npm run dev:frontend
+```
+
+Health endpoint backend:
+
+```text
+GET http://localhost:4000/api/health
+```
+
+Ожидаемый ответ:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+## Auth
+
+Пользовательские auth-действия frontend переключены на NestJS backend:
+
+- регистрация;
+- вход;
+- выход;
+- получение текущего пользователя.
+
+JWT не сохраняются в `localStorage` и не возвращаются в JSON. Backend ставит `httpOnly` cookies:
+
+- `geostroy_access_token`
+- `geostroy_refresh_token`
+
+Для локальной разработки cookies ставятся с `path=/`, чтобы Next.js server-side код видел их на страницах вроде `/dashboard`.
 
 ## Prisma
 
-Полезные команды:
+В переходной архитектуре Prisma временно есть в двух местах:
 
-```bash
-npm run prisma:generate
-npm run prisma:migrate
-npm run prisma:studio
+- `frontend/prisma/` — используется старой frontend fullstack-логикой;
+- `backend/prisma/` — используется новым NestJS backend.
+
+Backend-команды:
+
+```powershell
+npm run prisma:validate:backend
+npm run prisma:generate:backend
+npm run prisma:migrate:deploy -w backend
 ```
+
+## Что Ещё Не Перенесено
+
+Пока остаются во frontend:
+
+- заявки;
+- гостевые заявки;
+- callback-заявки;
+- уведомления;
+- загрузка и удаление файлов;
+- часть админской бизнес-логики;
+- старые Next.js API routes.
+
+Эти части будут переноситься в backend поэтапно.
+
+## Security TODO
+
+Перед production-переключением frontend на cookie-based JWT backend нужно добавить CSRF-защиту для state-changing endpoints и настроить реальные `COOKIE_DOMAIN`, `COOKIE_SECURE`, `FRONTEND_URL` и секреты JWT.
