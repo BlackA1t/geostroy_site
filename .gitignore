@@ -22,6 +22,7 @@ frontend/.env.*.local
 backend/.env
 backend/.env.local
 backend/.env.*.local
+deploy/.env.production
 
 # logs
 *.log
@@ -36,3 +37,5 @@ uploads/
 Thumbs.db
 .vscode/
 .idea/
+
+GEOSTROY_CURRENT_PROJECT_CONTEXT.md
