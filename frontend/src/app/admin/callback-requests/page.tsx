@@ -1,14 +1,14 @@
 import Link from "next/link";
-import type { CallbackStatus, Prisma } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
+import { getAdminCallbackRequestsFromBackend } from "@/lib/backend-callback-requests-server";
 import {
   CALLBACK_STATUS_OPTIONS,
   getCallbackStatusClassName,
   getCallbackStatusLabel,
-  isCallbackStatus
+  isCallbackStatus,
+  type CallbackStatus
 } from "@/lib/callback-status";
-import { prisma } from "@/lib/prisma";
-import { formatCallbackRequestTitle, parseRequestNumberSearch } from "@/lib/request-number";
+import { formatCallbackRequestTitle } from "@/lib/request-number";
 
 type AdminCallbackRequestsPageProps = {
   searchParams: Promise<{
@@ -17,11 +17,11 @@ type AdminCallbackRequestsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 function getStatusHref(status: CallbackStatus | undefined, q: string) {
@@ -37,41 +37,7 @@ export default async function AdminCallbackRequestsPage({ searchParams }: AdminC
   const { q: rawQ, status } = await searchParams;
   const statusFilter = isCallbackStatus(status) ? status : null;
   const q = String(rawQ ?? "").trim();
-  const callbackRequestNumberSearch = parseRequestNumberSearch(q);
-
-  const where: Prisma.CallbackRequestWhereInput = {
-    ...(statusFilter ? { status: statusFilter } : {}),
-    ...(q
-      ? {
-          OR: [
-            { id: { contains: q, mode: "insensitive" } },
-            { name: { contains: q, mode: "insensitive" } },
-            { phone: { contains: q, mode: "insensitive" } },
-            ...(callbackRequestNumberSearch ? [{ callbackRequestNumber: callbackRequestNumberSearch }] : [])
-          ]
-        }
-      : {})
-  };
-
-  const callbackRequests = await prisma.callbackRequest.findMany({
-    where,
-    orderBy: {
-      createdAt: "desc"
-    },
-    include: {
-      statusHistory: {
-        where: {
-          comment: {
-            not: null
-          }
-        },
-        orderBy: {
-          createdAt: "desc"
-        },
-        take: 1
-      }
-    }
-  });
+  const { callbackRequests } = await getAdminCallbackRequestsFromBackend({ q, status: statusFilter });
 
   return (
     <div className="admin-container">

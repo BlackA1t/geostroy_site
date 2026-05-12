@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { backendNotificationsClient } from "@/lib/backend-notifications-client";
 
 type NotificationOpenRequestButtonProps = {
   className?: string;
@@ -27,9 +28,7 @@ export function NotificationOpenRequestButton({
     setIsLoading(true);
 
     if (!isRead) {
-      await fetch(`/api/notifications/${notificationId}/read`, {
-        method: "PATCH"
-      }).catch(() => null);
+      await backendNotificationsClient.markNotificationRead(notificationId).catch(() => null);
     }
 
     onNavigate?.();
@@ -53,18 +52,15 @@ export function MarkAllNotificationsReadButton() {
     setIsLoading(true);
     setError("");
 
-    const response = await fetch("/api/notifications/read-all", {
-      method: "PATCH"
-    });
-
-    setIsLoading(false);
-
-    if (!response.ok) {
-      const result = await response.json().catch(() => null);
-      setError(result?.error ?? "Не удалось отметить уведомления.");
+    try {
+      await backendNotificationsClient.markAllNotificationsRead();
+    } catch (error) {
+      setIsLoading(false);
+      setError(error instanceof Error ? error.message : "Не удалось отметить уведомления.");
       return;
     }
 
+    setIsLoading(false);
     router.refresh();
   }
 

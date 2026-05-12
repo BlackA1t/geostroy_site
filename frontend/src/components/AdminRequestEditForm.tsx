@@ -3,6 +3,9 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ApiError } from "@/lib/api-error";
+import { backendAdminGuestRequestsClient } from "@/lib/backend-admin-guest-requests-client";
+import { backendAdminRequestsClient } from "@/lib/backend-admin-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
 
@@ -19,12 +22,6 @@ type AdminRequestEditFormProps = {
     email: string | null;
   };
 };
-
-function getEndpoint(type: AdminRequestEditFormProps["type"], id: string) {
-  return type === "request"
-    ? `/api/admin/requests/${id}/details`
-    : `/api/admin/guest-requests/${id}/details`;
-}
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -58,12 +55,8 @@ export function AdminRequestEditForm({ type, id, initialValues }: AdminRequestEd
 
     setIsSaving(true);
 
-    const response = await fetch(getEndpoint(type, id), {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    try {
+      const payload = {
         serviceType: formData.get("serviceType"),
         material: formData.get("material"),
         quantity: formData.get("quantity"),
@@ -71,19 +64,21 @@ export function AdminRequestEditForm({ type, id, initialValues }: AdminRequestEd
         name: formData.get("name"),
         phone,
         email
-      })
-    });
+      };
 
-    const result = await response.json().catch(() => null);
-    setIsSaving(false);
+      if (type === "request") {
+        await backendAdminRequestsClient.updateAdminRequestDetails(id, payload);
+      } else {
+        await backendAdminGuestRequestsClient.updateAdminGuestRequestDetails(id, payload);
+      }
 
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось сохранить изменения.");
-      return;
+      setSuccess("Изменения сохранены.");
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось сохранить изменения.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setSuccess("Изменения сохранены.");
-    router.refresh();
   }
 
   return (

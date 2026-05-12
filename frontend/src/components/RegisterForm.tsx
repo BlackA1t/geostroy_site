@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError } from "@/lib/api-error";
 import { backendAuthClient } from "@/lib/backend-auth-client";
+import { backendGuestRequestsClient } from "@/lib/backend-guest-requests-client";
 import { validateOptionalPhone } from "@/lib/contact-validation";
 
 export function RegisterForm() {
@@ -33,6 +34,11 @@ export function RegisterForm() {
         email: String(formData.get("email") ?? ""),
         phone,
         password: String(formData.get("password") ?? "")
+      });
+
+      await backendGuestRequestsClient.claimGuestRequest().catch((error) => {
+        if (error instanceof ApiError && [400, 404, 409].includes(error.status)) return;
+        throw error;
       });
 
       router.push(result.user.role === "ADMIN" ? "/admin" : "/dashboard");

@@ -1,5 +1,4 @@
-import type { CallbackStatus } from "@prisma/client";
-import { getCallbackStatusClassName, getCallbackStatusLabel } from "@/lib/callback-status";
+import { getCallbackStatusClassName, getCallbackStatusLabel, type CallbackStatus } from "@/lib/callback-status";
 import { ProcessingHistoryList, type ProcessingHistoryItem } from "./ProcessingHistoryList";
 
 type CallbackStatusHistoryItem = {
@@ -7,8 +6,8 @@ type CallbackStatusHistoryItem = {
   oldStatus: CallbackStatus | null;
   newStatus: CallbackStatus;
   comment: string | null;
-  createdAt: Date;
-  changedBy: {
+  createdAt: Date | string;
+  changedBy?: {
     name: string;
     email: string;
   } | null;

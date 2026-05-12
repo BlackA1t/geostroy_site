@@ -2,6 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ApiError } from "@/lib/api-error";
+import { backendAdminGuestRequestsClient } from "@/lib/backend-admin-guest-requests-client";
+import { backendAdminRequestsClient } from "@/lib/backend-admin-requests-client";
+import { backendRequestsClient } from "@/lib/backend-requests-client";
 
 type DeleteRequestFileButtonProps = {
   entityId: string;
@@ -47,19 +51,31 @@ export function DeleteRequestFileButton(props: DeleteRequestFileButtonProps) {
 
     setIsDeleting(true);
 
-    const response = await fetch(endpoint, {
-      method: "DELETE"
-    });
-    const result = await response.json().catch(() => null);
+    try {
+      if (props.mode === "user" && props.entityType === "request") {
+        await backendRequestsClient.deleteRequestFile(props.entityId, props.fileId);
+      } else if (props.mode === "admin" && props.entityType === "request") {
+        await backendAdminRequestsClient.deleteAdminRequestFile(props.entityId, props.fileId);
+      } else if (props.mode === "admin" && props.entityType === "guestRequest") {
+        await backendAdminGuestRequestsClient.deleteAdminGuestRequestFile(props.entityId, props.fileId);
+      } else {
+        const response = await fetch(endpoint, {
+          method: "DELETE"
+        });
+        const result = await response.json().catch(() => null);
 
-    setIsDeleting(false);
+        if (!response.ok) {
+          setError(result?.error ?? result?.message ?? "Не удалось удалить файл.");
+          return;
+        }
+      }
 
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось удалить файл.");
-      return;
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось удалить файл.");
+    } finally {
+      setIsDeleting(false);
     }
-
-    router.refresh();
   }
 
   return (

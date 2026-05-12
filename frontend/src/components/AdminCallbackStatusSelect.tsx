@@ -1,9 +1,8 @@
 "use client";
 
-import type { CallbackStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CALLBACK_STATUS_LABELS, CALLBACK_STATUSES } from "@/lib/callback-status";
+import { CALLBACK_STATUS_LABELS, CALLBACK_STATUSES, type CallbackStatus } from "@/lib/callback-status";
 
 type AdminCallbackStatusSelectProps = {
   callbackRequestId: string;

@@ -2,7 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Request, RequestFile } from "@prisma/client";
+import { ApiError } from "@/lib/api-error";
+import type { BackendRequestDetails } from "@/lib/backend-requests-client";
+import { backendRequestsClient } from "@/lib/backend-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
 
@@ -10,9 +12,7 @@ const ACCEPTED_REQUEST_FILES =
   ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
 
 type EditRequestFormProps = {
-  request: Request & {
-    files: RequestFile[];
-  };
+  request: BackendRequestDetails;
 };
 
 function formatFileSize(sizeBytes: number | null) {
@@ -40,22 +40,16 @@ export function EditRequestForm({ request }: EditRequestFormProps) {
 
     setIsLoading(true);
 
-    const response = await fetch(`/api/requests/${request.id}`, {
-      method: "PATCH",
-      body: formData
-    });
+    try {
+      await backendRequestsClient.updateRequest(request.id, formData);
 
-    const result = await response.json().catch(() => null);
-
-    setIsLoading(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось сохранить заявку.");
-      return;
+      router.push(`/dashboard/requests/${request.id}`);
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось сохранить заявку.");
+    } finally {
+      setIsLoading(false);
     }
-
-    router.push(`/dashboard/requests/${request.id}`);
-    router.refresh();
   }
 
   return (

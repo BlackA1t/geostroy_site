@@ -5,7 +5,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminRequestFromBackend } from "@/lib/backend-admin-requests-server";
 import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
@@ -15,11 +15,11 @@ type AdminRequestDetailsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 function formatFileSize(sizeBytes: number | null) {
@@ -32,40 +32,10 @@ export default async function AdminRequestDetailsPage({ params }: AdminRequestDe
   await requireAdmin();
   const { id } = await params;
 
-  const request = await prisma.request.findUnique({
-    where: { id },
-    include: {
-      files: {
-        orderBy: {
-          createdAt: "desc"
-        }
-      },
-      user: {
-        select: {
-          name: true,
-          email: true,
-          phone: true
-        }
-      },
-      statusHistory: {
-        orderBy: {
-          createdAt: "asc"
-        },
-        include: {
-          changedBy: {
-            select: {
-              name: true,
-              email: true
-            }
-          }
-        }
-      }
-    }
+  const { request } = await getAdminRequestFromBackend(id).catch((error: Error & { status?: number }) => {
+    if (error.status === 404) notFound();
+    throw error;
   });
-
-  if (!request) {
-    notFound();
-  }
 
   return (
     <div className="admin-container">

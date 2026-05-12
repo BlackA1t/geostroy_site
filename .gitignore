@@ -1,26 +1,38 @@
-.DS_Store
-Thumbs.db
-.vscode/
+# dependencies
 node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# build outputs and caches
 .next/
+frontend/.next/
 out/
+frontend/out/
 dist/
+backend/dist/
+*.tsbuildinfo
+
+# environment files
 .env
 .env.local
-.env*.local
+.env.*.local
 frontend/.env
 frontend/.env.local
 frontend/.env.*.local
 backend/.env
 backend/.env.local
 backend/.env.*.local
-public/uploads/
-**/public/uploads/
-geostroy_context.md
-codex_context.md
 
-# Firebase / static demo deploy
-out/
-.firebase/
-firebase.json
-.firebaserc
+# logs
+*.log
+
+# runtime uploads
+frontend/public/uploads/
+backend/uploads/
+uploads/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

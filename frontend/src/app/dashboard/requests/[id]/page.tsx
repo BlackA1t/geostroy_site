@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getMyRequestFromBackend } from "@/lib/backend-requests-server";
 import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
@@ -13,39 +13,20 @@ type RequestDetailsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 export default async function RequestDetailsPage({ params }: RequestDetailsPageProps) {
-  const user = await requireUser();
+  await requireUser();
   const { id } = await params;
-
-  const request = await prisma.request.findFirst({
-    where: {
-      id,
-      userId: user.id
-    },
-    include: {
-      files: {
-        orderBy: {
-          createdAt: "desc"
-        }
-      },
-      statusHistory: {
-        orderBy: {
-          createdAt: "asc"
-        }
-      }
-    }
+  const { request } = await getMyRequestFromBackend(id).catch((error: Error & { status?: number }) => {
+    if (error.status === 404) notFound();
+    throw error;
   });
-
-  if (!request) {
-    notFound();
-  }
 
   return (
     <div className="dashboard-wide-card">

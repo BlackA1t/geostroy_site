@@ -2,20 +2,10 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import { ApiError } from "@/lib/api-error";
+import { backendGuestRequestsClient, type BackendGuestRequestResult } from "@/lib/backend-guest-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
-
-type ContactRequestResult =
-  | {
-      type: "authenticated";
-      message: string;
-      requestId: string;
-    }
-  | {
-      type: "guest";
-      message: string;
-      guestRequestId: string;
-    };
 
 const ACCEPTED_REQUEST_FILES =
   ".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.dxf,.step,.stp,.igs,.iges,.zip,.rar";
@@ -26,7 +16,7 @@ type ContactFormProps = {
 
 export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [result, setResult] = useState<ContactRequestResult | null>(null);
+  const [result, setResult] = useState<BackendGuestRequestResult | null>(null);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -47,22 +37,19 @@ export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
 
     setIsSubmitting(true);
 
-    const response = await fetch("/api/contact-request", {
-      method: "POST",
-      body: formData
-    });
+    try {
+      const payload = await backendGuestRequestsClient.createGuestRequest(formData);
 
-    const payload = await response.json().catch(() => null);
-    setIsSubmitting(false);
-
-    if (!response.ok) {
-      setError(payload?.error ?? "Не удалось отправить заявку. Попробуйте ещё раз.");
-      return;
+      setResult(payload);
+      form.reset();
+      setIsModalOpen(true);
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось отправить заявку. Попробуйте ещё раз.");
+    } finally {
+      setIsSubmitting(false);
     }
 
-    setResult(payload);
-    form.reset();
-    setIsModalOpen(true);
+    return;
   };
 
   useEffect(() => {

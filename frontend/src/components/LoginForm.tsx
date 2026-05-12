@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError } from "@/lib/api-error";
 import { backendAuthClient } from "@/lib/backend-auth-client";
+import { backendGuestRequestsClient } from "@/lib/backend-guest-requests-client";
 
 export function LoginForm() {
   const router = useRouter();
@@ -22,6 +23,11 @@ export function LoginForm() {
       const result = await backendAuthClient.login({
         email: String(formData.get("email") ?? ""),
         password: String(formData.get("password") ?? "")
+      });
+
+      await backendGuestRequestsClient.claimGuestRequest().catch((error) => {
+        if (error instanceof ApiError && [400, 404, 409].includes(error.status)) return;
+        throw error;
       });
 
       router.push(result.user.role === "ADMIN" ? "/admin" : "/dashboard");

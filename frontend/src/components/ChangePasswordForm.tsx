@@ -2,6 +2,8 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { ApiError } from "@/lib/api-error";
+import { backendUserClient } from "@/lib/backend-user-client";
 
 function validatePasswordForm(currentPassword: string, newPassword: string, confirmPassword: string) {
   if (!currentPassword) return "Укажите текущий пароль";
@@ -35,30 +37,22 @@ export function ChangePasswordForm() {
 
     setIsSaving(true);
 
-    const response = await fetch("/api/user/password", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    try {
+      await backendUserClient.changePassword({
         currentPassword,
         newPassword,
         confirmPassword
-      })
-    });
+      });
 
-    const result = await response.json().catch(() => null);
-    setIsSaving(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось изменить пароль.");
-      return;
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setSuccess("Пароль успешно изменён");
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось изменить пароль.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setSuccess("Пароль успешно изменён");
   }
 
   return (

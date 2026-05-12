@@ -1,7 +1,6 @@
 import Link from "next/link";
-import type { Prisma } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminUsersFromBackend } from "@/lib/backend-admin-users-server";
 import { getUserRoleClassName, getUserRoleLabel } from "@/lib/user-role";
 
 type AdminUsersPageProps = {
@@ -10,44 +9,15 @@ type AdminUsersPageProps = {
   }>;
 };
 
-function formatDate(date: Date) {
-  return date.toLocaleDateString("ru-RU");
+function formatDate(date: Date | string) {
+  return new Date(date).toLocaleDateString("ru-RU");
 }
 
 export default async function AdminUsersPage({ searchParams }: AdminUsersPageProps) {
   await requireAdmin();
   const { q: rawQ } = await searchParams;
   const q = String(rawQ ?? "").trim();
-
-  const where: Prisma.UserWhereInput = q
-    ? {
-        OR: [
-          { name: { contains: q, mode: "insensitive" } },
-          { email: { contains: q, mode: "insensitive" } },
-          { phone: { contains: q, mode: "insensitive" } }
-        ]
-      }
-    : {};
-
-  const users = await prisma.user.findMany({
-    where,
-    orderBy: {
-      createdAt: "desc"
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phone: true,
-      role: true,
-      createdAt: true,
-      _count: {
-        select: {
-          requests: true
-        }
-      }
-    }
-  });
+  const { users } = await getAdminUsersFromBackend({ q });
 
   return (
     <div className="admin-container">

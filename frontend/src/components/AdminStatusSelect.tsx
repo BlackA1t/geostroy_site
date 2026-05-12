@@ -1,10 +1,12 @@
 "use client";
 
-import { RequestStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { REQUEST_STATUS_LABELS, REQUEST_STATUSES } from "@/lib/request-status";
+import { ApiError } from "@/lib/api-error";
+import { backendAdminGuestRequestsClient } from "@/lib/backend-admin-guest-requests-client";
+import { backendAdminRequestsClient } from "@/lib/backend-admin-requests-client";
+import { REQUEST_STATUS_LABELS, REQUEST_STATUSES, type RequestStatus } from "@/lib/request-status";
 
 type AdminStatusSelectProps = {
   currentStatus: RequestStatus;
@@ -23,25 +25,27 @@ export function AdminStatusSelect({ currentStatus, endpoint }: AdminStatusSelect
     setError("");
     setIsSaving(true);
 
-    const response = await fetch(endpoint, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ status, comment })
-    });
+    try {
+      const id = endpoint.split("/").filter(Boolean).at(-1);
 
-    const result = await response.json().catch(() => null);
-    setIsSaving(false);
+      if (!id) {
+        throw new Error("Некорректный endpoint.");
+      }
 
-    if (!response.ok) {
+      if (endpoint.includes("/guest-requests/")) {
+        await backendAdminGuestRequestsClient.updateAdminGuestRequestStatus(id, { status, comment });
+      } else {
+        await backendAdminRequestsClient.updateAdminRequestStatus(id, { status, comment });
+      }
+
+      setComment("");
+      router.refresh();
+    } catch (error) {
       setStatus(currentStatus);
-      setError(result?.error ?? "Не удалось обновить статус.");
-      return;
+      setError(error instanceof ApiError ? error.message : "Не удалось обновить статус.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setComment("");
-    router.refresh();
   }
 
   return (

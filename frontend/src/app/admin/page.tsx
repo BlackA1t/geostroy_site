@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminOverviewFromBackend } from "@/lib/backend-admin-overview-server";
 
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [newRequestCount, newActiveGuestRequestCount, newCallbackRequestCount] = await Promise.all([
-    prisma.request.count({ where: { status: "NEW" } }),
-    prisma.guestRequest.count({ where: { status: "NEW", claimedAt: null } }),
-    prisma.callbackRequest.count({ where: { status: "NEW" } })
-  ]);
+  const { newRequestCount, newActiveGuestRequestCount, newCallbackRequestCount } =
+    await getAdminOverviewFromBackend();
 
   const overviewCards = [
     {

@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 import { SiteShell } from "@/components/SiteShell";
 import type { HeaderNotification } from "@/components/NotificationBell";
 import { getBackendCurrentUser } from "@/lib/backend-auth-server";
-import { getRecentNotifications, getUnreadNotificationsCount } from "@/lib/notifications";
+import {
+  getRecentNotificationsFromBackend,
+  getUnreadNotificationsCountFromBackend
+} from "@/lib/backend-notifications-server";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,8 +38,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   if (currentUser) {
     try {
       [unreadNotificationsCount, recentNotifications] = await Promise.all([
-        getUnreadNotificationsCount(currentUser.id),
-        getRecentNotifications(currentUser.id)
+        getUnreadNotificationsCountFromBackend(),
+        getRecentNotificationsFromBackend()
       ]);
     } catch (error) {
       if (process.env.NODE_ENV === "development") {

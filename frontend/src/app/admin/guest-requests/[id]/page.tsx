@@ -5,7 +5,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminGuestRequestFromBackend } from "@/lib/backend-admin-guest-requests-server";
 import { formatGuestRequestTitle, formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
 
@@ -15,12 +15,12 @@ type AdminGuestRequestDetailsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date | null) {
+function formatDateTime(date: Date | string | null) {
   if (!date) return "Нет";
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 function formatFileSize(sizeBytes: number | null) {
@@ -33,45 +33,10 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
   await requireAdmin();
   const { id } = await params;
 
-  const request = await prisma.guestRequest.findUnique({
-    where: { id },
-    include: {
-      files: {
-        orderBy: {
-          createdAt: "desc"
-        }
-      },
-      claimedBy: {
-        select: {
-          name: true,
-          email: true,
-          phone: true
-        }
-      },
-      convertedRequest: {
-        select: {
-          requestNumber: true
-        }
-      },
-      statusHistory: {
-        orderBy: {
-          createdAt: "asc"
-        },
-        include: {
-          changedBy: {
-            select: {
-              name: true,
-              email: true
-            }
-          }
-        }
-      }
-    }
+  const { guestRequest: request } = await getAdminGuestRequestFromBackend(id).catch((error: Error & { status?: number }) => {
+    if (error.status === 404) notFound();
+    throw error;
   });
-
-  if (!request) {
-    notFound();
-  }
 
   if (request.claimedAt) {
     if (request.convertedRequestId) {

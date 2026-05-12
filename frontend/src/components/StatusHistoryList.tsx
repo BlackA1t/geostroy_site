@@ -1,5 +1,4 @@
-import type { RequestStatus } from "@prisma/client";
-import { getRequestStatusClassName, getRequestStatusLabel } from "@/lib/request-status";
+import { getRequestStatusClassName, getRequestStatusLabel, type RequestStatus } from "@/lib/request-status";
 import { ProcessingHistoryList, type ProcessingHistoryItem } from "./ProcessingHistoryList";
 
 type StatusHistoryItem = {
@@ -8,7 +7,7 @@ type StatusHistoryItem = {
   newStatus: RequestStatus;
   comment: string | null;
   actorType: string;
-  createdAt: Date;
+  createdAt: Date | string;
   changedBy?: {
     name: string;
     email: string;

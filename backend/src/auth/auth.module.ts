@@ -11,6 +11,6 @@ import { TokenService } from "./token.service";
   imports: [ConfigModule, JwtModule.register({}), PrismaModule],
   controllers: [AuthController],
   providers: [AuthService, TokenService, JwtAuthGuard],
-  exports: [AuthService, TokenService, JwtAuthGuard]
+  exports: [AuthService, TokenService, JwtAuthGuard, JwtModule, ConfigModule]
 })
 export class AuthModule {}

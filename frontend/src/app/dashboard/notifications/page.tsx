@@ -4,35 +4,19 @@ import {
 } from "@/components/NotificationActions";
 import { NotificationMessage } from "@/components/NotificationMessage";
 import { requireUser } from "@/lib/auth";
-import { formatRequestTitle } from "@/lib/request-number";
-import { sortNotificationsUnreadFirst } from "@/lib/notifications";
-import { prisma } from "@/lib/prisma";
+import { getNotificationsFromBackend } from "@/lib/backend-notifications-server";
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 export default async function DashboardNotificationsPage() {
-  const user = await requireUser();
+  await requireUser();
 
-  const notifications = sortNotificationsUnreadFirst(await prisma.notification.findMany({
-    where: {
-      userId: user.id
-    },
-    include: {
-      request: {
-        select: {
-          requestNumber: true
-        }
-      }
-    },
-    orderBy: {
-      createdAt: "desc"
-    }
-  }));
+  const notifications = await getNotificationsFromBackend();
 
   const hasUnread = notifications.some((notification) => !notification.readAt);
 
@@ -57,7 +41,7 @@ export default async function DashboardNotificationsPage() {
             <div className="notification-card-top">
               <div>
                 <h2>
-                  {notification.request ? formatRequestTitle(notification.request.requestNumber) : notification.title}
+                  {notification.displayTitle}
                 </h2>
                 <span>{formatDateTime(notification.createdAt)}</span>
               </div>

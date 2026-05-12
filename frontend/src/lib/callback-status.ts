@@ -1,4 +1,4 @@
-import type { CallbackStatus } from "@prisma/client";
+export type CallbackStatus = "NEW" | "CONTACTED" | "CANCELLED";
 
 export const CALLBACK_STATUSES: CallbackStatus[] = ["NEW", "CONTACTED", "CANCELLED"];
 

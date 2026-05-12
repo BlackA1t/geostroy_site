@@ -1,10 +1,11 @@
 "use client";
 
-import type { Role } from "@prisma/client";
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { USER_ROLE_OPTIONS } from "@/lib/user-role";
+import { ApiError } from "@/lib/api-error";
+import { backendAdminUsersClient } from "@/lib/backend-admin-users-client";
+import { USER_ROLE_OPTIONS, type Role } from "@/lib/user-role";
 
 type AdminUserRoleFormProps = {
   currentRole: Role;
@@ -30,24 +31,16 @@ export function AdminUserRoleForm({ currentRole, userId }: AdminUserRoleFormProp
 
     setIsSaving(true);
 
-    const response = await fetch(`/api/admin/users/${userId}/role`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ role })
-    });
+    try {
+      await backendAdminUsersClient.updateAdminUserRole(userId, role);
 
-    const result = await response.json().catch(() => null);
-    setIsSaving(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось изменить роль.");
-      return;
+      setSuccess("Роль обновлена.");
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось изменить роль.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setSuccess("Роль обновлена.");
-    router.refresh();
   }
 
   return (

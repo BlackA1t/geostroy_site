@@ -1,4 +1,4 @@
-import type { RequestStatus } from "@prisma/client";
+export type RequestStatus = "NEW" | "NEED_INFO" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
 
 export const REQUEST_STATUS_LABELS: Record<RequestStatus, string> = {
   NEW: "Новая",

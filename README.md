@@ -1,28 +1,16 @@
 # Геострой
 
-Проект находится в переходной архитектуре и разделён на два workspace-приложения:
+Проект разделён на два workspace-приложения:
 
 ```text
 geostroy/
-├── frontend/  # Next.js-приложение
+├── frontend/  # Next.js UI
 └── backend/   # NestJS API
 ```
 
 ## Env
 
-Файлы `.env.example` коммитятся только как безопасные шаблоны. Они не содержат реальных паролей, секретов и строк подключения.
-
-Реальные локальные файлы не коммитятся:
-
-- `.env`
-- `.env.local`
-- `.env.*.local`
-- `frontend/.env`
-- `frontend/.env.local`
-- `frontend/.env.*.local`
-- `backend/.env`
-- `backend/.env.local`
-- `backend/.env.*.local`
+Файлы `.env.example` коммитятся только как безопасные шаблоны. Реальные `.env` и `.env.local` не коммитятся.
 
 После клонирования создайте локальные env-файлы:
 
@@ -31,19 +19,13 @@ Copy-Item backend\.env.example backend\.env
 Copy-Item frontend\.env.example frontend\.env.local
 ```
 
-Затем замените шаблон:
-
-```env
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
-```
-
-на реальную локальную строку. Для текущего `docker-compose.yml` пример такой:
+Для backend замените шаблонный `DATABASE_URL` на реальную локальную строку. Для текущего `docker-compose.yml` пример такой:
 
 ```env
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/geostroy_db?schema=public
 ```
 
-Frontend временно тоже требует `DATABASE_URL`, потому что часть старой бизнес-логики ещё работает через frontend Prisma: заявки, уведомления и старые Next.js API routes. После полного переноса API в backend во frontend должен остаться только `NEXT_PUBLIC_API_URL`.
+Frontend после чистки legacy API больше не использует Prisma и не требует `DATABASE_URL`.
 
 ## Backend Env
 
@@ -67,7 +49,6 @@ COOKIE_SECURE=false
 `frontend/.env.example`:
 
 ```env
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
 
@@ -85,26 +66,19 @@ npm install
 docker compose up -d
 ```
 
-3. Создайте локальные env-файлы и подставьте реальный `DATABASE_URL`:
-
-```powershell
-Copy-Item backend\.env.example backend\.env
-Copy-Item frontend\.env.example frontend\.env.local
-```
-
-4. Примените существующие миграции:
+3. Примените существующие миграции backend:
 
 ```powershell
 npm run prisma:migrate:deploy -w backend
 ```
 
-5. Запустите backend:
+4. Запустите backend:
 
 ```powershell
 npm run dev:backend
 ```
 
-6. Запустите frontend:
+5. Запустите frontend:
 
 ```powershell
 npm run dev:frontend
@@ -126,7 +100,7 @@ GET http://localhost:4000/api/health
 
 ## Auth
 
-Пользовательские auth-действия frontend переключены на NestJS backend:
+Пользовательские auth-действия frontend работают через NestJS backend:
 
 - регистрация;
 - вход;
@@ -138,14 +112,28 @@ JWT не сохраняются в `localStorage` и не возвращаютс
 - `geostroy_access_token`
 - `geostroy_refresh_token`
 
-Для локальной разработки cookies ставятся с `path=/`, чтобы Next.js server-side код видел их на страницах вроде `/dashboard`.
+## API
+
+Frontend отвечает за UI и обращается к backend API через `NEXT_PUBLIC_API_URL`.
+
+В backend перенесены:
+
+- auth;
+- профиль пользователя и смена пароля;
+- пользовательские заявки;
+- гостевые заявки и claim-логика;
+- callback-заявки;
+- admin endpoints заявок, callback и пользователей;
+- уведомления;
+- admin overview counts;
+- загрузка и удаление файлов заявок.
 
 ## Prisma
 
-В переходной архитектуре Prisma временно есть в двух местах:
+Prisma теперь находится только в backend:
 
-- `frontend/prisma/` — используется старой frontend fullstack-логикой;
-- `backend/prisma/` — используется новым NestJS backend.
+- `backend/prisma/schema.prisma`
+- `backend/prisma/migrations/`
 
 Backend-команды:
 
@@ -155,20 +143,19 @@ npm run prisma:generate:backend
 npm run prisma:migrate:deploy -w backend
 ```
 
-## Что Ещё Не Перенесено
+## Проверки
 
-Пока остаются во frontend:
+Базовые команды после изменений:
 
-- заявки;
-- гостевые заявки;
-- callback-заявки;
-- уведомления;
-- загрузка и удаление файлов;
-- часть админской бизнес-логики;
-- старые Next.js API routes.
-
-Эти части будут переноситься в backend поэтапно.
+```powershell
+npm install
+npm run build:backend
+npm run build:frontend
+npm run prisma:validate:backend
+npm run prisma:generate:backend
+npm run prisma:migrate:deploy -w backend
+```
 
 ## Security TODO
 
-Перед production-переключением frontend на cookie-based JWT backend нужно добавить CSRF-защиту для state-changing endpoints и настроить реальные `COOKIE_DOMAIN`, `COOKIE_SECURE`, `FRONTEND_URL` и секреты JWT.
+Перед production-переключением нужно добавить CSRF-защиту для state-changing endpoints и настроить реальные `COOKIE_DOMAIN`, `COOKIE_SECURE`, `FRONTEND_URL` и секреты JWT.

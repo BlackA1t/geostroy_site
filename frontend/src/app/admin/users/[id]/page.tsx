@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminUserRoleForm } from "@/components/AdminUserRoleForm";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminUserFromBackend } from "@/lib/backend-admin-users-server";
 import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusClassName, getRequestStatusLabel } from "@/lib/request-status";
 import { getUserRoleClassName, getUserRoleLabel } from "@/lib/user-role";
@@ -13,50 +13,24 @@ type AdminUserDetailsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
-function formatDate(date: Date) {
-  return date.toLocaleDateString("ru-RU");
+function formatDate(date: Date | string) {
+  return new Date(date).toLocaleDateString("ru-RU");
 }
 
 export default async function AdminUserDetailsPage({ params }: AdminUserDetailsPageProps) {
   await requireAdmin();
   const { id } = await params;
-
-  const user = await prisma.user.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phone: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true,
-      requests: {
-        orderBy: {
-          createdAt: "desc"
-        },
-        select: {
-          id: true,
-          requestNumber: true,
-          status: true,
-          serviceType: true,
-          material: true,
-          createdAt: true
-        }
-      }
-    }
+  const { user, requests } = await getAdminUserFromBackend(id).catch((error: Error & { status?: number }) => {
+    if (error.status === 404) notFound();
+    throw error;
   });
-
-  if (!user) {
-    notFound();
-  }
 
   return (
     <div className="admin-container">
@@ -107,13 +81,13 @@ export default async function AdminUserDetailsPage({ params }: AdminUserDetailsP
 
       <section className="user-requests-panel">
         <h2>Заявки пользователя</h2>
-        {user.requests.length === 0 ? (
+        {requests.length === 0 ? (
           <div className="requests-empty">
             <h2>У пользователя пока нет заявок</h2>
           </div>
         ) : (
           <div className="admin-list">
-            {user.requests.map((request) => (
+            {requests.map((request) => (
               <article className="admin-list-card" key={request.id}>
                 <div className="admin-list-main">
                   <div className="request-card-top">

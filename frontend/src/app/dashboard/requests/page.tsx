@@ -1,9 +1,8 @@
 import Link from "next/link";
-import type { Prisma, RequestStatus } from "@prisma/client";
 import { requireUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { formatRequestTitle, parseRequestNumberSearch } from "@/lib/request-number";
-import { getRequestStatusLabel, isRequestStatus, REQUEST_STATUSES } from "@/lib/request-status";
+import { getMyRequestsFromBackend } from "@/lib/backend-requests-server";
+import { formatRequestTitle } from "@/lib/request-number";
+import { getRequestStatusLabel, isRequestStatus, type RequestStatus } from "@/lib/request-status";
 
 type RequestsPageProps = {
   searchParams?: Promise<{
@@ -21,8 +20,8 @@ const STATUS_FILTERS: Array<{ hrefStatus?: RequestStatus; label: string }> = [
   { hrefStatus: "CANCELLED", label: "Отменённые" }
 ];
 
-function formatDate(date: Date) {
-  return date.toLocaleDateString("ru-RU");
+function formatDate(date: Date | string) {
+  return new Date(date).toLocaleDateString("ru-RU");
 }
 
 function getStatusHref(status: RequestStatus | undefined, q: string) {
@@ -34,44 +33,11 @@ function getStatusHref(status: RequestStatus | undefined, q: string) {
 }
 
 export default async function RequestsPage({ searchParams }: RequestsPageProps) {
-  const user = await requireUser();
+  await requireUser();
   const resolvedSearchParams = await searchParams;
   const statusFilter = isRequestStatus(resolvedSearchParams?.status) ? resolvedSearchParams.status : null;
   const q = String(resolvedSearchParams?.q ?? "").trim();
-  const requestNumberSearch = parseRequestNumberSearch(q);
-
-  const baseWhere: Prisma.RequestWhereInput = {
-    userId: user.id
-  };
-
-  const where: Prisma.RequestWhereInput = {
-    ...baseWhere,
-    ...(statusFilter ? { status: statusFilter } : {}),
-    ...(q
-      ? {
-          OR: [
-            { serviceType: { contains: q, mode: "insensitive" } },
-            { material: { contains: q, mode: "insensitive" } },
-            { description: { contains: q, mode: "insensitive" } },
-            ...(requestNumberSearch ? [{ requestNumber: requestNumberSearch }] : [])
-          ]
-        }
-      : {})
-  };
-
-  const requests = await prisma.request.findMany({
-    where,
-    orderBy: {
-      createdAt: "desc"
-    },
-    include: {
-      _count: {
-        select: {
-          files: true
-        }
-      }
-    }
-  });
+  const { requests } = await getMyRequestsFromBackend({ q, status: statusFilter });
 
   return (
     <div className="dashboard-wide-card">

@@ -2,7 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ApiError } from "@/lib/api-error";
 import type { SafeUser } from "@/lib/auth";
+import { backendRequestsClient } from "@/lib/backend-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
 import { QuantityInput } from "./QuantityInput";
 
@@ -33,22 +35,16 @@ export function NewRequestForm({ initialServiceType = "", user }: NewRequestForm
 
     setIsLoading(true);
 
-    const response = await fetch("/api/requests", {
-      method: "POST",
-      body: formData
-    });
+    try {
+      const result = await backendRequestsClient.createRequest(formData);
 
-    const result = await response.json().catch(() => null);
-
-    setIsLoading(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось создать заявку.");
-      return;
+      router.push(`/dashboard/requests/${result.request.id}`);
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось создать заявку.");
+    } finally {
+      setIsLoading(false);
     }
-
-    router.push(`/dashboard/requests/${result.request.id}`);
-    router.refresh();
   }
 
   return (

@@ -2,6 +2,8 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { ApiError } from "@/lib/api-error";
+import { backendCallbackRequestsClient } from "@/lib/backend-callback-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
 
 export function CallbackForm() {
@@ -24,25 +26,17 @@ export function CallbackForm() {
 
     setIsSubmitting(true);
 
-    const response = await fetch("/api/callback-request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name, phone })
-    });
+    try {
+      await backendCallbackRequestsClient.createCallbackRequest({ name, phone });
 
-    const result = await response.json().catch(() => null);
-    setIsSubmitting(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось отправить телефон.");
-      return;
+      setName("");
+      setPhone("");
+      setSuccess("Спасибо! Мы с вами свяжемся.");
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось отправить телефон.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setName("");
-    setPhone("");
-    setSuccess("Спасибо! Мы с вами свяжемся.");
   }
 
   return (

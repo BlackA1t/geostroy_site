@@ -1,9 +1,13 @@
 import Link from "next/link";
-import type { Prisma, RequestStatus } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { formatRequestTitle, parseRequestNumberSearch } from "@/lib/request-number";
-import { getRequestStatusClassName, getRequestStatusLabel, isRequestStatus } from "@/lib/request-status";
+import { getAdminRequestsFromBackend } from "@/lib/backend-admin-requests-server";
+import { formatRequestTitle } from "@/lib/request-number";
+import {
+  getRequestStatusClassName,
+  getRequestStatusLabel,
+  isRequestStatus,
+  type RequestStatus
+} from "@/lib/request-status";
 
 type AdminRequestsPageProps = {
   searchParams: Promise<{
@@ -21,8 +25,8 @@ const STATUS_FILTERS: Array<{ status?: RequestStatus; label: string }> = [
   { status: "CANCELLED", label: "Отменённые" }
 ];
 
-function formatDate(date: Date) {
-  return date.toLocaleDateString("ru-RU");
+function formatDate(date: Date | string) {
+  return new Date(date).toLocaleDateString("ru-RU");
 }
 
 function getStatusHref(status: RequestStatus | undefined, q: string) {
@@ -38,42 +42,7 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
   const { status, q: rawQ } = await searchParams;
   const statusFilter = isRequestStatus(status) ? status : null;
   const q = String(rawQ ?? "").trim();
-  const requestNumberSearch = parseRequestNumberSearch(q);
-
-  const where: Prisma.RequestWhereInput = {
-    ...(statusFilter ? { status: statusFilter } : {}),
-    ...(q
-      ? {
-          OR: [
-            { name: { contains: q, mode: "insensitive" } },
-            { phone: { contains: q, mode: "insensitive" } },
-            { email: { contains: q, mode: "insensitive" } },
-            { serviceType: { contains: q, mode: "insensitive" } },
-            { material: { contains: q, mode: "insensitive" } },
-            { description: { contains: q, mode: "insensitive" } },
-            ...(requestNumberSearch ? [{ requestNumber: requestNumberSearch }] : [])
-          ]
-        }
-      : {})
-  };
-
-  const requests = await prisma.request.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-    include: {
-      user: {
-        select: {
-          name: true,
-          email: true
-        }
-      },
-      _count: {
-        select: {
-          files: true
-        }
-      }
-    }
-  });
+  const { requests } = await getAdminRequestsFromBackend({ q, status: statusFilter });
 
   return (
     <div className="admin-container">

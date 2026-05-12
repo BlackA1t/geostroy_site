@@ -1,19 +1,20 @@
 "use client";
 
-import type { CallbackStatus } from "@prisma/client";
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ApiError } from "@/lib/api-error";
+import { backendCallbackRequestsClient, type BackendCallbackStatus } from "@/lib/backend-callback-requests-client";
 import { CALLBACK_STATUS_OPTIONS } from "@/lib/callback-status";
 
 type AdminCallbackStatusFormProps = {
   callbackRequestId: string;
-  currentStatus: CallbackStatus;
+  currentStatus: BackendCallbackStatus;
 };
 
 export function AdminCallbackStatusForm({ callbackRequestId, currentStatus }: AdminCallbackStatusFormProps) {
   const router = useRouter();
-  const [status, setStatus] = useState<CallbackStatus>(currentStatus);
+  const [status, setStatus] = useState<BackendCallbackStatus>(currentStatus);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -23,27 +24,19 @@ export function AdminCallbackStatusForm({ callbackRequestId, currentStatus }: Ad
     setError("");
     setIsSaving(true);
 
-    const response = await fetch(`/api/admin/callback-requests/${callbackRequestId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    try {
+      await backendCallbackRequestsClient.updateCallbackRequest(callbackRequestId, {
         status,
         comment
-      })
-    });
+      });
 
-    const result = await response.json().catch(() => null);
-    setIsSaving(false);
-
-    if (!response.ok) {
-      setError(result?.error ?? "Не удалось сохранить изменения.");
-      return;
+      setComment("");
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось сохранить изменения.");
+    } finally {
+      setIsSaving(false);
     }
-
-    setComment("");
-    router.refresh();
   }
 
   return (
@@ -53,7 +46,7 @@ export function AdminCallbackStatusForm({ callbackRequestId, currentStatus }: Ad
         id="callback-status"
         value={status}
         disabled={isSaving}
-        onChange={(event) => setStatus(event.target.value as CallbackStatus)}
+        onChange={(event) => setStatus(event.target.value as BackendCallbackStatus)}
       >
         {CALLBACK_STATUS_OPTIONS.map((item) => (
           <option key={item.value} value={item.value}>

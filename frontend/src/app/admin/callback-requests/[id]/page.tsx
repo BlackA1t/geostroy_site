@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { AdminCallbackStatusForm } from "@/components/AdminCallbackStatusForm";
 import { CallbackStatusHistoryList } from "@/components/CallbackStatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
+import { getAdminCallbackRequestFromBackend } from "@/lib/backend-callback-requests-server";
 import { getCallbackStatusClassName, getCallbackStatusLabel } from "@/lib/callback-status";
-import { prisma } from "@/lib/prisma";
 import { formatCallbackRequestTitle } from "@/lib/request-number";
 
 type AdminCallbackRequestDetailsPageProps = {
@@ -13,39 +13,20 @@ type AdminCallbackRequestDetailsPageProps = {
   }>;
 };
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date | string) {
   return new Intl.DateTimeFormat("ru-RU", {
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date);
+  }).format(new Date(date));
 }
 
 export default async function AdminCallbackRequestDetailsPage({ params }: AdminCallbackRequestDetailsPageProps) {
   await requireAdmin();
   const { id } = await params;
-
-  const callbackRequest = await prisma.callbackRequest.findUnique({
-    where: { id },
-    include: {
-      statusHistory: {
-        orderBy: {
-          createdAt: "asc"
-        },
-        include: {
-          changedBy: {
-            select: {
-              name: true,
-              email: true
-            }
-          }
-        }
-      }
-    }
+  const { callbackRequest } = await getAdminCallbackRequestFromBackend(id).catch((error: Error & { status?: number }) => {
+    if (error.status === 404) notFound();
+    throw error;
   });
-
-  if (!callbackRequest) {
-    notFound();
-  }
 
   return (
     <div className="admin-container">
