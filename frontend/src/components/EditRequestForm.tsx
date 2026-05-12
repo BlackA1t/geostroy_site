@@ -7,6 +7,7 @@ import { getUserRequestFileDownloadUrl } from "@/lib/backend-file-url";
 import type { BackendRequestDetails } from "@/lib/backend-requests-client";
 import { backendRequestsClient } from "@/lib/backend-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
+import { isRequestServiceType, REQUEST_MATERIAL_SUGGESTIONS, REQUEST_SERVICE_TYPES } from "@/lib/request-options";
 import { QuantityInput } from "./QuantityInput";
 
 const ACCEPTED_REQUEST_FILES =
@@ -24,6 +25,7 @@ function formatFileSize(sizeBytes: number | null) {
 
 export function EditRequestForm({ request }: EditRequestFormProps) {
   const router = useRouter();
+  const defaultServiceType = isRequestServiceType(request.serviceType) ? request.serviceType : "";
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,13 +59,25 @@ export function EditRequestForm({ request }: EditRequestFormProps) {
     <form className="request-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="serviceType">Тип услуги</label>
-        <input id="serviceType" name="serviceType" type="text" defaultValue={request.serviceType} required />
+        <select id="serviceType" name="serviceType" defaultValue={defaultServiceType} required>
+          <option value="">Выберите тип услуги</option>
+          {REQUEST_SERVICE_TYPES.map((serviceType) => (
+            <option key={serviceType} value={serviceType}>
+              {serviceType}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="material">Материал</label>
-          <input id="material" name="material" type="text" defaultValue={request.material ?? ""} />
+          <input id="material" name="material" type="text" list="edit-request-material-options" defaultValue={request.material ?? ""} />
+          <datalist id="edit-request-material-options">
+            {REQUEST_MATERIAL_SUGGESTIONS.map((material) => (
+              <option key={material} value={material} />
+            ))}
+          </datalist>
         </div>
         <QuantityInput
           id="quantity"

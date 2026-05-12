@@ -1,6 +1,7 @@
 import { BadRequestException } from "@nestjs/common";
 import { validateOptionalPhone } from "./phone";
 import { normalizeQuantity } from "./quantity";
+import { isRequestServiceType } from "./request-options";
 
 export type AdminRequestDetailsInput = {
   serviceType: string;
@@ -49,6 +50,10 @@ export function parseAdminRequestDetailsInput(body: unknown): AdminRequestDetail
 
   if (!serviceType || !description || !name || !phone) {
     throw new BadRequestException("Заполните тип услуги, описание, имя и телефон.");
+  }
+
+  if (!isRequestServiceType(serviceType)) {
+    throw new BadRequestException("Выберите тип услуги из списка");
   }
 
   const phoneError = validateOptionalPhone(phone);

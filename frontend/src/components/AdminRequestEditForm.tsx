@@ -7,6 +7,7 @@ import { ApiError } from "@/lib/api-error";
 import { backendAdminGuestRequestsClient } from "@/lib/backend-admin-guest-requests-client";
 import { backendAdminRequestsClient } from "@/lib/backend-admin-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
+import { isRequestServiceType, REQUEST_MATERIAL_SUGGESTIONS, REQUEST_SERVICE_TYPES } from "@/lib/request-options";
 import { QuantityInput } from "./QuantityInput";
 
 type AdminRequestEditFormProps = {
@@ -29,6 +30,7 @@ function isEmail(value: string) {
 
 export function AdminRequestEditForm({ type, id, initialValues }: AdminRequestEditFormProps) {
   const router = useRouter();
+  const defaultServiceType = isRequestServiceType(initialValues.serviceType) ? initialValues.serviceType : "";
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -87,13 +89,19 @@ export function AdminRequestEditForm({ type, id, initialValues }: AdminRequestEd
       <form className="request-form admin-request-edit-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor={`admin-${type}-serviceType`}>Тип услуги</label>
-          <input
+          <select
             id={`admin-${type}-serviceType`}
             name="serviceType"
-            type="text"
-            defaultValue={initialValues.serviceType}
+            defaultValue={defaultServiceType}
             required
-          />
+          >
+            <option value="">Выберите тип услуги</option>
+            {REQUEST_SERVICE_TYPES.map((serviceType) => (
+              <option key={serviceType} value={serviceType}>
+                {serviceType}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-row">
@@ -103,8 +111,14 @@ export function AdminRequestEditForm({ type, id, initialValues }: AdminRequestEd
               id={`admin-${type}-material`}
               name="material"
               type="text"
+              list={`admin-${type}-material-options`}
               defaultValue={initialValues.material ?? ""}
             />
+            <datalist id={`admin-${type}-material-options`}>
+              {REQUEST_MATERIAL_SUGGESTIONS.map((material) => (
+                <option key={material} value={material} />
+              ))}
+            </datalist>
           </div>
           <QuantityInput
             id={`admin-${type}-quantity`}

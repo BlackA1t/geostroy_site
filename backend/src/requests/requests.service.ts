@@ -3,6 +3,7 @@ import { Prisma, RequestStatus } from "@prisma/client";
 import { access } from "fs/promises";
 import { validateOptionalPhone } from "../common/utils/phone";
 import { normalizeQuantity } from "../common/utils/quantity";
+import { isRequestServiceType } from "../common/utils/request-options";
 import { parseRequestNumberSearch } from "../common/utils/request-number";
 import {
   cleanupUploadedRequestFiles,
@@ -321,6 +322,10 @@ export class RequestsService {
 
     if (!serviceType || !description || !name || !phone) {
       throw new BadRequestException("Заполните тип услуги, описание задачи, имя и телефон.");
+    }
+
+    if (!isRequestServiceType(serviceType)) {
+      throw new BadRequestException("Выберите тип услуги из списка");
     }
 
     const phoneError = validateOptionalPhone(phone);

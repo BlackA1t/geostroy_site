@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { ApiError } from "@/lib/api-error";
 import { backendGuestRequestsClient, type BackendGuestRequestResult } from "@/lib/backend-guest-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
+import { isRequestServiceType, REQUEST_MATERIAL_SUGGESTIONS, REQUEST_SERVICE_TYPES } from "@/lib/request-options";
 import { QuantityInput } from "./QuantityInput";
 
 const ACCEPTED_REQUEST_FILES =
@@ -15,6 +16,7 @@ type ContactFormProps = {
 };
 
 export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
+  const defaultServiceType = isRequestServiceType(initialServiceType) ? initialServiceType : "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [result, setResult] = useState<BackendGuestRequestResult | null>(null);
   const [error, setError] = useState("");
@@ -85,19 +87,29 @@ export function ContactForm({ initialServiceType = "" }: ContactFormProps) {
 
           <div className="form-group">
             <label>Тип услуги</label>
-            <input
+            <select
               name="serviceType"
-              type="text"
-              defaultValue={initialServiceType}
-              placeholder="Фрезерная обработка с ЧПУ"
+              defaultValue={defaultServiceType}
               required
-            />
+            >
+              <option value="">Выберите тип услуги</option>
+              {REQUEST_SERVICE_TYPES.map((serviceType) => (
+                <option key={serviceType} value={serviceType}>
+                  {serviceType}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="form-row">
             <div className="form-group">
               <label>Материал</label>
-              <input name="material" type="text" placeholder="Сталь, алюминий, латунь..." />
+              <input name="material" type="text" list="contact-material-options" placeholder="Сталь, алюминий, латунь..." />
+              <datalist id="contact-material-options">
+                {REQUEST_MATERIAL_SUGGESTIONS.map((material) => (
+                  <option key={material} value={material} />
+                ))}
+              </datalist>
             </div>
             <QuantityInput id="contact-quantity" name="quantity" label="Количество" placeholder="Например, 10" />
           </div>
