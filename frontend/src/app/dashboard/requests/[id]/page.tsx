@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireUser } from "@/lib/auth";
+import { getUserRequestFileDownloadUrl } from "@/lib/backend-file-url";
 import { getMyRequestFromBackend } from "@/lib/backend-requests-server";
 import { formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
@@ -99,7 +100,7 @@ export default async function RequestDetailsPage({ params }: RequestDetailsPageP
                       <span>{[file.fileType, file.sizeBytes ? `${Math.ceil(file.sizeBytes / 1024)} KB` : ""].filter(Boolean).join(" · ") || "Файл"}</span>
                     </div>
                     <div className="request-file-actions">
-                      <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                      <a href={getUserRequestFileDownloadUrl(request.id, file.id)} target="_blank" rel="noreferrer">
                         Открыть
                       </a>
                       <DeleteRequestFileButton

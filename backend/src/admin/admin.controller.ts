@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Query, Res, StreamableFile, UseGuards } from "@nestjs/common";
 import { Role } from "@prisma/client";
+import { createReadStream } from "fs";
 import { CurrentUser } from "../common/decorators/current-user.decorator";
 import { Roles } from "../common/decorators/roles.decorator";
 import { RolesGuard } from "../common/guards/roles.guard";
@@ -74,6 +75,21 @@ export class AdminController {
     return this.adminService.deleteRequestFile(admin.sub, id, fileId);
   }
 
+  @Get("requests/:id/files/:fileId/download")
+  async downloadRequestFile(
+    @Param("id") id: string,
+    @Param("fileId") fileId: string,
+    @Res({ passthrough: true }) response: any
+  ) {
+    const file = await this.adminService.getRequestFileForDownload(id, fileId);
+    response.set({
+      "Content-Type": file.fileType ?? "application/octet-stream",
+      "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(file.originalName || file.fileName)}`
+    });
+
+    return new StreamableFile(createReadStream(file.absolutePath));
+  }
+
   @Get("guest-requests")
   getGuestRequests(@Query("q") q?: string, @Query("status") status?: string) {
     return this.adminService.getGuestRequests({ q, status });
@@ -109,5 +125,20 @@ export class AdminController {
     @Param("fileId") fileId: string
   ) {
     return this.adminService.deleteGuestRequestFile(admin.sub, id, fileId);
+  }
+
+  @Get("guest-requests/:id/files/:fileId/download")
+  async downloadGuestRequestFile(
+    @Param("id") id: string,
+    @Param("fileId") fileId: string,
+    @Res({ passthrough: true }) response: any
+  ) {
+    const file = await this.adminService.getGuestRequestFileForDownload(id, fileId);
+    response.set({
+      "Content-Type": file.fileType ?? "application/octet-stream",
+      "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(file.originalName || file.fileName)}`
+    });
+
+    return new StreamableFile(createReadStream(file.absolutePath));
   }
 }

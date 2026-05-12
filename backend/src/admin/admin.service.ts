@@ -1,11 +1,12 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { CallbackStatus, Prisma, RequestStatus, Role } from "@prisma/client";
+import { access } from "fs/promises";
 import {
   buildAdminRequestEditComment,
   getAdminRequestDetailsChanges,
   parseAdminRequestDetailsInput
 } from "../common/utils/admin-request-edit";
-import { deleteUploadedRequestFile, RequestFileValidationError } from "../common/utils/request-files";
+import { deleteUploadedRequestFile, RequestFileValidationError, resolveUploadedRequestFilePath } from "../common/utils/request-files";
 import { parseRequestNumberSearch, formatRequestTitle } from "../common/utils/request-number";
 import { getRequestStatusLabel, isRequestStatus } from "../common/utils/request-status";
 import { isUserRole } from "../common/utils/user-role";
@@ -385,6 +386,38 @@ export class AdminService {
     return { success: true };
   }
 
+  async getRequestFileForDownload(id: string, fileId: string) {
+    const request = await this.prisma.request.findUnique({
+      where: { id },
+      select: {
+        id: true
+      }
+    });
+
+    if (!request) {
+      throw new NotFoundException("Заявка не найдена.");
+    }
+
+    const file = await this.prisma.requestFile.findFirst({
+      where: {
+        id: fileId,
+        requestId: request.id
+      },
+      select: {
+        fileUrl: true,
+        fileName: true,
+        fileType: true,
+        originalName: true
+      }
+    });
+
+    if (!file) {
+      throw new NotFoundException("Файл не найден.");
+    }
+
+    return this.getDownloadableFile(file);
+  }
+
   async getGuestRequests(filters: { q?: string; status?: string }) {
     const q = String(filters.q ?? "").trim();
     const statusFilter = isRequestStatus(filters.status) ? filters.status : null;
@@ -421,7 +454,7 @@ export class AdminService {
       }
     });
 
-    return { guestRequests };
+    return { guestRequests: guestRequests.map((guestRequest) => this.withoutGuestRequestSecrets(guestRequest)) };
   }
 
   async getGuestRequest(id: string) {
@@ -465,7 +498,7 @@ export class AdminService {
       throw new NotFoundException("Гостевая заявка не найдена.");
     }
 
-    return { guestRequest };
+    return { guestRequest: this.withoutGuestRequestSecrets(guestRequest) };
   }
 
   async updateGuestRequestStatus(adminId: string, id: string, body: unknown) {
@@ -613,6 +646,38 @@ export class AdminService {
     return { success: true };
   }
 
+  async getGuestRequestFileForDownload(id: string, fileId: string) {
+    const guestRequest = await this.prisma.guestRequest.findUnique({
+      where: { id },
+      select: {
+        id: true
+      }
+    });
+
+    if (!guestRequest) {
+      throw new NotFoundException("Гостевая заявка не найдена.");
+    }
+
+    const file = await this.prisma.guestRequestFile.findFirst({
+      where: {
+        id: fileId,
+        guestRequestId: guestRequest.id
+      },
+      select: {
+        fileUrl: true,
+        fileName: true,
+        fileType: true,
+        originalName: true
+      }
+    });
+
+    if (!file) {
+      throw new NotFoundException("Файл не найден.");
+    }
+
+    return this.getDownloadableFile(file);
+  }
+
   private parseStatusBody(body: unknown): { status: RequestStatus | null; comment: string | null } {
     const input = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
     const rawStatus = input.status;
@@ -639,5 +704,30 @@ export class AdminService {
 
       throw error;
     }
+  }
+
+  private async getDownloadableFile(file: { fileUrl: string; fileName: string; fileType: string | null; originalName: string | null }) {
+    try {
+      const absolutePath = resolveUploadedRequestFilePath(file.fileUrl);
+      await access(absolutePath);
+
+      return {
+        absolutePath,
+        fileName: file.fileName,
+        fileType: file.fileType,
+        originalName: file.originalName
+      };
+    } catch (error) {
+      if (error instanceof RequestFileValidationError) {
+        throw new BadRequestException(error.message);
+      }
+
+      throw new NotFoundException("Файл не найден.");
+    }
+  }
+
+  private withoutGuestRequestSecrets<T extends { claimTokenHash?: unknown }>(guestRequest: T) {
+    const { claimTokenHash: _claimTokenHash, ...safeGuestRequest } = guestRequest;
+    return safeGuestRequest;
   }
 }

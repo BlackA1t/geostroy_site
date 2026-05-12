@@ -5,6 +5,7 @@ import { AdminStatusSelect } from "@/components/AdminStatusSelect";
 import { DeleteRequestFileButton } from "@/components/DeleteRequestFileButton";
 import { StatusHistoryList } from "@/components/StatusHistoryList";
 import { requireAdmin } from "@/lib/auth";
+import { getAdminGuestRequestFileDownloadUrl } from "@/lib/backend-file-url";
 import { getAdminGuestRequestFromBackend } from "@/lib/backend-admin-guest-requests-server";
 import { formatGuestRequestTitle, formatRequestTitle } from "@/lib/request-number";
 import { getRequestStatusLabel } from "@/lib/request-status";
@@ -156,7 +157,7 @@ export default async function AdminGuestRequestDetailsPage({ params }: AdminGues
                       </span>
                     </div>
                     <div className="request-file-actions">
-                      <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                      <a href={getAdminGuestRequestFileDownloadUrl(request.id, file.id)} target="_blank" rel="noreferrer">
                         Открыть
                       </a>
                       <DeleteRequestFileButton

@@ -23,7 +23,6 @@ export type BackendAdminGuestRequestListItem = {
 };
 
 export type BackendAdminGuestRequestDetails = Omit<BackendAdminGuestRequestListItem, "_count"> & {
-  claimTokenHash: string | null;
   claimedById: string | null;
   convertedRequestId: string | null;
   files: BackendRequestFile[];

@@ -7,10 +7,13 @@ import {
   Patch,
   Post,
   Query,
+  Res,
+  StreamableFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors
 } from "@nestjs/common";
+import { createReadStream } from "fs";
 import { AnyFilesInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { CurrentUser } from "../common/decorators/current-user.decorator";
@@ -107,5 +110,21 @@ export class RequestsController {
     @Param("fileId") fileId: string
   ) {
     return this.requestsService.deleteRequestFile(user.sub, id, fileId);
+  }
+
+  @Get(":id/files/:fileId/download")
+  async downloadRequestFile(
+    @CurrentUser() user: AccessTokenPayload,
+    @Param("id") id: string,
+    @Param("fileId") fileId: string,
+    @Res({ passthrough: true }) response: any
+  ) {
+    const file = await this.requestsService.getRequestFileForDownload(user.sub, id, fileId);
+    response.set({
+      "Content-Type": file.fileType ?? "application/octet-stream",
+      "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(file.originalName || file.fileName)}`
+    });
+
+    return new StreamableFile(createReadStream(file.absolutePath));
   }
 }

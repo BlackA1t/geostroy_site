@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError } from "@/lib/api-error";
+import { getUserRequestFileDownloadUrl } from "@/lib/backend-file-url";
 import type { BackendRequestDetails } from "@/lib/backend-requests-client";
 import { backendRequestsClient } from "@/lib/backend-requests-client";
 import { validatePhone } from "@/lib/contact-validation";
@@ -108,7 +109,7 @@ export function EditRequestForm({ request }: EditRequestFormProps) {
                     {[file.fileType, formatFileSize(file.sizeBytes)].filter(Boolean).join(" · ") || "Файл"}
                   </span>
                 </div>
-                <a href={file.fileUrl} target="_blank" rel="noreferrer">
+                <a href={getUserRequestFileDownloadUrl(request.id, file.id)} target="_blank" rel="noreferrer">
                   Открыть
                 </a>
               </div>

@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { Prisma, RequestStatus } from "@prisma/client";
+import { access } from "fs/promises";
 import { validateOptionalPhone } from "../common/utils/phone";
 import { normalizeQuantity } from "../common/utils/quantity";
 import { parseRequestNumberSearch } from "../common/utils/request-number";
@@ -8,6 +9,7 @@ import {
   deleteUploadedRequestFile,
   persistUploadedRequestFiles,
   RequestFileValidationError,
+  resolveUploadedRequestFilePath,
   validateUploadedRequestFiles,
   type UploadedRequestFile
 } from "../common/utils/request-files";
@@ -238,6 +240,41 @@ export class RequestsService {
     return { success: true };
   }
 
+  async getRequestFileForDownload(userId: string, id: string, fileId: string) {
+    const request = await this.prisma.request.findFirst({
+      where: {
+        id,
+        userId
+      },
+      select: {
+        id: true
+      }
+    });
+
+    if (!request) {
+      throw new NotFoundException("Заявка не найдена.");
+    }
+
+    const file = await this.prisma.requestFile.findFirst({
+      where: {
+        id: fileId,
+        requestId: request.id
+      },
+      select: {
+        fileUrl: true,
+        fileName: true,
+        fileType: true,
+        originalName: true
+      }
+    });
+
+    if (!file) {
+      throw new NotFoundException("Файл не найден.");
+    }
+
+    return this.getDownloadableFile(file);
+  }
+
   private async getOwnedRequestOrThrow(userId: string, id: string) {
     const request = await this.prisma.request.findFirst({
       where: {
@@ -349,6 +386,23 @@ export class RequestsService {
   private throwFileValidationError(error: unknown): never | void {
     if (error instanceof RequestFileValidationError) {
       throw new BadRequestException(error.message);
+    }
+  }
+
+  private async getDownloadableFile(file: { fileUrl: string; fileName: string; fileType: string | null; originalName: string | null }) {
+    try {
+      const absolutePath = resolveUploadedRequestFilePath(file.fileUrl);
+      await access(absolutePath);
+
+      return {
+        absolutePath,
+        fileName: file.fileName,
+        fileType: file.fileType,
+        originalName: file.originalName
+      };
+    } catch (error) {
+      this.throwFileValidationError(error);
+      throw new NotFoundException("Файл не найден.");
     }
   }
 }

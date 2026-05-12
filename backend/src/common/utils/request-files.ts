@@ -47,12 +47,12 @@ export class RequestFileValidationError extends Error {
   }
 }
 
-export function getFrontendRequestUploadsRoot() {
+export function getRequestUploadsRoot() {
   const cwd = process.cwd();
-  const rootCandidate = path.resolve(cwd, "frontend", "public", "uploads", "requests");
-  const workspaceCandidate = path.resolve(cwd, "..", "frontend", "public", "uploads", "requests");
+  const rootCandidate = path.resolve(cwd, "backend", "uploads", "requests");
+  const workspaceCandidate = path.resolve(cwd, "uploads", "requests");
 
-  if (existsSync(path.resolve(cwd, "frontend"))) {
+  if (existsSync(path.resolve(cwd, "backend"))) {
     return rootCandidate;
   }
 
@@ -60,12 +60,12 @@ export function getFrontendRequestUploadsRoot() {
 }
 
 export function ensureRequestUploadsDir(requestId?: string) {
-  const uploadDir = path.join(getFrontendRequestUploadsRoot(), requestId ?? "");
+  const uploadDir = path.join(getRequestUploadsRoot(), requestId ?? "");
   return mkdir(uploadDir, { recursive: true }).then(() => uploadDir);
 }
 
 export function ensureRequestTempUploadsDirSync() {
-  const uploadDir = path.join(getFrontendRequestUploadsRoot(), "_tmp");
+  const uploadDir = path.join(getRequestUploadsRoot(), "_tmp");
   mkdirSync(uploadDir, { recursive: true });
   return uploadDir;
 }
@@ -174,11 +174,20 @@ export async function cleanupUploadedRequestFiles(files: UploadedRequestFile[]) 
 }
 
 export async function deleteUploadedRequestFile(fileUrl: string): Promise<void> {
+  const absoluteFilePath = resolveUploadedRequestFilePath(fileUrl);
+
+  await unlink(absoluteFilePath).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === "ENOENT") return;
+    throw error;
+  });
+}
+
+export function resolveUploadedRequestFilePath(fileUrl: string) {
   if (!fileUrl.startsWith("/uploads/requests/")) {
     throw new RequestFileValidationError("Недопустимый путь к файлу.");
   }
 
-  const uploadRoot = path.resolve(getFrontendRequestUploadsRoot());
+  const uploadRoot = path.resolve(getRequestUploadsRoot());
   const relativePath = fileUrl.replace(/^\/uploads\/requests\/?/, "");
   const absoluteFilePath = path.resolve(uploadRoot, relativePath);
 
@@ -186,8 +195,5 @@ export async function deleteUploadedRequestFile(fileUrl: string): Promise<void> 
     throw new RequestFileValidationError("Недопустимый путь к файлу.");
   }
 
-  await unlink(absoluteFilePath).catch((error: NodeJS.ErrnoException) => {
-    if (error.code === "ENOENT") return;
-    throw error;
-  });
+  return absoluteFilePath;
 }
