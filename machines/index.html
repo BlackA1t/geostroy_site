@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      document.documentElement.classList.add("nav-ready");
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="theme-color"
+      content="#0d1117"
+    />
+    <meta
+      name="color-scheme"
+      content="dark"
+    />
+    <meta
+      name="description"
+      content="Четыре обрабатывающих центра Геострой в Сарове: HISION V1800, OTURN FMC-850L, HISION HTC1500 и TENOLY E106M. Назначение оборудования и направления обработки."
+    />
+    <meta
+      name="robots"
+      content="noindex,follow"
+    />
+    <link
+      rel="canonical"
+      href="https://blacka1t.github.io/geostroy_site/machines"
+    />
+    <meta
+      property="og:url"
+      content="https://blacka1t.github.io/geostroy_site/machines"
+    />
+    <meta
+      property="og:locale"
+      content="ru_RU"
+    />
+    <meta
+      property="og:type"
+      content="website"
+    />
+    <meta
+      property="og:site_name"
+      content="ООО «Геострой»"
+    />
+    <meta
+      property="og:title"
+      content="Станочный парк — оборудование ООО «Геострой»"
+    />
+    <meta
+      property="og:description"
+      content="Четыре обрабатывающих центра Геострой в Сарове: HISION V1800, OTURN FMC-850L, HISION HTC1500 и TENOLY E106M. Назначение оборудования и направления обработки."
+    />
+    <meta
+      property="og:image"
+      content="https://blacka1t.github.io/geostroy_site/_astro/production-wide.CqojgQ7t.webp"
+    />
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/geostroy_site/images/logo.webp"
+    />
+    <title>Станочный парк — оборудование ООО «Геострой»</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ООО «Геострой»",
+        "telephone": "+78313047023",
+        "email": "ooogeostroy@internet.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "postalCode": "607188",
+          "addressCountry": "RU",
+          "addressRegion": "Нижегородская область",
+          "addressLocality": "Саров",
+          "streetAddress": "ул. Димитрова, д. 10, стр. 1"
+        }
+      }
+    </script>
+    <link
+      rel="stylesheet"
+      href="/geostroy_site/_astro/BaseLayout.D6SELBKl.css"
+    />
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Перейти к содержимому</a
+    >
+    <header
+      class="site-header"
+      data-header
+    >
+      <div class="container header-inner">
+        <a
+          class="brand"
+          href="/geostroy_site/"
+          aria-label="Геострой — на главную"
+          ><img
+            src="/geostroy_site/images/logo.webp"
+            width="44"
+            height="44"
+            alt=""
+          /><span translate="no">Геострой</span></a
+        ><button
+          class="menu-toggle"
+          type="button"
+          aria-controls="site-nav"
+          aria-expanded="false"
+          aria-label="Открыть меню"
+        >
+          <span class="menu-toggle-label">Меню</span
+          ><span
+            class="menu-toggle-lines"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <nav
+          class="site-nav"
+          id="site-nav"
+          aria-label="Основная навигация"
+        >
+          <a
+            class="nav-link"
+            href="/geostroy_site/"
+            ><span>Главная</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/services"
+            ><span>Услуги</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/machines"
+            aria-current="page"
+            ><span>Станочный парк</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/portfolio"
+            ><span>Портфолио</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/contacts"
+            ><span>Контакты</span></a
+          ><a
+            class="header-cta"
+            href="/geostroy_site/contacts#inquiry"
+            ><span>Обсудить задачу</span><span aria-hidden="true">↗</span></a
+          >
+        </nav>
+      </div>
+    </header>
+    <script type="module">
+      var e = document.querySelector(`[data-header]`),
+        t = e?.querySelector(`.menu-toggle`),
+        n = e?.querySelector(`.site-nav`),
+        r = window.matchMedia(`(max-width: 68rem)`),
+        i = document.querySelector(`main`),
+        a = document.querySelector(`footer`);
+      if (e && t && n) {
+        let e = (e, o = !1) => {
+          (t.setAttribute(`aria-expanded`, String(e)),
+            t.setAttribute(`aria-label`, e ? `Закрыть меню` : `Открыть меню`),
+            n.classList.toggle(`is-open`, e),
+            (n.inert = r.matches && !e),
+            document.body.classList.toggle(`menu-open`, e),
+            i?.toggleAttribute(`inert`, e),
+            a?.toggleAttribute(`inert`, e),
+            o && t.focus({ preventScroll: !0 }));
+        };
+        (t.addEventListener(`click`, () => {
+          let r = t.getAttribute(`aria-expanded`) !== `true`;
+          (e(r), r && n.querySelector(`a`)?.focus({ preventScroll: !0 }));
+        }),
+          n.querySelectorAll(`a`).forEach((t) => t.addEventListener(`click`, () => e(!1, !0))),
+          document.addEventListener(`keydown`, (r) => {
+            if (t.getAttribute(`aria-expanded`) !== `true`) return;
+            r.key === `Escape` && (r.preventDefault(), e(!1, !0));
+            let i = n.querySelector(`a:last-child`);
+            (r.key === `Tab` &&
+              !r.shiftKey &&
+              document.activeElement === i &&
+              (r.preventDefault(), t.focus()),
+              r.key === `Tab` &&
+                r.shiftKey &&
+                document.activeElement === t &&
+                (r.preventDefault(), i?.focus()));
+          }),
+          r.addEventListener(`change`, () => e(!1, n.contains(document.activeElement))),
+          e(!1));
+      }
+    </script>
+    <main id="main-content">
+      <section class="page-intro">
+        <div class="container page-intro-grid">
+          <p class="eyebrow">Производственная база</p>
+          <h1>Станочный парк.</h1>
+          <p class="page-intro-copy">
+            Оборудование для токарной, фрезерной и токарно-фрезерной обработки по документации
+            заказчика.
+          </p>
+        </div>
+      </section>
+      <section
+        class="section machine-catalog"
+        aria-label="Каталог оборудования"
+      >
+        <div class="container">
+          <div class="machine-grid">
+            <article
+              class="machine-card"
+              id="hision-v1800"
+              aria-labelledby="hision-v1800-title"
+              data-reveal
+            >
+              <div class="machine-visual">
+                <img
+                  src="/geostroy_site/_astro/hision-v1800.DzAjb2J2_QeUhA.webp"
+                  srcset="/geostroy_site/_astro/hision-v1800.DzAjb2J2_Z1MA6x1.webp 240w, /geostroy_site/_astro/hision-v1800.DzAjb2J2_Z23UjKR.webp 368w, /geostroy_site/_astro/hision-v1800.DzAjb2J2_1wzn4r.webp 480w, /geostroy_site/_astro/hision-v1800.DzAjb2J2_QeUhA.webp 736w"
+                  alt="HISION V1800"
+                  sizes="(max-width: 450px) calc(100vw - 82px), (max-width: 640px) 368px, (max-width: 768px) calc((100vw - 204px) / 2), (max-width: 964px) calc((100vw - 228px) / 2), 368px"
+                  loading="lazy"
+                  decoding="async"
+                  width="736"
+                  height="741"
+                />
+              </div>
+              <div class="machine-body">
+                <h2
+                  id="hision-v1800-title"
+                  translate="no"
+                >
+                  HISION V1800
+                </h2>
+                <p class="machine-kind">Вертикально-фрезерный обрабатывающий центр</p>
+              </div>
+            </article>
+            <article
+              class="machine-card"
+              id="oturn-fmc-850l"
+              aria-labelledby="oturn-fmc-850l-title"
+              data-reveal
+            >
+              <div class="machine-visual">
+                <img
+                  src="/geostroy_site/_astro/oturn-fmc-850l.Cus7Sfiy_2pzYVE.webp"
+                  srcset="/geostroy_site/_astro/oturn-fmc-850l.Cus7Sfiy_S6WvX.webp 240w, /geostroy_site/_astro/oturn-fmc-850l.Cus7Sfiy_1vmzII.webp 368w, /geostroy_site/_astro/oturn-fmc-850l.Cus7Sfiy_Z1zDQ2N.webp 480w, /geostroy_site/_astro/oturn-fmc-850l.Cus7Sfiy_2pzYVE.webp 736w"
+                  alt="OTURN FMC-850L"
+                  sizes="(max-width: 450px) calc(100vw - 82px), (max-width: 640px) 368px, (max-width: 768px) calc((100vw - 204px) / 2), (max-width: 964px) calc((100vw - 228px) / 2), 368px"
+                  loading="lazy"
+                  decoding="async"
+                  width="736"
+                  height="763"
+                />
+              </div>
+              <div class="machine-body">
+                <h2
+                  id="oturn-fmc-850l-title"
+                  translate="no"
+                >
+                  OTURN FMC-850L
+                </h2>
+                <p class="machine-kind">Вертикально-фрезерный обрабатывающий центр</p>
+              </div>
+            </article>
+            <article
+              class="machine-card"
+              id="hision-htc1500"
+              aria-labelledby="hision-htc1500-title"
+              data-reveal
+            >
+              <div class="machine-visual">
+                <img
+                  src="/geostroy_site/_astro/hision-htc1500.oEckSpcF_1HGI2y.webp"
+                  srcset="/geostroy_site/_astro/hision-htc1500.oEckSpcF_1VxlU4.webp 240w, /geostroy_site/_astro/hision-htc1500.oEckSpcF_yxOYz.webp 368w, /geostroy_site/_astro/hision-htc1500.oEckSpcF_p0Rba.webp 480w, /geostroy_site/_astro/hision-htc1500.oEckSpcF_1HGI2y.webp 736w"
+                  alt="HISION HTC1500"
+                  sizes="(max-width: 450px) calc(100vw - 82px), (max-width: 640px) 368px, (max-width: 768px) calc((100vw - 204px) / 2), (max-width: 964px) calc((100vw - 228px) / 2), 368px"
+                  loading="lazy"
+                  decoding="async"
+                  width="736"
+                  height="650"
+                />
+              </div>
+              <div class="machine-body">
+                <h2
+                  id="hision-htc1500-title"
+                  translate="no"
+                >
+                  HISION HTC1500
+                </h2>
+                <p class="machine-kind">Токарный обрабатывающий центр</p>
+              </div>
+            </article>
+            <article
+              class="machine-card"
+              id="tenoly-e106m"
+              aria-labelledby="tenoly-e106m-title"
+              data-reveal
+            >
+              <div class="machine-visual">
+                <img
+                  src="/geostroy_site/_astro/tenoly-e106m.F0TfPuMr_Z1GcHO8.webp"
+                  srcset="/geostroy_site/_astro/tenoly-e106m.F0TfPuMr_Z3gF55.webp 240w, /geostroy_site/_astro/tenoly-e106m.F0TfPuMr_Pb68B.webp 368w, /geostroy_site/_astro/tenoly-e106m.F0TfPuMr_Z15pVHo.webp 480w, /geostroy_site/_astro/tenoly-e106m.F0TfPuMr_Z1GcHO8.webp 736w"
+                  alt="TENOLY E106M"
+                  sizes="(max-width: 450px) calc(100vw - 82px), (max-width: 640px) 368px, (max-width: 768px) calc((100vw - 204px) / 2), (max-width: 964px) calc((100vw - 228px) / 2), 368px"
+                  loading="lazy"
+                  decoding="async"
+                  width="736"
+                  height="504"
+                />
+              </div>
+              <div class="machine-body">
+                <h2
+                  id="tenoly-e106m-title"
+                  translate="no"
+                >
+                  TENOLY E106M
+                </h2>
+                <p class="machine-kind">Токарно-фрезерный обрабатывающий центр</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-company">
+          <a
+            class="brand"
+            href="/geostroy_site/"
+            aria-label="Геострой — на главную"
+            ><img
+              src="/geostroy_site/images/logo.webp"
+              width="44"
+              height="44"
+              alt=""
+              loading="lazy"
+            /><span translate="no">Геострой</span></a
+          >
+          <p>Металлообработка на станках с ЧПУ.<br />Производство в Сарове.</p>
+        </div>
+        <nav
+          class="footer-nav"
+          aria-label="Навигация в подвале"
+        >
+          <a href="/geostroy_site/">Главная</a><a href="/geostroy_site/services">Услуги</a
+          ><a href="/geostroy_site/machines">Станочный парк</a
+          ><a href="/geostroy_site/portfolio">Портфолио</a
+          ><a href="/geostroy_site/contacts">Контакты</a>
+        </nav>
+        <address class="footer-contacts">
+          <a href="tel:+78313047023">8 (831) 304-70-23</a
+          ><a href="mailto:ooogeostroy@internet.ru">ooogeostroy@internet.ru</a
+          ><span>607188, Нижегородская область, г. Саров, ул. Димитрова, д. 10, стр. 1</span>
+        </address>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 ООО «Геострой»</span><span>Металл. Технологии. Точность.</span>
+      </div>
+    </footer>
+    <script type="module">
+      var e = document.querySelectorAll(`[data-reveal]`);
+      if (
+        `IntersectionObserver` in window &&
+        !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
+      ) {
+        let t = new IntersectionObserver(
+          (e) => {
+            for (let n of e)
+              n.isIntersecting && (n.target.classList.add(`is-visible`), t.unobserve(n.target));
+          },
+          { rootMargin: `0px 0px -3%`, threshold: 0.05 },
+        );
+        e.forEach((e) => {
+          (e.classList.add(`reveal-ready`), t.observe(e));
+        });
+      } else e.forEach((e) => e.classList.add(`is-visible`));
+    </script>
+  </body>
+</html>

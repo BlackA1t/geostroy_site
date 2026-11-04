@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      document.documentElement.classList.add("nav-ready");
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="theme-color"
+      content="#0d1117"
+    />
+    <meta
+      name="color-scheme"
+      content="dark"
+    />
+    <meta
+      name="description"
+      content="Телефон, электронная почта, адрес и режим работы ООО «Геострой» в Сарове. Свяжитесь с компанией для обсуждения металлообработки по вашему чертежу."
+    />
+    <meta
+      name="robots"
+      content="noindex,follow"
+    />
+    <link
+      rel="canonical"
+      href="https://blacka1t.github.io/geostroy_site/contacts"
+    />
+    <meta
+      property="og:url"
+      content="https://blacka1t.github.io/geostroy_site/contacts"
+    />
+    <meta
+      property="og:locale"
+      content="ru_RU"
+    />
+    <meta
+      property="og:type"
+      content="website"
+    />
+    <meta
+      property="og:site_name"
+      content="ООО «Геострой»"
+    />
+    <meta
+      property="og:title"
+      content="Контакты — ООО «Геострой», Саров"
+    />
+    <meta
+      property="og:description"
+      content="Телефон, электронная почта, адрес и режим работы ООО «Геострой» в Сарове. Свяжитесь с компанией для обсуждения металлообработки по вашему чертежу."
+    />
+    <meta
+      property="og:image"
+      content="https://blacka1t.github.io/geostroy_site/_astro/production-wide.CqojgQ7t.webp"
+    />
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/geostroy_site/images/logo.webp"
+    />
+    <title>Контакты — ООО «Геострой», Саров</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ООО «Геострой»",
+        "telephone": "+78313047023",
+        "email": "ooogeostroy@internet.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "postalCode": "607188",
+          "addressCountry": "RU",
+          "addressRegion": "Нижегородская область",
+          "addressLocality": "Саров",
+          "streetAddress": "ул. Димитрова, д. 10, стр. 1"
+        }
+      }
+    </script>
+    <link
+      rel="stylesheet"
+      href="/geostroy_site/_astro/BaseLayout.D6SELBKl.css"
+    />
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Перейти к содержимому</a
+    >
+    <header
+      class="site-header"
+      data-header
+    >
+      <div class="container header-inner">
+        <a
+          class="brand"
+          href="/geostroy_site/"
+          aria-label="Геострой — на главную"
+          ><img
+            src="/geostroy_site/images/logo.webp"
+            width="44"
+            height="44"
+            alt=""
+          /><span translate="no">Геострой</span></a
+        ><button
+          class="menu-toggle"
+          type="button"
+          aria-controls="site-nav"
+          aria-expanded="false"
+          aria-label="Открыть меню"
+        >
+          <span class="menu-toggle-label">Меню</span
+          ><span
+            class="menu-toggle-lines"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <nav
+          class="site-nav"
+          id="site-nav"
+          aria-label="Основная навигация"
+        >
+          <a
+            class="nav-link"
+            href="/geostroy_site/"
+            ><span>Главная</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/services"
+            ><span>Услуги</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/machines"
+            ><span>Станочный парк</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/portfolio"
+            ><span>Портфолио</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/contacts"
+            aria-current="page"
+            ><span>Контакты</span></a
+          ><a
+            class="header-cta"
+            href="/geostroy_site/contacts#inquiry"
+            ><span>Обсудить задачу</span><span aria-hidden="true">↗</span></a
+          >
+        </nav>
+      </div>
+    </header>
+    <script type="module">
+      var e = document.querySelector(`[data-header]`),
+        t = e?.querySelector(`.menu-toggle`),
+        n = e?.querySelector(`.site-nav`),
+        r = window.matchMedia(`(max-width: 68rem)`),
+        i = document.querySelector(`main`),
+        a = document.querySelector(`footer`);
+      if (e && t && n) {
+        let e = (e, o = !1) => {
+          (t.setAttribute(`aria-expanded`, String(e)),
+            t.setAttribute(`aria-label`, e ? `Закрыть меню` : `Открыть меню`),
+            n.classList.toggle(`is-open`, e),
+            (n.inert = r.matches && !e),
+            document.body.classList.toggle(`menu-open`, e),
+            i?.toggleAttribute(`inert`, e),
+            a?.toggleAttribute(`inert`, e),
+            o && t.focus({ preventScroll: !0 }));
+        };
+        (t.addEventListener(`click`, () => {
+          let r = t.getAttribute(`aria-expanded`) !== `true`;
+          (e(r), r && n.querySelector(`a`)?.focus({ preventScroll: !0 }));
+        }),
+          n.querySelectorAll(`a`).forEach((t) => t.addEventListener(`click`, () => e(!1, !0))),
+          document.addEventListener(`keydown`, (r) => {
+            if (t.getAttribute(`aria-expanded`) !== `true`) return;
+            r.key === `Escape` && (r.preventDefault(), e(!1, !0));
+            let i = n.querySelector(`a:last-child`);
+            (r.key === `Tab` &&
+              !r.shiftKey &&
+              document.activeElement === i &&
+              (r.preventDefault(), t.focus()),
+              r.key === `Tab` &&
+                r.shiftKey &&
+                document.activeElement === t &&
+                (r.preventDefault(), i?.focus()));
+          }),
+          r.addEventListener(`change`, () => e(!1, n.contains(document.activeElement))),
+          e(!1));
+      }
+    </script>
+    <main id="main-content">
+      <section class="page-intro">
+        <div class="container page-intro-grid">
+          <p class="eyebrow">ООО «Геострой» / Саров</p>
+          <h1>Всегда на связи.</h1>
+          <p class="page-intro-copy">
+            Обсудим задачу, требования к детали и состав исходной документации. Позвоните или
+            отправьте описание на электронную почту.
+          </p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container contacts-layout">
+          <dl
+            class="contact-primary"
+            aria-label="Контактные данные компании"
+          >
+            <div class="contact-item">
+              <dt>Телефон</dt>
+              <dd><a href="tel:+78313047023">8 (831) 304-70-23</a></dd>
+            </div>
+            <div class="contact-item">
+              <dt>Электронная почта</dt>
+              <dd><a href="mailto:ooogeostroy@internet.ru">ooogeostroy@internet.ru</a></dd>
+            </div>
+            <div class="contact-item">
+              <dt>Адрес</dt>
+              <dd>
+                <address>
+                  607188, Нижегородская область, г. Саров, ул. Димитрова, д. 10, стр. 1
+                </address>
+                <a
+                  class="content-button content-button--dark"
+                  href="https://yandex.ru/maps/?text=607188%2C%20%D0%9D%D0%B8%D0%B6%D0%B5%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%2C%20%D0%B3.%20%D0%A1%D0%B0%D1%80%D0%BE%D0%B2%2C%20%D1%83%D0%BB.%20%D0%94%D0%B8%D0%BC%D0%B8%D1%82%D1%80%D0%BE%D0%B2%D0%B0%2C%20%D0%B4.%2010%2C%20%D1%81%D1%82%D1%80.%201"
+                  aria-label="Открыть адрес на Яндекс Картах в новой вкладке"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  ><span
+                    class="button-frame"
+                    aria-hidden="true"
+                  ></span
+                  ><span class="button-label">Посмотреть на карте</span
+                  ><svg
+                    class="button-arrow"
+                    viewBox="0 0 14 12"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path d="M0 6h13M7.5.5 13 6l-5.5 5.5"></path></svg
+                ></a>
+              </dd>
+            </div>
+            <div class="contact-item">
+              <dt>Режим работы</dt>
+              <dd>Пн–Пт: 8:00–20:00, Сб: 9:00–16:00</dd>
+            </div>
+          </dl>
+          <section
+            class="contact-instructions"
+            id="inquiry"
+            aria-labelledby="inquiry-title"
+          >
+            <h2 id="inquiry-title">Начнём с вашей задачи.</h2>
+            <p>Для обсуждения расчёта подготовьте описание детали и исходную документацию.</p>
+            <ol>
+              <li>Укажите материал, количество и требования, если они известны.</li>
+              <li>Приложите чертёж, модель или техническое задание к письму.</li>
+              <li>Оставьте контакт для обсуждения деталей запроса.</li>
+            </ol>
+            <a
+              class="content-button content-button--dark"
+              href="mailto:ooogeostroy@internet.ru?subject=%D0%97%D0%B0%D0%BF%D1%80%D0%BE%D1%81%20%D1%80%D0%B0%D1%81%D1%87%D1%91%D1%82%D0%B0%20%E2%80%94%20%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D0%BB%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%0D%0A%0D%0A%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%89%D0%B0%D1%8F%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20%D0%BF%D1%80%D0%BE%D1%88%D1%83%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%87%D1%8C%20%D1%81%20%D0%B2%D1%8B%D0%B1%D0%BE%D1%80%D0%BE%D0%BC.%0D%0A%D0%9F%D1%80%D0%BE%D1%88%D1%83%20%D1%80%D0%B0%D1%81%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D1%83%20%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B8%D1%82%D1%8C%20%D1%80%D0%B0%D1%81%D1%87%D1%91%D1%82.%0D%0A%0D%0A%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%20%D0%B8%20%D1%82%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%3A%20%0D%0A%D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%3A%20%0D%0A%D0%9A%D0%BE%D0%BB%D0%B8%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%BE%20%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B5%D0%B9%3A%20%0D%0A%D0%96%D0%B5%D0%BB%D0%B0%D0%B5%D0%BC%D1%8B%D0%B5%20%D1%81%D1%80%D0%BE%D0%BA%D0%B8%3A%20%0D%0A%D0%98%D0%BC%D1%8F%20%D0%B8%20%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%BD%D1%8B%D0%B9%20%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%3A%20%0D%0A%0D%0A%D0%A7%D0%B5%D1%80%D1%82%D0%B5%D0%B6%D0%B8%20%D0%B8%20%D1%82%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D1%83%20%D0%BA%20%D0%BF%D0%B8%D1%81%D1%8C%D0%BC%D1%83."
+              ><span
+                class="button-frame"
+                aria-hidden="true"
+              ></span
+              ><span class="button-label">Написать компании</span
+              ><svg
+                class="button-arrow"
+                viewBox="0 0 14 12"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path d="M0 6h13M7.5.5 13 6l-5.5 5.5"></path></svg
+            ></a>
+            <p>
+              Откроется ваше почтовое приложение. Чертежи прикрепите к письму вручную. Если
+              пользуетесь веб-почтой, отправьте материалы на ooogeostroy@internet.ru.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-company">
+          <a
+            class="brand"
+            href="/geostroy_site/"
+            aria-label="Геострой — на главную"
+            ><img
+              src="/geostroy_site/images/logo.webp"
+              width="44"
+              height="44"
+              alt=""
+              loading="lazy"
+            /><span translate="no">Геострой</span></a
+          >
+          <p>Металлообработка на станках с ЧПУ.<br />Производство в Сарове.</p>
+        </div>
+        <nav
+          class="footer-nav"
+          aria-label="Навигация в подвале"
+        >
+          <a href="/geostroy_site/">Главная</a><a href="/geostroy_site/services">Услуги</a
+          ><a href="/geostroy_site/machines">Станочный парк</a
+          ><a href="/geostroy_site/portfolio">Портфолио</a
+          ><a href="/geostroy_site/contacts">Контакты</a>
+        </nav>
+        <address class="footer-contacts">
+          <a href="tel:+78313047023">8 (831) 304-70-23</a
+          ><a href="mailto:ooogeostroy@internet.ru">ooogeostroy@internet.ru</a
+          ><span>607188, Нижегородская область, г. Саров, ул. Димитрова, д. 10, стр. 1</span>
+        </address>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 ООО «Геострой»</span><span>Металл. Технологии. Точность.</span>
+      </div>
+    </footer>
+    <script type="module">
+      var e = document.querySelectorAll(`[data-reveal]`);
+      if (
+        `IntersectionObserver` in window &&
+        !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
+      ) {
+        let t = new IntersectionObserver(
+          (e) => {
+            for (let n of e)
+              n.isIntersecting && (n.target.classList.add(`is-visible`), t.unobserve(n.target));
+          },
+          { rootMargin: `0px 0px -3%`, threshold: 0.05 },
+        );
+        e.forEach((e) => {
+          (e.classList.add(`reveal-ready`), t.observe(e));
+        });
+      } else e.forEach((e) => e.classList.add(`is-visible`));
+    </script>
+  </body>
+</html>

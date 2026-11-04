@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      document.documentElement.classList.add("nav-ready");
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="theme-color"
+      content="#0d1117"
+    />
+    <meta
+      name="color-scheme"
+      content="dark"
+    />
+    <meta
+      name="description"
+      content="Реальные фотографии изготовленных изделий Геострой: корпусные, П-образные и цилиндрические детали. Рассмотрите фотографии и обсудите свою задачу."
+    />
+    <meta
+      name="robots"
+      content="noindex,follow"
+    />
+    <link
+      rel="canonical"
+      href="https://blacka1t.github.io/geostroy_site/portfolio"
+    />
+    <meta
+      property="og:url"
+      content="https://blacka1t.github.io/geostroy_site/portfolio"
+    />
+    <meta
+      property="og:locale"
+      content="ru_RU"
+    />
+    <meta
+      property="og:type"
+      content="website"
+    />
+    <meta
+      property="og:site_name"
+      content="ООО «Геострой»"
+    />
+    <meta
+      property="og:title"
+      content="Портфолио — ООО «Геострой»"
+    />
+    <meta
+      property="og:description"
+      content="Реальные фотографии изготовленных изделий Геострой: корпусные, П-образные и цилиндрические детали. Рассмотрите фотографии и обсудите свою задачу."
+    />
+    <meta
+      property="og:image"
+      content="https://blacka1t.github.io/geostroy_site/_astro/production-wide.CqojgQ7t.webp"
+    />
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/geostroy_site/images/logo.webp"
+    />
+    <title>Портфолио — ООО «Геострой»</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ООО «Геострой»",
+        "telephone": "+78313047023",
+        "email": "ooogeostroy@internet.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "postalCode": "607188",
+          "addressCountry": "RU",
+          "addressRegion": "Нижегородская область",
+          "addressLocality": "Саров",
+          "streetAddress": "ул. Димитрова, д. 10, стр. 1"
+        }
+      }
+    </script>
+    <link
+      rel="stylesheet"
+      href="/geostroy_site/_astro/BaseLayout.D6SELBKl.css"
+    />
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Перейти к содержимому</a
+    >
+    <header
+      class="site-header"
+      data-header
+    >
+      <div class="container header-inner">
+        <a
+          class="brand"
+          href="/geostroy_site/"
+          aria-label="Геострой — на главную"
+          ><img
+            src="/geostroy_site/images/logo.webp"
+            width="44"
+            height="44"
+            alt=""
+          /><span translate="no">Геострой</span></a
+        ><button
+          class="menu-toggle"
+          type="button"
+          aria-controls="site-nav"
+          aria-expanded="false"
+          aria-label="Открыть меню"
+        >
+          <span class="menu-toggle-label">Меню</span
+          ><span
+            class="menu-toggle-lines"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <nav
+          class="site-nav"
+          id="site-nav"
+          aria-label="Основная навигация"
+        >
+          <a
+            class="nav-link"
+            href="/geostroy_site/"
+            ><span>Главная</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/services"
+            ><span>Услуги</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/machines"
+            ><span>Станочный парк</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/portfolio"
+            aria-current="page"
+            ><span>Портфолио</span></a
+          ><a
+            class="nav-link"
+            href="/geostroy_site/contacts"
+            ><span>Контакты</span></a
+          ><a
+            class="header-cta"
+            href="/geostroy_site/contacts#inquiry"
+            ><span>Обсудить задачу</span><span aria-hidden="true">↗</span></a
+          >
+        </nav>
+      </div>
+    </header>
+    <script type="module">
+      var e = document.querySelector(`[data-header]`),
+        t = e?.querySelector(`.menu-toggle`),
+        n = e?.querySelector(`.site-nav`),
+        r = window.matchMedia(`(max-width: 68rem)`),
+        i = document.querySelector(`main`),
+        a = document.querySelector(`footer`);
+      if (e && t && n) {
+        let e = (e, o = !1) => {
+          (t.setAttribute(`aria-expanded`, String(e)),
+            t.setAttribute(`aria-label`, e ? `Закрыть меню` : `Открыть меню`),
+            n.classList.toggle(`is-open`, e),
+            (n.inert = r.matches && !e),
+            document.body.classList.toggle(`menu-open`, e),
+            i?.toggleAttribute(`inert`, e),
+            a?.toggleAttribute(`inert`, e),
+            o && t.focus({ preventScroll: !0 }));
+        };
+        (t.addEventListener(`click`, () => {
+          let r = t.getAttribute(`aria-expanded`) !== `true`;
+          (e(r), r && n.querySelector(`a`)?.focus({ preventScroll: !0 }));
+        }),
+          n.querySelectorAll(`a`).forEach((t) => t.addEventListener(`click`, () => e(!1, !0))),
+          document.addEventListener(`keydown`, (r) => {
+            if (t.getAttribute(`aria-expanded`) !== `true`) return;
+            r.key === `Escape` && (r.preventDefault(), e(!1, !0));
+            let i = n.querySelector(`a:last-child`);
+            (r.key === `Tab` &&
+              !r.shiftKey &&
+              document.activeElement === i &&
+              (r.preventDefault(), t.focus()),
+              r.key === `Tab` &&
+                r.shiftKey &&
+                document.activeElement === t &&
+                (r.preventDefault(), i?.focus()));
+          }),
+          r.addEventListener(`change`, () => e(!1, n.contains(document.activeElement))),
+          e(!1));
+      }
+    </script>
+    <main id="main-content">
+      <section class="page-intro">
+        <div class="container page-intro-grid">
+          <p class="eyebrow">Изготовленные изделия</p>
+          <h1>Наше портфолио.</h1>
+          <p class="page-intro-copy">
+            Детали в объективе. Примеры выполненных работ компании — от корпусных изделий до деталей
+            с резьбой и отверстиями.
+          </p>
+        </div>
+      </section>
+      <section
+        class="section"
+        id="gallery"
+        aria-label="Фотографии изготовленных изделий"
+      >
+        <div class="container">
+          <div class="work-grid">
+            <article
+              class="work-card"
+              id="work-01"
+              data-reveal
+            >
+              <div
+                class="work-photo"
+                data-angle-card
+              >
+                <img
+                  src="/geostroy_site/_astro/work-01.DnCFIafU_Z1KqlzU.webp"
+                  srcset="/geostroy_site/_astro/work-01.DnCFIafU_ZxhFNH.webp 320w, /geostroy_site/_astro/work-01.DnCFIafU_Z1yL2VC.webp 400w, /geostroy_site/_astro/work-01.DnCFIafU_Z1KqlzU.webp 644w, /geostroy_site/_astro/work-01.DnCFIafU_Z25tix7.webp 960w, /geostroy_site/_astro/work-01.DnCFIafU_1eNtup.webp 1288w"
+                  alt="Светлый прямоугольный корпус с внутренней полостью и отверстиями"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 1), (max-width: 768px) calc((100vw - 64px) / 2 * 1), (max-width: 1088px) calc((100vw - 96px) / 2 * 1), (max-width: 1416px) calc((100vw - 128px) / 2 * 1), 644px"
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
+                  width="644"
+                  height="483"
+                  class="work-view"
+                /><img
+                  src="/geostroy_site/_astro/work-02.D3-GK-aX_1r8hr2.webp"
+                  srcset="/geostroy_site/_astro/work-02.D3-GK-aX_Z2pUbAG.webp 320w, /geostroy_site/_astro/work-02.D3-GK-aX_1CMA5k.webp 400w, /geostroy_site/_astro/work-02.D3-GK-aX_1r8hr2.webp 644w, /geostroy_site/_astro/work-02.D3-GK-aX_175ktP.webp 960w, /geostroy_site/_astro/work-02.D3-GK-aX_Z14yyRN.webp 1288w"
+                  id="work-02"
+                  alt="Тот же прямоугольный корпус: ракурс с внутренним уступом"
+                  aria-hidden="true"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 1), (max-width: 768px) calc((100vw - 64px) / 2 * 1), (max-width: 1088px) calc((100vw - 96px) / 2 * 1), (max-width: 1416px) calc((100vw - 128px) / 2 * 1), 644px"
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  width="644"
+                  height="483"
+                  class="work-view work-view--alternate"
+                /><button
+                  class="work-angle-toggle"
+                  type="button"
+                  hidden
+                  aria-label="Переключить ракурс: Прямоугольный корпус"
+                  aria-pressed="false"
+                ></button>
+              </div>
+            </article>
+            <article
+              class="work-card"
+              id="work-03"
+              data-reveal
+            >
+              <div
+                class="work-photo"
+                data-angle-card
+              >
+                <img
+                  src="/geostroy_site/_astro/work-03.DJRtNjqb_2tm4eF.webp"
+                  srcset="/geostroy_site/_astro/work-03.DJRtNjqb_Z1nGoN3.webp 320w, /geostroy_site/_astro/work-03.DJRtNjqb_Z2paKUX.webp 400w, /geostroy_site/_astro/work-03.DJRtNjqb_2tm4eF.webp 644w, /geostroy_site/_astro/work-03.DJRtNjqb_29j7ht.webp 960w, /geostroy_site/_astro/work-03.DJRtNjqb_xePUp.webp 1288w"
+                  alt="П-образная деталь с резьбовым отверстием сверху"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 1), (max-width: 768px) calc((100vw - 64px) / 2 * 1), (max-width: 1088px) calc((100vw - 96px) / 2 * 1), (max-width: 1416px) calc((100vw - 128px) / 2 * 1), 644px"
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  width="644"
+                  height="483"
+                  class="work-view"
+                /><img
+                  src="/geostroy_site/_astro/work-04.DoRAW4MO_1gNIlS.webp"
+                  srcset="/geostroy_site/_astro/work-04.DoRAW4MO_2tWo86.webp 320w, /geostroy_site/_astro/work-04.DoRAW4MO_1st20b.webp 400w, /geostroy_site/_astro/work-04.DoRAW4MO_1gNIlS.webp 644w, /geostroy_site/_astro/work-04.DoRAW4MO_VKLoG.webp 960w, /geostroy_site/_astro/work-04.DoRAW4MO_Z1eiJFr.webp 1288w"
+                  id="work-04"
+                  alt="Та же П-образная деталь со стороны паза и торцевых отверстий"
+                  aria-hidden="true"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 1), (max-width: 768px) calc((100vw - 64px) / 2 * 1), (max-width: 1088px) calc((100vw - 96px) / 2 * 1), (max-width: 1416px) calc((100vw - 128px) / 2 * 1), 644px"
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  width="644"
+                  height="483"
+                  class="work-view work-view--alternate"
+                /><button
+                  class="work-angle-toggle"
+                  type="button"
+                  hidden
+                  aria-label="Переключить ракурс: П-образная деталь"
+                  aria-pressed="false"
+                ></button>
+              </div>
+            </article>
+            <article
+              class="work-card"
+              id="work-05"
+              data-reveal
+            >
+              <div class="work-photo">
+                <img
+                  src="/geostroy_site/_astro/work-05.DY4wG53P_ZsbjDc.webp"
+                  srcset="/geostroy_site/_astro/work-05.DY4wG53P_Z1gCNdm.webp 320w, /geostroy_site/_astro/work-05.DY4wG53P_1xukra.webp 400w, /geostroy_site/_astro/work-05.DY4wG53P_ZsbjDc.webp 644w, /geostroy_site/_astro/work-05.DY4wG53P_Z1CLAQu.webp 960w, /geostroy_site/_astro/work-05.DY4wG53P_1gQLlD.webp 1122w"
+                  alt="Полая цилиндрическая деталь с наружной резьбой и рельефным пояском"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 0.6002139800285307), (max-width: 768px) calc((100vw - 64px) / 2 * 0.6002139800285307), (max-width: 1088px) calc((100vw - 96px) / 2 * 0.6002139800285307), (max-width: 1416px) calc((100vw - 128px) / 2 * 0.6002139800285307), 386.53780313837376px"
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  width="644"
+                  height="805"
+                  class="work-view"
+                />
+              </div>
+            </article>
+            <article
+              class="work-card"
+              id="work-06"
+              data-reveal
+            >
+              <div class="work-photo">
+                <img
+                  src="/geostroy_site/_astro/work-06.Bs7PYbQZ_Z4dFYJ.webp"
+                  srcset="/geostroy_site/_astro/work-06.Bs7PYbQZ_87oAM.webp 320w, /geostroy_site/_astro/work-06.Bs7PYbQZ_11VMmA.webp 400w, /geostroy_site/_astro/work-06.Bs7PYbQZ_Z4dFYJ.webp 644w, /geostroy_site/_astro/work-06.Bs7PYbQZ_16Og99.webp 960w, /geostroy_site/_astro/work-06.Bs7PYbQZ_Z1Xdtdw.webp 1254w"
+                  alt="Прямоугольная деталь с круглыми отверстиями на нескольких гранях"
+                  sizes="(max-width: 640px) calc((100vw - 32px) * 0.75), (max-width: 768px) calc((100vw - 64px) / 2 * 0.75), (max-width: 1088px) calc((100vw - 96px) / 2 * 0.75), (max-width: 1416px) calc((100vw - 128px) / 2 * 0.75), 483px"
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  width="644"
+                  height="644"
+                  class="work-view"
+                />
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="contact-band">
+        <div class="container contact-band-grid">
+          <div>
+            <p class="eyebrow">Начнём с вашей задачи</p>
+            <h2>Есть чертёж?<br />Обсудим деталь.</h2>
+          </div>
+          <div class="contact-band-copy">
+            <p>
+              Передайте чертёж и требования к изделию — обсудим возможность изготовления и расчёт.
+            </p>
+            <a
+              class="content-button content-button--dark"
+              href="/geostroy_site/contacts#inquiry"
+              ><span
+                class="button-frame"
+                aria-hidden="true"
+              ></span
+              ><span class="button-label">Связаться с нами</span
+              ><svg
+                class="button-arrow"
+                viewBox="0 0 14 12"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path d="M0 6h13M7.5.5 13 6l-5.5 5.5"></path></svg></a
+            ><a
+              class="contact-band-phone"
+              href="tel:+78313047023"
+              >8 (831) 304-70-23</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-company">
+          <a
+            class="brand"
+            href="/geostroy_site/"
+            aria-label="Геострой — на главную"
+            ><img
+              src="/geostroy_site/images/logo.webp"
+              width="44"
+              height="44"
+              alt=""
+              loading="lazy"
+            /><span translate="no">Геострой</span></a
+          >
+          <p>Металлообработка на станках с ЧПУ.<br />Производство в Сарове.</p>
+        </div>
+        <nav
+          class="footer-nav"
+          aria-label="Навигация в подвале"
+        >
+          <a href="/geostroy_site/">Главная</a><a href="/geostroy_site/services">Услуги</a
+          ><a href="/geostroy_site/machines">Станочный парк</a
+          ><a href="/geostroy_site/portfolio">Портфолио</a
+          ><a href="/geostroy_site/contacts">Контакты</a>
+        </nav>
+        <address class="footer-contacts">
+          <a href="tel:+78313047023">8 (831) 304-70-23</a
+          ><a href="mailto:ooogeostroy@internet.ru">ooogeostroy@internet.ru</a
+          ><span>607188, Нижегородская область, г. Саров, ул. Димитрова, д. 10, стр. 1</span>
+        </address>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 ООО «Геострой»</span><span>Металл. Технологии. Точность.</span>
+      </div>
+    </footer>
+    <script type="module">
+      var e = document.querySelectorAll(`[data-reveal]`);
+      if (
+        `IntersectionObserver` in window &&
+        !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
+      ) {
+        let t = new IntersectionObserver(
+          (e) => {
+            for (let n of e)
+              n.isIntersecting && (n.target.classList.add(`is-visible`), t.unobserve(n.target));
+          },
+          { rootMargin: `0px 0px -3%`, threshold: 0.05 },
+        );
+        e.forEach((e) => {
+          (e.classList.add(`reveal-ready`), t.observe(e));
+        });
+      } else e.forEach((e) => e.classList.add(`is-visible`));
+    </script>
+  </body>
+</html>
+<script type="module">
+  var e = window.matchMedia(`(hover: hover)`);
+  for (let t of document.querySelectorAll(`[data-angle-card]`)) {
+    let n = t.querySelector(`.work-angle-toggle`),
+      r = [...t.querySelectorAll(`.work-view`)];
+    if (!n || r.length !== 2) continue;
+    let i = (e) => {
+      (t.classList.toggle(`is-alternate`, e),
+        n.setAttribute(`aria-pressed`, String(e)),
+        r[0].setAttribute(`aria-hidden`, String(e)),
+        r[1].setAttribute(`aria-hidden`, String(!e)));
+    };
+    Promise.all(
+      r.map(async (e) => {
+        (e.complete ||
+          (await new Promise((t, n) => {
+            (e.addEventListener(`load`, () => t(), { once: !0 }),
+              e.addEventListener(`error`, () => n(Error(`Image unavailable`)), { once: !0 }));
+          })),
+          await e.decode());
+      }),
+    )
+      .then(() => {
+        ((n.hidden = !1),
+          t.addEventListener(`pointerenter`, (t) => {
+            t.pointerType === `mouse` && e.matches && i(!0);
+          }),
+          t.addEventListener(`pointerleave`, (e) => {
+            e.pointerType === `mouse` && i(!1);
+          }),
+          n.addEventListener(`click`, (t) => {
+            (t.pointerType === `mouse` && e.matches) ||
+              i(n.getAttribute(`aria-pressed`) !== `true`);
+          }),
+          e.matches && t.matches(`:hover`) && i(!0));
+      })
+      .catch(() => {
+        (i(!1), (n.hidden = !0));
+      });
+  }
+</script>
